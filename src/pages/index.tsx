@@ -1,11 +1,12 @@
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import Feed from "@/components/feed/feed";
+import Header from "@/components/header";
 
 export default function Index() {
+  //fetch posts
   return (
-   <div>
-    Only peers
-   </div>
+   <>
+    <Header />
+    <Feed />
+   </>
   );
 }

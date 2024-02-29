@@ -49,7 +49,7 @@ export default function CreateCommentPopup({
                     >
                       Add a comment
                     </Dialog.Title>
-                   
+
                     <label className="block mb-2 text-white text-start">
                       Comment
                     </label>
@@ -77,15 +77,11 @@ export default function CreateCommentPopup({
                   </button>
                   <button
                     className={`px-3 py-2 bg-[#ECB159] text-white text-sm rounded-md ${
-                      text.trim() === "" ||
-                      text.length > 250
+                      text.trim() === "" || text.length > 250
                         ? "opacity-50 cursor-not-allowed"
                         : ""
                     }`}
-                    disabled={
-                      text.trim() === "" ||
-                      text.length > 250
-                    }
+                    disabled={text.trim() === "" || text.length > 250}
                     onClick={createComment}
                   >
                     Create Comment

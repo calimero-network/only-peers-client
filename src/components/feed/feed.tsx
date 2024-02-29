@@ -2,58 +2,19 @@ import { useState } from "react";
 import PostFeed, { PostItem } from "./post";
 import CreatePostPopup from "../post/createPostPopup";
 
-const posts: PostItem[] = [
-  {
-    id: "1",
-    title: "New post title",
-    content: "Hello this is new p2p post content",
-    comments: [
-      {
-        text: "hello there too",
-        user: "0x1sn3ok4asan03nas",
-      },
-    ],
-  },
-  {
-    id: "2",
-    title: "New post title",
-    content: "Hello this is new p2p post content",
-    comments: [
-      {
-        text: "hello there too",
-        user: "0x1sn3ok4asan03nas",
-      },
-    ],
-  },
-  {
-    id: "3",
-    title: "New post title",
-    content: "Hello this is new p2p post content",
-    comments: [
-      {
-        text: "hello there too",
-        user: "0x1sn3ok4asan03nas",
-      },
-    ],
-  },
-  {
-    id: "4",
-    title: "New post title",
-    content: "Hello this is new p2p post content",
-    comments: [
-      {
-        text: "hello there too",
-        user: "0x1sn3ok4asan03nas",
-      },
-    ],
-  },
-];
+interface FeedProps {
+  posts: PostItem[];
+  createPost: (title: string, content: string) => void;
+  openCreatePost: boolean;
+  setOpenCreatePost: (open: boolean) => void;
+}
 
-export default function Feed() {
-  const [openCreatePost, setOpenCreatePost] = useState(false);
-  const createPost = () => {
-    console.log("Post created");
-  };
+export default function Feed({
+  posts,
+  createPost,
+  openCreatePost,
+  setOpenCreatePost,
+}: FeedProps) {
   return (
     <div className="flex justify-center pt-4">
       <div className="w-1/5" />
@@ -62,26 +23,33 @@ export default function Feed() {
           <h2 className="text-2xl font-bold text-white">Posts</h2>
           <div
             className="border-[1px] border-gray-400 hover:border-white rounded-md w-fit 
-                    px-4 text-white cusor-pointer font-light cursor-pointer text-sm"
+                      px-4 text-white cusor-pointer font-light cursor-pointer text-sm"
             onClick={() => setOpenCreatePost(true)}
           >
             Create a post
           </div>
         </div>
-        <div className="flex flex-col gap-y-1">
-          {posts.map((post, id) => (
-            <PostFeed post={post} key={id} />
-          ))}
-        </div>
+        {posts.length == 0 ? (
+          <div className="text-white text-lg border-t-2 border-[#1c2123] text-center mt-4 pt-4">
+            No posts yet
+          </div>
+        ) : (
+          <div className="flex flex-col gap-y-1">
+            {posts.map((post, id) => (
+              <PostFeed post={post} key={id} />
+            ))}
+          </div>
+        )}
+        <div className="w-1/5" />
+        {openCreatePost && (
+          <CreatePostPopup
+            createPost={createPost}
+            open={openCreatePost}
+            setOpen={setOpenCreatePost}
+          />
+        )}
       </div>
       <div className="w-1/5" />
-      {openCreatePost && (
-        <CreatePostPopup
-          createPost={createPost}
-          open={openCreatePost}
-          setOpen={setOpenCreatePost}
-        />
-      )}
     </div>
   );
 }

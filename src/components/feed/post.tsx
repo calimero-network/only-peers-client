@@ -26,7 +26,7 @@ export default function PostFeed({ post }: PostProps) {
         onClick={() => router.push(`/post/${post.id}`)}
       >
         <h4 className="text-white text-lg">{post.title}</h4>
-        <text className="text-white text-sm font-light">{post.content}</text>
+        <div className="text-white text-sm font-light">{post.content}</div>
         <div className="flex items-center gap-1 bg-[#142f37] rounded-2xl w-fit px-4 mt-2">
           <ChatBubbleLeftIcon className="h-7 w-5 text-white" />
           <span className="text-white text-md font-light">

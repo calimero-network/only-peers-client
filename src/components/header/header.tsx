@@ -47,14 +47,14 @@ export default function Header() {
                 fill="#B67352"
               />
             </svg>
-            <text className="text-white text-xl font-bold font-serif">
+            <div className="text-white text-xl font-bold font-serif">
               OnlyPeers
-            </text>
+            </div>
           </Link>
         </div>
         <div className="flex flex-1 justify-end items-center gap-2">
           {localPeerId ? (
-            <text className="text-sm font-semibold leading-6 text-white cursor-pointer">
+            <div className="text-sm font-semibold leading-6 text-white cursor-pointer">
               PeerId:{" "}
               <span
                 className="text-purple-500 pl-1"
@@ -62,7 +62,7 @@ export default function Header() {
               >
                 {localPeerId}
               </span>
-            </text>
+            </div>
           ) : (
             <>
               <input

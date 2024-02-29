@@ -1,7 +1,7 @@
 import { UserIcon } from "@heroicons/react/24/solid";
-import { CommentProps } from "../feed/post";
+import { Comment } from "../feed/post";
 
-export default function Comment({ commentItem }: { commentItem: CommentProps }) {
+export default function Comment({ commentItem }: { commentItem: Comment }) {
   return (
     <div className="mt-2 mb-2 flex flex-col">
       <div className="flex items-center gap-2">

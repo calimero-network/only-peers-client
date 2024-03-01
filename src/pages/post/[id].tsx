@@ -7,7 +7,8 @@ import Loader from "@/components/loader/loader";
 import ErrorPopup from "@/components/error/errorPopup";
 import { useQuery, useMutation } from "@apollo/client";
 import { CREATE_COMMENT } from "@/graphql/mutations";
-import { PEER_ID_LS, Post } from "@/types/types";
+import { Post } from "@/types/types";
+import { getStoragePeerId } from "@/lib/storage";
 
 export default function Post() {
   const router = useRouter();
@@ -35,7 +36,7 @@ export default function Post() {
   });
 
   const createComment = (text: string) => {
-    const user = localStorage.getItem(PEER_ID_LS);
+    const user = getStoragePeerId();
     createCommentMutation({
       variables: {
         input: {

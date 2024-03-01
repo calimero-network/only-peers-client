@@ -1,5 +1,3 @@
-export const PEER_ID_LS = "peerId";
-
 export interface Comment {
   text: string;
   user: string;

@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 
-import { PEER_ID_LS } from "@/types/types";
 import Link from "next/link";
 import translations from "../../constants/en.global.json";
+import {
+  getStoragePeerId,
+  resetStoragePeerId,
+  setStoragePeerId,
+} from "@/lib/storage";
 
 export default function Header() {
   const t = translations.header;
@@ -10,18 +14,18 @@ export default function Header() {
   const [localPeerId, setLocalPeerId] = useState("");
 
   const addPeerId = () => {
-    localStorage.setItem(PEER_ID_LS, peerId);
+    setStoragePeerId(peerId);
     setLocalPeerId(peerId);
   };
 
   const resetPeerId = () => {
-    localStorage.setItem(PEER_ID_LS, "");
+    resetStoragePeerId();
     setLocalPeerId("");
     setPeerId("");
   };
 
   useEffect(() => {
-    let storagePeerId = localStorage.getItem(PEER_ID_LS) ?? "";
+    let storagePeerId = getStoragePeerId() ?? "";
     setLocalPeerId(storagePeerId);
   }, [localPeerId]);
 

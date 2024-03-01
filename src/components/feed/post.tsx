@@ -1,20 +1,9 @@
+import { Post } from "@/types/types";
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 
-export interface Comment {
-  text: string;
-  user: string;
-}
-
-export interface PostItem {
-  id: string;
-  title: string;
-  content: string;
-  comments: Comment[];
-}
-
 export interface PostProps {
-  post: PostItem;
+  post: Post;
 }
 
 export default function PostFeed({ post }: PostProps) {

@@ -1,4 +1,7 @@
+import translations from "../../constants/en.global.json";
+
 export default function Loader() {
+  const t = translations.loader;
   return (
     <div role="status" className="flex w-full justify-center items-center">
       <svg
@@ -17,7 +20,7 @@ export default function Loader() {
           fill="currentFill"
         />
       </svg>
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only">{t.srOnlyText}</span>
     </div>
   );
 }

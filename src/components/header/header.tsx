@@ -4,7 +4,7 @@ import Link from "next/link";
 import translations from "../../constants/en.global.json";
 import {
   getStoragePeerId,
-  resetStoragePeerId,
+  removeStoragePeerId,
   setStoragePeerId,
 } from "@/lib/storage";
 
@@ -19,7 +19,7 @@ export default function Header() {
   };
 
   const resetPeerId = () => {
-    resetStoragePeerId();
+    removeStoragePeerId();
     setLocalPeerId("");
     setPeerId("");
   };

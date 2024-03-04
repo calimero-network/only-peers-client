@@ -8,6 +8,6 @@ export const setStoragePeerId = (peerId: string) => {
     localStorage.setItem(PEER_ID, peerId);
 }
 
-export const resetStoragePeerId = () => {
+export const removeStoragePeerId = () => {
     localStorage.removeItem(PEER_ID);
 }

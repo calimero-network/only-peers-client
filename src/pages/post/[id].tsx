@@ -2,16 +2,20 @@ import Header from "@/components/header/header";
 import ExtendedPost from "@/components/post/extendedPost";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { PostItem } from "@/components/feed/post";
 import { GET_POST } from "@/graphql/queries";
 import Loader from "@/components/loader/loader";
 import ErrorPopup from "@/components/error/errorPopup";
 import { useQuery, useMutation } from "@apollo/client";
 import { CREATE_COMMENT } from "@/graphql/mutations";
+import { Post } from "@/types/types";
+import { getStoragePeerId } from "@/lib/storage";
 
 export default function Post() {
   const router = useRouter();
   const { id } = router.query;
+  const [error, setError] = useState("");
+  const [post, setPost] = useState<Post | null>(null);
+  const [openCreateComment, setOpenCreateComment] = useState(false);
   const postId = id ? parseInt(id as string, 10) : null;
   const {
     loading,
@@ -21,8 +25,6 @@ export default function Post() {
   } = useQuery(GET_POST, {
     variables: { id: postId },
   });
-  const [error, setError] = useState("");
-
   const [createCommentMutation] = useMutation(CREATE_COMMENT, {
     onCompleted: () => {
       setOpenCreateComment(false);
@@ -32,20 +34,9 @@ export default function Post() {
       setError(error.message);
     },
   });
-  const [post, setPost] = useState<PostItem | null>(null);
-  const [openCreateComment, setOpenCreateComment] = useState(false);
-
-  useEffect(() => {
-    if (id && !loading && data && data.post) {
-      setPost(data.post);
-    }
-    if (FetchError) {
-      setError(FetchError?.message);
-    }
-  }, [id, data, loading, FetchError]);
 
   const createComment = (text: string) => {
-    const user = localStorage.getItem("peerId");
+    const user = getStoragePeerId();
     createCommentMutation({
       variables: {
         input: {
@@ -56,6 +47,15 @@ export default function Post() {
       },
     });
   };
+
+  useEffect(() => {
+    if (id && !loading && data && data.post) {
+      setPost(data.post);
+    }
+    if (FetchError) {
+      setError(FetchError?.message);
+    }
+  }, [id, data, loading, FetchError]);
 
   return (
     <>

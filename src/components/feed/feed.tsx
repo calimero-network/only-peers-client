@@ -1,9 +1,10 @@
-import { useState } from "react";
-import PostFeed, { PostItem } from "./post";
+import PostFeed from "./post";
 import CreatePostPopup from "../post/createPostPopup";
+import { Post } from "@/types/types";
+import translations from "../../constants/en.global.json";
 
 interface FeedProps {
-  posts: PostItem[];
+  posts: Post[];
   createPost: (title: string, content: string) => void;
   openCreatePost: boolean;
   setOpenCreatePost: (open: boolean) => void;
@@ -15,6 +16,7 @@ export default function Feed({
   openCreatePost,
   setOpenCreatePost,
 }: FeedProps) {
+  const t = translations;
   return (
     <div className="flex justify-center pt-4">
       <div className="w-1/5" />

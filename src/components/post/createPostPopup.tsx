@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Loader from "../loader/loader";
+import translations from "../../constants/en.global.json";
 
 interface CreatePostPopupProps {
   createPost: (title: string, content: string) => void;
@@ -13,6 +14,7 @@ export default function CreatePostPopup({
   open,
   setOpen,
 }: CreatePostPopupProps) {
+  const t = translations.postPopup;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
@@ -36,21 +38,21 @@ export default function CreatePostPopup({
           <div className="fixed inset-0 bg-black bg-opacity-70 transition-opacity" />
         </Transition.Child>
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
-              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              enterFrom="opacity-0 translate-y-4"
+              enterTo="opacity-100 translate-y-0"
               leave="ease-in duration-200"
-              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              leaveFrom="opacity-100 translate-y-0"
+              leaveTo="opacity-0 translate-y-4"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-[#1c2123] px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-[#1c2123] px-4 pb-4 pt-5 text-left shadow-xl transition-all">
                 {loading ? (
                   <div>
                     <div className="text-lg font-semibold leading-6 text-white text-center pb-4">
-                      Creating Post...
+                      {t.loadingText}
                     </div>
                     <Loader />
                   </div>
@@ -62,31 +64,32 @@ export default function CreatePostPopup({
                           as="h3"
                           className="text-lg font-semibold leading-6 text-white"
                         >
-                          Create a post
+                          {t.dialogTitle}
                         </Dialog.Title>
                         <label className="block mb-2 text-white text-start">
-                          Post Title
+                          {t.inputTitleLabel}
                         </label>
                         <input
                           type="text"
                           className="w-full px-3 py-2 mb-4 rounded-md outline-none bg-black text-white"
                           value={title}
-                          placeholder="title"
+                          placeholder={t.inputTitlePlaceholder}
                           onChange={(e) => setTitle(e.target.value)}
                         />
                         <label className="block mb-2 text-white text-start">
-                          Post Content
+                          {t.inputContentLabel}
                         </label>
                         <div className="relative">
                           <textarea
-                            className="w-full px-3 py-2 rounded-md resize-none outline-none bg-black text-white"
+                            className="w-72 px-3 py-2 rounded-md resize-none outline-none bg-black text-white"
                             rows={6}
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
-                            placeholder="content"
+                            placeholder={t.inputContentPlacerholder}
                           ></textarea>
                           <div className="text-gray-500 text-sm absolute bottom-2 right-2">
-                            {content.length}/250
+                            {content.length}
+                            {t.maxCharLength}
                           </div>
                         </div>
                       </div>
@@ -97,7 +100,7 @@ export default function CreatePostPopup({
                         className="inline-flex justify-center rounded-md bg-[#B67352] px-3 py-2 text-sm font-semibold text-white shadow-sm"
                         onClick={() => setOpen(false)}
                       >
-                        Back to the feed
+                        {t.backButtonText}
                       </button>
                       <button
                         className={`px-3 py-2 bg-[#ECB159] text-white text-sm rounded-md ${
@@ -114,7 +117,7 @@ export default function CreatePostPopup({
                         }
                         onClick={onCreatePost}
                       >
-                        Create Post
+                        {t.createButtonText}
                       </button>
                     </div>
                   </>

@@ -1,23 +1,31 @@
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import Link from "next/link";
+import translations from "../../constants/en.global.json";
+import {
+  getStoragePeerId,
+  removeStoragePeerId,
+  setStoragePeerId,
+} from "@/lib/storage";
+
 export default function Header() {
+  const t = translations.header;
   const [peerId, setPeerId] = useState("");
   const [localPeerId, setLocalPeerId] = useState("");
 
   const addPeerId = () => {
-    localStorage.setItem("peerId", peerId);
+    setStoragePeerId(peerId);
     setLocalPeerId(peerId);
   };
 
   const resetPeerId = () => {
-    localStorage.setItem("peerId", "");
+    removeStoragePeerId();
     setLocalPeerId("");
     setPeerId("");
   };
 
   useEffect(() => {
-    let storagePeerId = localStorage.getItem("peerId") ?? "";
+    let storagePeerId = getStoragePeerId() ?? "";
     setLocalPeerId(storagePeerId);
   }, [localPeerId]);
 
@@ -48,14 +56,14 @@ export default function Header() {
               />
             </svg>
             <div className="text-white text-xl font-bold font-serif">
-              OnlyPeers
+              {t.logoText}
             </div>
           </Link>
         </div>
         <div className="flex flex-1 justify-end items-center gap-2">
           {localPeerId ? (
             <div className="text-sm font-semibold leading-6 text-white cursor-pointer">
-              PeerId:{" "}
+              {t.peerIdText}:{" "}
               <span
                 className="text-purple-500 pl-1"
                 onClick={() => resetPeerId()}
@@ -74,10 +82,10 @@ export default function Header() {
               />
               <div
                 className="border-[1px] border-gray-400 hover:border-white rounded-lg w-fit 
-          px-4 py-2 text-white cusor-pointer font-light cursor-pointer text-sm"
+          px-4 py-1 text-white cusor-pointer font-light cursor-pointer text-sm"
                 onClick={() => addPeerId()}
               >
-                Add peerId
+                {t.addButtonText}
               </div>
             </>
           )}

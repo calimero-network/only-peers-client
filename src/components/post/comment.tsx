@@ -1,7 +1,11 @@
 import { UserIcon } from "@heroicons/react/24/solid";
-import { Comment } from "../feed/post";
+import { Comment } from "@/types/types";
 
-export default function Comment({ commentItem }: { commentItem: Comment }) {
+interface CommentProps {
+  commentItem: Comment;
+}
+
+export default function Comment({ commentItem }: CommentProps) {
   return (
     <div className="mt-2 mb-2 flex flex-col">
       <div className="flex items-center gap-2">

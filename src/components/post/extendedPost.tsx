@@ -1,11 +1,11 @@
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
-import { PostItem, PostProps } from "../feed/post";
+import { Post } from "@/types/types";
 import Comment from "./comment";
-import { useState } from "react";
 import CreateCommentPopup from "./createCommentPopup";
+import translations from "../../constants/en.global.json";
 
 interface ExtendedPostProps {
-  post: PostItem | null;
+  post: Post | null;
   createComment: (content: string) => void;
   openCreateComment: boolean;
   setOpenCreateComment: (openCreateComment: boolean) => void;
@@ -17,6 +17,7 @@ export default function ExtendedPost({
   openCreateComment,
   setOpenCreateComment,
 }: ExtendedPostProps) {
+  const t = translations.extendedPost;
   return (
     <div className="flex justify-center w-full">
       {post && (
@@ -38,7 +39,7 @@ export default function ExtendedPost({
           px-4 py-2 text-white cusor-pointer font-light cursor-pointer text-sm mt-10"
               onClick={() => setOpenCreateComment(true)}
             >
-              Add a comment
+              {t.addButtonText}
             </div>
             <div className="mt-4">
               {post.comments.map((commentItem, id) => (

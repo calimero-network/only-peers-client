@@ -103,7 +103,7 @@ export default function CreatePostPopup({
                         onClick={() => setOpen(false)}
                       />
                       <Button
-                        title={t.backButtonText}
+                        title={t.createButtonText}
                         backgroundColor="bg-[#ECB159]"
                         backgroundColorHover={`${
                           title.trim() === "" ||

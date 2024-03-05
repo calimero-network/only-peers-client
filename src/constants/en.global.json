@@ -4,6 +4,7 @@
         "reloadButtonText": "Reload the page"
     },
     "feedPage": {
+        "feedTitle": "Posts",
         "createButtonText": "Create a post",
         "noPostsText": "No posts yet"
     },

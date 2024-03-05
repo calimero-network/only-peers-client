@@ -3,6 +3,7 @@ import { Post } from "@/types/types";
 import Comment from "./comment";
 import CreateCommentPopup from "./createCommentPopup";
 import translations from "../../constants/en.global.json";
+import Button from "../button/button";
 
 interface ExtendedPostProps {
   post: Post | null;
@@ -41,6 +42,12 @@ export default function ExtendedPost({
             >
               {t.addButtonText}
             </div>
+            <Button
+              title={t.addButtonText}
+              onClick={() => setOpenCreateComment(true)}
+              backgroundColor="border-gray-400"
+              backgroundColorHover="hover:border-white"
+            />
             <div className="mt-4">
               {post.comments.map((commentItem, id) => (
                 <div key={id}>

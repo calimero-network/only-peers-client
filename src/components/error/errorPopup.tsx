@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import translations from "../../constants/en.global.json";
+import Button from "../button/button";
 
 interface ErrorPopupProps {
   error: string;
@@ -39,7 +40,7 @@ export default function ErrorPopup(props: ErrorPopupProps) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-[#1c2123] px-4 pb-4 pt-5 text-left shadow-xl transition-all">
+              <Dialog.Panel className="relative max-w-[450px] transform overflow-hidden rounded-lg bg-[#1c2123] px-4 pb-4 pt-5 text-left shadow-xl transition-all">
                 <div>
                   <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[#B67352]">
                     <ExclamationTriangleIcon
@@ -54,19 +55,18 @@ export default function ErrorPopup(props: ErrorPopupProps) {
                     >
                       {t.dialogTitle}
                     </Dialog.Title>
-                    <div className="mt-2">
-                      <p className="text-sm text-white">{props.error}</p>
+                    <div className="mt-2flex justify-center items-center">
+                      <p className="text-sm text-white w-full">{props.error}</p>
                     </div>
                   </div>
                 </div>
-                <div className="mt-5">
-                  <button
-                    type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-[#B67352] px-3 py-2 text-sm font-semibold text-white shadow-sm"
+                <div className="mt-5 flex justify-center">
+                  <Button
+                    title={t.reloadButtonText}
+                    backgroundColor="bg-[#B67352]"
+                    backgroundColorHover=""
                     onClick={() => router.reload()}
-                  >
-                    {t.reloadButtonText}
-                  </button>
+                  />
                 </div>
               </Dialog.Panel>
             </Transition.Child>

@@ -12,13 +12,8 @@ export const CREATE_POST = gql`
 export const CREATE_COMMENT = gql`
     mutation CreateComment($input: CreateCommentInput!) {
         createComment(input: $input) {
-            id
-            title
-            content
-            comments {
-                user
-                text
-            }
+            user
+            text
         }
     }
 `;

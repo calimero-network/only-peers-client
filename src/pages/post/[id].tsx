@@ -40,9 +40,9 @@ export default function Post() {
     createCommentMutation({
       variables: {
         input: {
-          post: postId,
-          text: text,
-          user: user,
+          postId,
+          text,
+          user,
         },
       },
     });

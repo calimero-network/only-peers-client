@@ -35,13 +35,6 @@ export default function ExtendedPost({
                 {post.comments.length}
               </span>
             </div>
-            <div
-              className="border-[1px] border-gray-400 hover:border-white rounded-lg w-fit 
-          px-4 py-2 text-white cusor-pointer font-light cursor-pointer text-sm mt-10"
-              onClick={() => setOpenCreateComment(true)}
-            >
-              {t.addButtonText}
-            </div>
             <Button
               title={t.addButtonText}
               onClick={() => setOpenCreateComment(true)}

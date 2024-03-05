@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Loader from "../loader/loader";
 import translations from "../../constants/en.global.json";
+import Button from "../button/button";
 
 interface CreateCommentPopupProps {
   createComment: (text: string) => void;
@@ -85,24 +86,23 @@ export default function CreateCommentPopup({
                       </div>
                     </div>
                     <div className="flex justify-between items-center mt-2">
-                      <button
-                        type="button"
-                        className="inline-flex justify-center rounded-md bg-[#B67352] px-3 py-2 text-sm font-semibold text-white shadow-sm"
+                      <Button
+                        title={t.cancelButtonText}
+                        backgroundColor="bg-[#B67352]"
+                        backgroundColorHover=""
                         onClick={() => setOpen(false)}
-                      >
-                        {t.cancelButtonText}
-                      </button>
-                      <button
-                        className={`px-3 py-2 bg-[#ECB159] text-white text-sm rounded-md ${
+                      />
+                      <Button
+                        title={t.createButtonText}
+                        backgroundColor="bg-[#ECB159]"
+                        backgroundColorHover={`${
                           text.trim() === "" || text.length > 250
                             ? "opacity-50 cursor-not-allowed"
                             : ""
                         }`}
                         disabled={text.trim() === "" || text.length > 250}
                         onClick={onCreateComment}
-                      >
-                        {t.createButtonText}
-                      </button>
+                      />
                     </div>
                   </>
                 )}

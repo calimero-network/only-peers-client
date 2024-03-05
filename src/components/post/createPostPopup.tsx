@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Loader from "../loader/loader";
 import translations from "../../constants/en.global.json";
+import Button from "../button/button";
 
 interface CreatePostPopupProps {
   createPost: (title: string, content: string) => void;
@@ -95,15 +96,16 @@ export default function CreatePostPopup({
                       </div>
                     </div>
                     <div className="flex justify-between items-center mt-2">
-                      <button
-                        type="button"
-                        className="inline-flex justify-center rounded-md bg-[#B67352] px-3 py-2 text-sm font-semibold text-white shadow-sm"
+                      <Button
+                        title={t.backButtonText}
+                        backgroundColor="bg-[#B67352]"
+                        backgroundColorHover=""
                         onClick={() => setOpen(false)}
-                      >
-                        {t.backButtonText}
-                      </button>
-                      <button
-                        className={`px-3 py-2 bg-[#ECB159] text-white text-sm rounded-md ${
+                      />
+                      <Button
+                        title={t.backButtonText}
+                        backgroundColor="bg-[#ECB159]"
+                        backgroundColorHover={`${
                           title.trim() === "" ||
                           content.trim() === "" ||
                           content.length > 250
@@ -115,10 +117,8 @@ export default function CreatePostPopup({
                           content.trim() === "" ||
                           content.length > 250
                         }
-                        onClick={onCreatePost}
-                      >
-                        {t.createButtonText}
-                      </button>
+                        onClick={() => onCreatePost()}
+                      />
                     </div>
                   </>
                 )}

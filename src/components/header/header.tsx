@@ -7,6 +7,7 @@ import {
   removeStoragePeerId,
   setStoragePeerId,
 } from "@/lib/storage";
+import Button from "../button/button";
 
 export default function Header() {
   const t = translations.header;
@@ -80,13 +81,12 @@ export default function Header() {
                 placeholder="peerId"
                 onChange={(e) => setPeerId(e.target.value)}
               />
-              <div
-                className="border-[1px] border-gray-400 hover:border-white rounded-lg w-fit 
-          px-4 py-1 text-white cusor-pointer font-light cursor-pointer text-sm"
-                onClick={() => addPeerId()}
-              >
-                {t.addButtonText}
-              </div>
+              <Button
+                title={t.addButtonText}
+                onClick={addPeerId}
+                backgroundColor="border-gray-400"
+                backgroundColorHover="hover:border-white"
+              />
             </>
           )}
         </div>

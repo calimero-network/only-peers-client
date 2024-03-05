@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import {gql} from "@apollo/client";
 
 export const GET_POSTS = gql`
     query Posts {
@@ -12,7 +12,7 @@ export const GET_POSTS = gql`
             }
         }
     }
-`
+`;
 export const GET_POST = gql`
     query getPost($id: Int!) {
         post(id: $id) {
@@ -25,4 +25,4 @@ export const GET_POST = gql`
             }
         }
     }
-`
+`;

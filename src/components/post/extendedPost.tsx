@@ -35,12 +35,14 @@ export default function ExtendedPost({
                 {post.comments.length}
               </span>
             </div>
-            <Button
-              title={t.addButtonText}
-              onClick={() => setOpenCreateComment(true)}
-              backgroundColor="border-gray-400"
-              backgroundColorHover="hover:border-white"
-            />
+            <div className="mt-8">
+              <Button
+                title={t.addButtonText}
+                onClick={() => setOpenCreateComment(true)}
+                backgroundColor="border-gray-400"
+                backgroundColorHover="hover:border-white"
+              />
+            </div>
             <div className="mt-4">
               {post.comments.map((commentItem, id) => (
                 <div key={id}>

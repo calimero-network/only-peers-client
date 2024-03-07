@@ -38,5 +38,13 @@
     },
     "extendedPost": {
         "addButtonText": "Add a comment"
+    },
+    "loginWrapper": {
+        "loginTitle": "Login",
+        "privateKeyText": "Private Key",
+        "placeHolderText": "Enter your Node Private Key",
+        "loginDescription": "To generate PeerId and PublicKey enter your Private Key",
+        "generateButtonText": "Generate PeerId",
+        "keyGenerationError": "An error occurred while generating or saving the key."
     }
 }

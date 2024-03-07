@@ -5,11 +5,14 @@ import translations from "../../constants/en.global.json";
 import {
   getStoragePeerId,
   removeStoragePeerId,
+  removeStoragePublicKey,
   setStoragePeerId,
 } from "@/lib/storage";
 import Button from "../button/button";
+import { useRouter } from "next/router";
 
 export default function Header() {
+  const router = useRouter();
   const t = translations.header;
   const [peerId, setPeerId] = useState("");
   const [localPeerId, setLocalPeerId] = useState("");
@@ -21,8 +24,10 @@ export default function Header() {
 
   const resetPeerId = () => {
     removeStoragePeerId();
+    removeStoragePublicKey();
     setLocalPeerId("");
     setPeerId("");
+    router.reload();
   };
 
   useEffect(() => {

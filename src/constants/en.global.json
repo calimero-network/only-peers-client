@@ -43,8 +43,8 @@
         "loginTitle": "Login",
         "privateKeyText": "Private Key",
         "placeHolderText": "Enter your Node Private Key",
-        "loginDescription": "To generate PeerId and PublicKey enter your Private Key",
-        "generateButtonText": "Generate PeerId",
+        "loginDescription": "To authenticate your session with the local node, please provide your private key",
+        "generateButtonText": "Connect",
         "keyGenerationError": "An error occurred while generating or saving the key."
     }
 }

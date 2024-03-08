@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 
 import Link from "next/link";
 import translations from "../../constants/en.global.json";
-import {
-  getStoragePeerId,
-  removeStoragePeerId,
-  removeStoragePublicKey,
-  setStoragePeerId,
-} from "@/lib/storage";
+import { clearIdentity, getPeerId, setStoragePeerId } from "@/lib/storage";
 import Button from "../button/button";
 import { useRouter } from "next/router";
 
@@ -23,15 +18,14 @@ export default function Header() {
   };
 
   const resetPeerId = () => {
-    removeStoragePeerId();
-    removeStoragePublicKey();
+    clearIdentity();
     setLocalPeerId("");
     setPeerId("");
     router.reload();
   };
 
   useEffect(() => {
-    let storagePeerId = getStoragePeerId() ?? "";
+    let storagePeerId = getPeerId() ?? "";
     setLocalPeerId(storagePeerId);
   }, [localPeerId]);
 

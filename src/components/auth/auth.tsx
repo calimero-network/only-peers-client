@@ -1,4 +1,4 @@
-import { getStoragePeerId } from "@/lib/storage";
+import { getPeerId, setStoragePrivateKey } from "@/lib/storage";
 import { useEffect, useState } from "react";
 import Login from "../login/Login";
 import bs58 from "bs58";
@@ -6,7 +6,7 @@ import PeerId from "peer-id";
 import { setStoragePeerId, setStoragePublicKey } from "@/lib/storage";
 
 export default function WithIdAuth({ children }: any) {
-  const [peerId, setPeerId] = useState(getStoragePeerId());
+  const [peerId, setPeerId] = useState(getPeerId());
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [keyError, setKeyError] = useState(false);
 
@@ -23,6 +23,7 @@ export default function WithIdAuth({ children }: any) {
       const identity = (await PeerId.createFromPrivKey(decodedKey)).toJSON();
       setStoragePeerId(identity.id);
       setStoragePublicKey(identity.pubKey ?? "");
+      setStoragePrivateKey(identity.privKey ?? "");
       setPeerId(identity.id);
     } catch (error) {
       console.error(error);

@@ -15,6 +15,7 @@
     "@libp2p/peer-id": "^4.0.7",
     "axios": "^1.6.7",
     "bs58": "^5.0.0",
+    "elliptic": "^6.5.5",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
     "graphql-type-json": "^0.3.2",
@@ -24,6 +25,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@types/elliptic": "^6.4.18",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

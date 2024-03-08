@@ -9,6 +9,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { CREATE_COMMENT } from "@/graphql/mutations";
 import { Post } from "@/types/types";
 import { getPeerId } from "@/lib/storage";
+import { SignedMessageObject, signMessage } from "@/crypto/crypto";
 
 export default function Post() {
   const router = useRouter();
@@ -16,6 +17,9 @@ export default function Post() {
   const [error, setError] = useState("");
   const [post, setPost] = useState<Post | null>(null);
   const [openCreateComment, setOpenCreateComment] = useState(false);
+  const [queryHeaders, _setQueryHeaders] = useState<SignedMessageObject | null>(
+    signMessage(JSON.stringify(GET_POST))
+  );
   const postId = id ? parseInt(id as string, 10) : null;
   const {
     loading,
@@ -24,8 +28,24 @@ export default function Post() {
     refetch,
   } = useQuery(GET_POST, {
     variables: { id: postId },
+    context: {
+      headers: {
+        Signature: queryHeaders?.signature,
+        Content: queryHeaders?.content,
+      },
+    },
+  });
+  const [mutationHeaders, setMutationHeaders] = useState<SignedMessageObject>({
+    signature: "",
+    content: "",
   });
   const [createCommentMutation] = useMutation(CREATE_COMMENT, {
+    context: {
+      headers: {
+        Signature: mutationHeaders.signature,
+        Content: mutationHeaders.content,
+      },
+    },
     onCompleted: () => {
       setOpenCreateComment(false);
       refetch();
@@ -37,7 +57,7 @@ export default function Post() {
 
   const createComment = (text: string) => {
     const user = getPeerId();
-    createCommentMutation({
+    const payload = {
       variables: {
         input: {
           postId,
@@ -45,7 +65,12 @@ export default function Post() {
           user,
         },
       },
-    });
+    };
+    const tempHeaders = signMessage(JSON.stringify(payload));
+    if (tempHeaders) {
+      setMutationHeaders(tempHeaders);
+      createCommentMutation(payload);
+    }
   };
 
   useEffect(() => {

@@ -1,30 +1,28 @@
-import { getPeerId, setStoragePrivateKey } from "@/lib/storage";
+import { getStoragePrivateKey, setStoragePrivateKey } from "@/lib/storage";
 import { useEffect, useState } from "react";
 import Login from "../login/Login";
 import bs58 from "bs58";
-import PeerId from "peer-id";
-import { setStoragePeerId, setStoragePublicKey } from "@/lib/storage";
+import { unmarshalPrivateKey } from "@libp2p/crypto/keys";
 
 export default function WithIdAuth({ children }: any) {
-  const [peerId, setPeerId] = useState(getPeerId());
+  const [privateKey, setPrivateKey] = useState(getStoragePrivateKey());
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [keyError, setKeyError] = useState(false);
 
   useEffect(() => {
-    if (peerId) {
+    if (privateKey) {
       setIsLoggedIn(true);
     }
-  }, [peerId]);
+  }, [privateKey]);
 
-  const generateAndSaveKey = async (privateKey: string) => {
+  const generateAndSaveKey = async (encodedPrivateKey: string) => {
     setKeyError(false);
     try {
-      const decodedKey = new Uint8Array(bs58.decode(privateKey));
-      const identity = (await PeerId.createFromPrivKey(decodedKey)).toJSON();
-      setStoragePeerId(identity.id);
-      setStoragePublicKey(identity.pubKey ?? "");
-      setStoragePrivateKey(identity.privKey ?? "");
-      setPeerId(identity.id);
+      const decodedKey = new Uint8Array(bs58.decode(encodedPrivateKey));
+      // key validation
+      (await unmarshalPrivateKey(decodedKey)).bytes;
+      setStoragePrivateKey(decodedKey);
+      setPrivateKey(decodedKey.toString());
     } catch (error) {
       console.error(error);
       setKeyError(true);

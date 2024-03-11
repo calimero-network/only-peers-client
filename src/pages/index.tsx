@@ -11,9 +11,7 @@ import Loader from "@/components/loader/loader";
 import { SignedMessageObject, signMessage } from "@/crypto/crypto";
 
 export default function Index() {
-  const [queryHeaders, _setQueryHeaders] = useState<SignedMessageObject | null>(
-    signMessage(JSON.stringify(GET_POSTS))
-  );
+  const [queryHeaders, setQueryHeaders] = useState<SignedMessageObject>();
   const {
     loading,
     error: FetchError,
@@ -30,16 +28,13 @@ export default function Index() {
   const [openCreatePost, setOpenCreatePost] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState("");
-  const [mutationHeaders, setMutationHeaders] = useState<SignedMessageObject>({
-    signature: "",
-    content: "",
-  });
+  const [mutationHeaders, setMutationHeaders] = useState<SignedMessageObject>();
 
   const [createPostMutation] = useMutation(CREATE_POST, {
     context: {
       headers: {
-        Signature: mutationHeaders.signature,
-        Content: mutationHeaders.content,
+        Signature: mutationHeaders?.signature,
+        Content: mutationHeaders?.content,
       },
     },
     onCompleted: () => {
@@ -51,7 +46,7 @@ export default function Index() {
     },
   });
 
-  const createPost = (title: string, content: string) => {
+  const createPost = async (title: string, content: string) => {
     const payload = {
       variables: {
         input: {
@@ -60,13 +55,26 @@ export default function Index() {
         },
       },
     };
-    const tempHeaders = signMessage(JSON.stringify(payload));
+    const tempHeaders = await signMessage(JSON.stringify(payload));
+
     if (tempHeaders) {
       setMutationHeaders(tempHeaders);
 
       createPostMutation(payload);
     }
   };
+
+  useEffect(() => {
+    const signGetPostRequest = async () => {
+      const headers: SignedMessageObject | null = await signMessage(
+        JSON.stringify(GET_POSTS)
+      );
+      if (headers) {
+        setQueryHeaders(headers);
+      }
+    };
+    signGetPostRequest();
+  }, []);
 
   useEffect(() => {
     if (!loading && data) {

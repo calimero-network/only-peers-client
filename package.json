@@ -12,6 +12,7 @@
     "@apollo/client": "^3.9.5",
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
+    "@libp2p/interface": "^1.1.4",
     "@libp2p/peer-id": "^4.0.7",
     "axios": "^1.6.7",
     "bs58": "^5.0.0",

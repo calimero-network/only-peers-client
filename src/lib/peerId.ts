@@ -1,5 +1,4 @@
-import { getStoragePrivateKey } from "./storage";
-import { unmarshalPrivateKey } from "@libp2p/crypto/keys";
+import { getPrivateKey } from "@/crypto/crypto";
 import { peerIdFromKeys } from "@libp2p/peer-id";
 
 export async function getPeerId() {

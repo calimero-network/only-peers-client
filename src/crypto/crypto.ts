@@ -1,56 +1,64 @@
-import { getStoragePrivateKey, getStoragePublicKey } from '@/lib/storage';
-import * as bs58 from 'bs58';
-import * as elliptic from 'elliptic';
+import { getStoragePrivateKey } from '@/lib/storage';
+import { unmarshalPrivateKey } from "@libp2p/crypto/keys";
+import { PrivateKey, PublicKey } from '@libp2p/interface';
+import bs58 from 'bs58';
 
 export interface SignedMessageObject {
     signature: string;
     content: string;
 }
 
-export function signMessage(content: string): SignedMessageObject | null {
-    const privateKey = getStoragePrivateKey();
+export async function signMessage(content: string): Promise<SignedMessageObject | null> {
+    const privateKey = await getPrivateKey();
 
     if (!privateKey) {
         return null;
     }
-
-    const ec = new elliptic.ec('secp256k1');
-    const key = ec.keyFromPrivate(privateKey, 'hex');
-    const encodedContent: string = encodeContent(content);
-    const signature = key.sign(encodedContent);
-    const base58Signature = encodeSignature(signature);
     
+    const encoder = new TextEncoder();
+    const contentBuff = encoder.encode(content);
+
+    const hashBuffer = await crypto.subtle.digest('SHA-256', contentBuff);
+    const hashArray = new Uint8Array(hashBuffer);
+
+    const signature = await privateKey.sign(hashArray);
+
+    const signatureBase58 = bs58.encode(signature);
+    const contentBase58 = bs58.encode(hashArray);
+    verifySignature(contentBase58, signatureBase58);
+
     return {
-        signature: base58Signature,
-        content: encodedContent
+        signature: signatureBase58,
+        content: contentBase58
     };
 }
 
-function encodeContent(content: string): string {
-    const contentBuffer: Buffer = Buffer.from(content);
-    return bs58.encode(contentBuffer).toString();
-}
+export async function verifySignature(contentBase58: string, signatureBase58: string): Promise<boolean> {
+    const privateKey = await getPrivateKey();
 
-function encodeSignature(signature: elliptic.ec.Signature): string {
-    const derEncodedSignature = signature.toDER('hex');
-    const base64Signature = Buffer.from(derEncodedSignature, 'hex').toString('base64');
-    return bs58.encode(Buffer.from(base64Signature, 'base64')).toString();
-}
-
-export function verifySignature(signature: string, encodedContent: string): boolean {
-    const publicKey = getStoragePublicKey();
-    if (!publicKey) {
+    if (!privateKey) {
         return false;
     }
 
-    const ec = new elliptic.ec('secp256k1');
-    const key = ec.keyFromPublic(publicKey, 'hex');
-    const derSignature = decodeSignature(signature);
-    
-    return key.verify(encodedContent, derSignature);
+    const signature = bs58.decode(signatureBase58);
+    const data = bs58.decode(contentBase58);
+
+    const publicKey: PublicKey = privateKey.public;
+
+    const valid = await publicKey.verify(data, signature)
+
+    return valid;
 }
 
-function decodeSignature(signature: string): Buffer {
-    const base64Signature = Buffer.from(bs58.decode(signature)).toString('base64');
-    return Buffer.from(base64Signature, 'base64');
+export async function getPrivateKey() {
+    const privateKeyString = getStoragePrivateKey();
+
+    if (!privateKeyString) {
+        return null;
+    }
+
+    const privateKeyBuff = new Uint8Array(privateKeyString.split(',').map(Number));
+    const privateKey: PrivateKey = await unmarshalPrivateKey(privateKeyBuff);
+
+    return privateKey;
 }

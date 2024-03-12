@@ -38,5 +38,13 @@
     },
     "extendedPost": {
         "addButtonText": "Add a comment"
+    },
+    "loginWrapper": {
+        "loginTitle": "Login",
+        "privateKeyText": "Private Key",
+        "placeHolderText": "Enter your Node Private Key",
+        "loginDescription": "To authenticate your session with the local node, please provide your private key",
+        "generateButtonText": "Connect",
+        "keyGenerationError": "An error occurred while generating or saving the key."
     }
 }

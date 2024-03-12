@@ -2,33 +2,30 @@ import { useEffect, useState } from "react";
 
 import Link from "next/link";
 import translations from "../../constants/en.global.json";
-import {
-  getStoragePeerId,
-  removeStoragePeerId,
-  setStoragePeerId,
-} from "@/lib/storage";
-import Button from "../button/button";
+import { clearIdentity, getStoragePrivateKey } from "@/lib/storage";
+import { useRouter } from "next/router";
+import { getPeerId } from "@/lib/peerId";
 
 export default function Header() {
   const t = translations.header;
+  const router = useRouter();
+  const [privateKey, _setPrivateKey] = useState(getStoragePrivateKey());
   const [peerId, setPeerId] = useState("");
-  const [localPeerId, setLocalPeerId] = useState("");
-
-  const addPeerId = () => {
-    setStoragePeerId(peerId);
-    setLocalPeerId(peerId);
-  };
 
   const resetPeerId = () => {
-    removeStoragePeerId();
-    setLocalPeerId("");
-    setPeerId("");
+    clearIdentity();
+    router.reload();
   };
 
   useEffect(() => {
-    let storagePeerId = getStoragePeerId() ?? "";
-    setLocalPeerId(storagePeerId);
-  }, [localPeerId]);
+    const setPeer = async () => {
+      let peerIdString = await getPeerId();
+      setPeerId(peerIdString);
+    };
+    if (privateKey) {
+      setPeer();
+    }
+  }, [privateKey]);
 
   return (
     <header className="border-b-2 border-[#1c2123] mx-10">
@@ -62,32 +59,18 @@ export default function Header() {
           </Link>
         </div>
         <div className="flex flex-1 justify-end items-center gap-2">
-          {localPeerId ? (
+          {peerId && (
             <div className="text-sm font-semibold leading-6 text-white cursor-pointer">
               {t.peerIdText}:{" "}
               <span
                 className="text-purple-500 pl-1"
                 onClick={() => resetPeerId()}
               >
-                {localPeerId}
+                {`${peerId.slice(0, 4).toLocaleLowerCase()}...${peerId
+                  .slice(peerId.length - 4, peerId.length)
+                  .toLocaleLowerCase()}`}
               </span>
             </div>
-          ) : (
-            <>
-              <input
-                type="text"
-                className="px-3 py-1 rounded-md outline-none bg-black text-white"
-                value={peerId}
-                placeholder="peerId"
-                onChange={(e) => setPeerId(e.target.value)}
-              />
-              <Button
-                title={t.addButtonText}
-                onClick={addPeerId}
-                backgroundColor="border-gray-400"
-                backgroundColorHover="hover:border-white"
-              />
-            </>
           )}
         </div>
       </nav>

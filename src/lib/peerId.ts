@@ -3,13 +3,11 @@ import { unmarshalPrivateKey } from "@libp2p/crypto/keys";
 import { peerIdFromKeys } from "@libp2p/peer-id";
 
 export async function getPeerId() {
-    let privateKeyString = getStoragePrivateKey();
+    let privateKeyBuff = getStoragePrivateKey();
 
-    if (!privateKeyString) {
+    if (!privateKeyBuff) {
         return "";
     }
-    
-    let privateKeyBuff = new Uint8Array(privateKeyString.split(',').map(Number));
 
     let privateKey = await unmarshalPrivateKey(privateKeyBuff);
 

@@ -26,29 +26,10 @@ export async function signMessage(content: string): Promise<SignedMessageObject 
     const signatureBase58 = bs58.encode(signature);
     const contentBase58 = bs58.encode(hashArray);
 
-    await verifySignature(contentBase58, signatureBase58);
-
     return {
         signature: signatureBase58,
         content: contentBase58
     };
-}
-
-export async function verifySignature(contentBase58: string, signatureBase58: string): Promise<boolean> {
-    const privateKey = await getPrivateKey();
-
-    if (!privateKey) {
-        return false;
-    }
-
-    const signature = bs58.decode(signatureBase58);
-    const data = bs58.decode(contentBase58);
-
-    const publicKey: PublicKey = privateKey.public;
-
-    const valid = await publicKey.verify(data, signature)
-
-    return valid;
 }
 
 export async function getPrivateKey() {

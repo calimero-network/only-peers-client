@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import translations from "../../constants/en.global.json";
 import { clearIdentity, getStoragePrivateKey } from "@/lib/storage";
-import Button from "../button/button";
 import { useRouter } from "next/router";
 import { getPeerId } from "@/lib/peerId";
 

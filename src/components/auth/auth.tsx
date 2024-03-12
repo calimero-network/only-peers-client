@@ -22,7 +22,7 @@ export default function WithIdAuth({ children }: any) {
       // key validation
       (await unmarshalPrivateKey(decodedKey)).bytes;
       setStoragePrivateKey(decodedKey);
-      setPrivateKey(decodedKey.toString());
+      setPrivateKey(decodedKey);
     } catch (error) {
       console.error(error);
       setKeyError(true);

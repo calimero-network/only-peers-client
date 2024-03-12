@@ -2,20 +2,43 @@ import { useEffect, useState } from "react";
 import { Post } from "@/types/types";
 import { GET_POSTS } from "@/graphql/queries";
 import { CREATE_POST } from "@/graphql/mutations";
-import { useQuery, useMutation } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
 
 import ErrorPopup from "@/components/error/errorPopup";
 import Feed from "@/components/feed/feed";
 import Header from "@/components/header/header";
 import Loader from "@/components/loader/loader";
+import { SignedMessageObject, signMessage } from "@/crypto/crypto";
 
 export default function Index() {
-  const { loading, error: FetchError, data, refetch } = useQuery(GET_POSTS);
+  const [getPosts, { loading, error: FetchError, data, refetch }] =
+    useLazyQuery(GET_POSTS);
+
+  useEffect(() => {
+    const signGetPostRequest = async () => {
+      const headers: SignedMessageObject | null = await signMessage(
+        JSON.stringify(GET_POSTS)
+      );
+      if (headers) {
+        getPosts({
+          context: {
+            headers: {
+              Signature: headers.signature,
+              Content: headers.content,
+            },
+          },
+        });
+      }
+    };
+    signGetPostRequest();
+  }, []);
+
   const [openCreatePost, setOpenCreatePost] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState("");
 
   const [createPostMutation] = useMutation(CREATE_POST, {
+    context: {},
     onCompleted: () => {
       setOpenCreatePost(false);
       refetch();
@@ -25,15 +48,27 @@ export default function Index() {
     },
   });
 
-  const createPost = (title: string, content: string) => {
-    createPostMutation({
+  const createPost = async (title: string, content: string) => {
+    let payload = {
       variables: {
         input: {
           title,
           content,
         },
       },
-    });
+      context: {},
+    };
+    const mutationHeaders = await signMessage(JSON.stringify(payload));
+
+    if (mutationHeaders) {
+      payload["context"] = {
+        headers: {
+          Signature: mutationHeaders.signature,
+          Content: mutationHeaders.content,
+        },
+      };
+      createPostMutation(payload);
+    }
   };
 
   useEffect(() => {

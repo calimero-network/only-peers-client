@@ -25,7 +25,8 @@ export async function signMessage(content: string): Promise<SignedMessageObject 
 
     const signatureBase58 = bs58.encode(signature);
     const contentBase58 = bs58.encode(hashArray);
-    verifySignature(contentBase58, signatureBase58);
+
+    await verifySignature(contentBase58, signatureBase58);
 
     return {
         signature: signatureBase58,
@@ -51,13 +52,12 @@ export async function verifySignature(contentBase58: string, signatureBase58: st
 }
 
 export async function getPrivateKey() {
-    const privateKeyString = getStoragePrivateKey();
+    const privateKeyBuff = getStoragePrivateKey();
 
-    if (!privateKeyString) {
+    if (!privateKeyBuff) {
         return null;
     }
 
-    const privateKeyBuff = new Uint8Array(privateKeyString.split(',').map(Number));
     const privateKey: PrivateKey = await unmarshalPrivateKey(privateKeyBuff);
 
     return privateKey;

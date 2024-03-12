@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { GET_POST } from "@/graphql/queries";
 import Loader from "@/components/loader/loader";
 import ErrorPopup from "@/components/error/errorPopup";
-import { useQuery, useMutation } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
 import { CREATE_COMMENT } from "@/graphql/mutations";
 import { Post } from "@/types/types";
 import { SignedMessageObject, signMessage } from "@/crypto/crypto";
@@ -17,30 +17,11 @@ export default function Post() {
   const [error, setError] = useState("");
   const [post, setPost] = useState<Post | null>(null);
   const [openCreateComment, setOpenCreateComment] = useState(false);
-  const [queryHeaders, setQueryHeaders] = useState<SignedMessageObject>();
   const postId = id ? parseInt(id as string, 10) : null;
-  const {
-    loading,
-    error: FetchError,
-    data,
-    refetch,
-  } = useQuery(GET_POST, {
-    variables: { id: postId },
-    context: {
-      headers: {
-        Signature: queryHeaders?.signature,
-        Content: queryHeaders?.content,
-      },
-    },
-  });
-  const [mutationHeaders, setMutationHeaders] = useState<SignedMessageObject>();
+  const [getPost, { loading, error: FetchError, data, refetch }] =
+    useLazyQuery(GET_POST);
   const [createCommentMutation] = useMutation(CREATE_COMMENT, {
-    context: {
-      headers: {
-        Signature: mutationHeaders?.signature,
-        Content: mutationHeaders?.content,
-      },
-    },
+    context: {},
     onCompleted: () => {
       setOpenCreateComment(false);
       refetch();
@@ -52,7 +33,7 @@ export default function Post() {
 
   const createComment = async (text: string) => {
     const user = getPeerId();
-    const payload = {
+    let payload = {
       variables: {
         input: {
           postId,
@@ -60,13 +41,18 @@ export default function Post() {
           user,
         },
       },
+      context: {},
     };
 
-    const tempHeaders = await signMessage(JSON.stringify(payload));
+    const mutationHeaders = await signMessage(JSON.stringify(payload));
 
-    if (tempHeaders) {
-      setMutationHeaders(tempHeaders);
-
+    if (mutationHeaders) {
+      payload["context"] = {
+        headers: {
+          Signature: mutationHeaders.signature,
+          Content: mutationHeaders.content,
+        },
+      };
       createCommentMutation(payload);
     }
   };
@@ -77,11 +63,19 @@ export default function Post() {
         JSON.stringify(GET_POST)
       );
       if (headers) {
-        setQueryHeaders(headers);
+        getPost({
+          variables: { id: postId },
+          context: {
+            headers: {
+              Signature: headers.signature,
+              Content: headers.content,
+            },
+          },
+        });
       }
     };
     signGetPostRequest();
-  }, []);
+  }, [postId]);
 
   useEffect(() => {
     if (id && !loading && data && data.post) {

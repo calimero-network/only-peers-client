@@ -1,24 +1,24 @@
 import Header from "@/components/header/header";
 import ExtendedPost from "@/components/post/extendedPost";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { GET_POST } from "@/graphql/queries";
+import {useRouter} from "next/router";
+import {useEffect, useState} from "react";
+import {GET_POST} from "@/graphql/queries";
 import Loader from "@/components/loader/loader";
 import ErrorPopup from "@/components/error/errorPopup";
-import { useMutation, useLazyQuery } from "@apollo/client";
-import { CREATE_COMMENT } from "@/graphql/mutations";
-import { Post } from "@/types/types";
-import { SignedMessageObject, signMessage } from "@/crypto/crypto";
-import { getPeerId } from "@/lib/peerId";
+import {useMutation, useLazyQuery} from "@apollo/client";
+import {CREATE_COMMENT} from "@/graphql/mutations";
+import {Post} from "@/types/types";
+import {SignedMessageObject, signMessage} from "@/crypto/crypto";
+import {getPeerId} from "@/lib/peerId";
 
 export default function Post() {
   const router = useRouter();
-  const { id } = router.query;
+  const {id} = router.query;
   const [error, setError] = useState("");
   const [post, setPost] = useState<Post | null>(null);
   const [openCreateComment, setOpenCreateComment] = useState(false);
   const postId = id ? parseInt(id as string, 10) : null;
-  const [getPost, { loading, error: FetchError, data, refetch }] =
+  const [getPost, {loading, error: FetchError, data, refetch}] =
     useLazyQuery(GET_POST);
   const [createCommentMutation] = useMutation(CREATE_COMMENT, {
     context: {},
@@ -50,7 +50,7 @@ export default function Post() {
       payload["context"] = {
         headers: {
           Signature: mutationHeaders.signature,
-          Content: mutationHeaders.content,
+          Challenge: mutationHeaders.challenge,
         },
       };
       createCommentMutation(payload);
@@ -64,11 +64,11 @@ export default function Post() {
       );
       if (headers) {
         getPost({
-          variables: { id: postId },
+          variables: {id: postId},
           context: {
             headers: {
               Signature: headers.signature,
-              Content: headers.content,
+              Challenge: headers.challenge,
             },
           },
         });

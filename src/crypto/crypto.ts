@@ -1,11 +1,11 @@
-import { getStoragePrivateKey } from '@/lib/storage';
-import { unmarshalPrivateKey } from "@libp2p/crypto/keys";
-import { PrivateKey, PublicKey } from '@libp2p/interface';
+import {getStoragePrivateKey} from '@/lib/storage';
+import {unmarshalPrivateKey} from "@libp2p/crypto/keys";
+import {PrivateKey, PublicKey} from '@libp2p/interface';
 import bs58 from 'bs58';
 
 export interface SignedMessageObject {
     signature: string;
-    content: string;
+    challenge: string;
 }
 
 export async function signMessage(content: string): Promise<SignedMessageObject | null> {
@@ -14,7 +14,7 @@ export async function signMessage(content: string): Promise<SignedMessageObject 
     if (!privateKey) {
         return null;
     }
-    
+
     const encoder = new TextEncoder();
     const contentBuff = encoder.encode(content);
 
@@ -28,7 +28,7 @@ export async function signMessage(content: string): Promise<SignedMessageObject 
 
     return {
         signature: signatureBase58,
-        content: contentBase58
+        challenge: contentBase58
     };
 }
 

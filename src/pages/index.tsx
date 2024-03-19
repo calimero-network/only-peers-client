@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
-import { Post } from "@/types/types";
-import { GET_POSTS } from "@/graphql/queries";
-import { CREATE_POST } from "@/graphql/mutations";
-import { useMutation, useLazyQuery } from "@apollo/client";
+import {useEffect, useState} from "react";
+import {Post} from "@/types/types";
+import {GET_POSTS} from "@/graphql/queries";
+import {CREATE_POST} from "@/graphql/mutations";
+import {useMutation, useLazyQuery} from "@apollo/client";
 
 import ErrorPopup from "@/components/error/errorPopup";
 import Feed from "@/components/feed/feed";
 import Header from "@/components/header/header";
 import Loader from "@/components/loader/loader";
-import { SignedMessageObject, signMessage } from "@/crypto/crypto";
+import {SignedMessageObject, signMessage} from "@/crypto/crypto";
 
 export default function Index() {
-  const [getPosts, { loading, error: FetchError, data, refetch }] =
+  const [getPosts, {loading, error: FetchError, data, refetch}] =
     useLazyQuery(GET_POSTS);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function Index() {
           context: {
             headers: {
               Signature: headers.signature,
-              Content: headers.content,
+              Challenge: headers.challenge,
             },
           },
         });
@@ -64,7 +64,7 @@ export default function Index() {
       payload["context"] = {
         headers: {
           Signature: mutationHeaders.signature,
-          Content: mutationHeaders.content,
+          Challenge: mutationHeaders.challenge,
         },
       };
       createPostMutation(payload);

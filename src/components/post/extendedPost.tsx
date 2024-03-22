@@ -1,5 +1,5 @@
-import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
-import { Post } from "@/types/types";
+import {ChatBubbleLeftIcon} from "@heroicons/react/24/outline";
+import {Post} from "../../types/types";
 import Comment from "./comment";
 import CreateCommentPopup from "./createCommentPopup";
 import translations from "../../constants/en.global.json";

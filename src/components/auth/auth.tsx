@@ -1,10 +1,10 @@
-import { getStoragePrivateKey, setStoragePrivateKey } from "@/lib/storage";
-import { useEffect, useState } from "react";
-import Login from "../login/Login";
+import {useEffect, useState} from "react";
 import bs58 from "bs58";
-import { unmarshalPrivateKey } from "@libp2p/crypto/keys";
+import {unmarshalPrivateKey} from "@libp2p/crypto/keys";
+import Login from "../login/Login.jsx";
+import {getStoragePrivateKey, setStoragePrivateKey} from "../../lib/storage.js";
 
-export default function WithIdAuth({ children }: any) {
+export default function WithIdAuth({children}: any) {
   const [privateKey, setPrivateKey] = useState(getStoragePrivateKey());
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [keyError, setKeyError] = useState(false);

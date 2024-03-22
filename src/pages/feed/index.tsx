@@ -1,14 +1,14 @@
 import {useEffect, useState} from "react";
-import {Post} from "@/types/types";
-import {GET_POSTS} from "@/graphql/queries";
-import {CREATE_POST} from "@/graphql/mutations";
+import {Post} from "../../types/types";
+import {GET_POSTS} from "../../graphql/queries";
+import {CREATE_POST} from "../../graphql/mutations";
 import {useMutation, useLazyQuery} from "@apollo/client";
 
-import ErrorPopup from "@/components/error/errorPopup";
-import Feed from "@/components/feed/feed";
-import Header from "@/components/header/header";
-import Loader from "@/components/loader/loader";
-import {SignedMessageObject, signMessage} from "@/crypto/crypto";
+import ErrorPopup from "../../components/error/errorPopup";
+import Feed from "../../components/feed/feed";
+import Header from "../../components/header/header";
+import Loader from "../../components/loader/loader";
+import {SignedMessageObject, signMessage} from "../../crypto/crypto";
 
 export default function FeedPage() {
   const [getPosts, {loading, error: FetchError, data, refetch}] =

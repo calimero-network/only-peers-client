@@ -1,14 +1,22 @@
-import ErrorPopup from "@/components/error/errorPopup";
-import Header from "@/components/header/header";
-import Loader from "@/components/loader/loader";
-import LoginWithMetamask from "@/components/wallets/metamask";
+import {useRouter} from "next/router";
+import {useEffect} from "react";
 
 export default function Index() {
+    const router = useRouter();
+    const clientPrivateKey = typeof window !== 'undefined' ? localStorage.getItem("client-key") : undefined;
+
+    useEffect(() => {
+        if (!clientPrivateKey) {
+            router.push("/auth");
+        } else {
+            router.push("/feed");
+        }
+    }, [clientPrivateKey, router]);
+
     return (
-        <>
-            <Header />
-            <LoginWithMetamask />
-        </>
+        <div className="flex w-screen h-screen bg-black justify-center">
+
+        </div >
     );
 
 }

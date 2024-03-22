@@ -1,4 +1,4 @@
-import {getStoragePrivateKey} from '@/lib/storage';
+import {getStoragePrivateKey} from '../lib/storage';
 import {unmarshalPrivateKey} from "@libp2p/crypto/keys";
 import {PrivateKey, PublicKey} from '@libp2p/interface';
 import bs58 from 'bs58';

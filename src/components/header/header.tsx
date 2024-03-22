@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 
 import Link from "next/link";
 import translations from "../../constants/en.global.json";
-import { clearIdentity, getStoragePrivateKey } from "@/lib/storage";
-import { useRouter } from "next/router";
-import { getPeerId } from "@/lib/peerId";
+import {useRouter} from "next/router";
+import {getPeerId} from "src/lib/peerId";
+import {getStoragePrivateKey, clearIdentity} from "src/lib/storage";
 
 export default function Header() {
   const t = translations.header;
@@ -66,9 +66,9 @@ export default function Header() {
                 className="text-purple-500 pl-1"
                 onClick={() => resetPeerId()}
               >
-                {`${peerId.slice(0, 4).toLocaleLowerCase()}...${peerId
+                {`${ peerId.slice(0, 4).toLocaleLowerCase() }...${ peerId
                   .slice(peerId.length - 4, peerId.length)
-                  .toLocaleLowerCase()}`}
+                  .toLocaleLowerCase() }`}
               </span>
             </div>
           )}

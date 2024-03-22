@@ -1,26 +1,18 @@
-import WithIdAuth from "@/components/auth/auth";
-import {WithApollo} from "@/lib/provider";
-import "@/styles/globals.css";
-import {MetaMaskUIProvider} from "@metamask/sdk-react-ui";
+import "./global.css";
+import "../styles/global.css";
+
+import {WithApollo} from "../lib/provider";
+
 import type {AppProps} from "next/app";
+import "@near-wallet-selector/modal-ui/styles.css";
 
 export default function App({Component, pageProps}: AppProps) {
 
   return (
-
     <WithApollo>
-      <WithIdAuth>
-        <MetaMaskUIProvider
-          sdkOptions={{
-            dappMetadata: {
-              name: "Only Peers",
-              // url: window.location.href,
-            },
-          }}
-        >
-          <Component {...pageProps} />
-        </MetaMaskUIProvider>
-      </WithIdAuth>
+      {/* <WithIdAuth> */}
+      <Component {...pageProps} />
+      {/* </WithIdAuth> */}
     </WithApollo>
   );
 }

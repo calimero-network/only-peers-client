@@ -3,6 +3,7 @@ import {createAndStoreKeypair as createKeypair} from "../../crypto/ed25519";
 import {MetaMaskButton, useAccount, useSDK, useSignMessage} from "@metamask/sdk-react-ui";
 import {useRouter} from "next/router";
 import {useCallback, useEffect, useState} from "react";
+import {ClientKey, setStorageClientKey} from "src/lib/storage";
 
 export default function LoginWithMetamask() {
     const {isConnected, address} = useAccount();
@@ -79,10 +80,11 @@ export default function LoginWithMetamask() {
                 //request challenge
                 login(walletSignData, signData, address).then((result) => {
                     if (result) {
-                        localStorage.setItem("client-key", JSON.stringify({
+                        const clientKey: ClientKey = {
                             privateKey: keys.privateKey,
                             publicKey: keys.publicKey
-                        }));
+                        };
+                        setStorageClientKey(clientKey);
                         router.push("/feed");
                     }
                 }).catch(() => {

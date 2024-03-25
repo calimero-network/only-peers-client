@@ -14,6 +14,7 @@ import {
 import BN from "bn.js";
 
 import {useWalletSelector} from "../contexts/WalletSelectorContext";
+import Button from "./button/button";
 
 export interface Message {
     premium: boolean;
@@ -381,7 +382,11 @@ const Content: React.FC = () => {
         return (
             <Fragment>
                 <div>
-                    <button onClick={handleSignIn}>Log in with NEAR</button>
+                    <Button
+                        title="Log in with NEAR"
+                        onClick={handleSignIn}
+                        backgroundColor={""}
+                        backgroundColorHover={""} />
                 </div>
             </Fragment>
         );

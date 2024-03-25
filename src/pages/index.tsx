@@ -14,9 +14,8 @@ export default function Index() {
     }, [clientPrivateKey, router]);
 
     return (
-        <div className="flex w-screen h-screen bg-black justify-center">
-
-        </div >
+        <>
+        </>
     );
 
 }

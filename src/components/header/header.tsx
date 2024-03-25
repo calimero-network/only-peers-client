@@ -4,16 +4,16 @@ import Link from "next/link";
 import translations from "../../constants/en.global.json";
 import {useRouter} from "next/router";
 import {getPeerId} from "src/lib/peerId";
-import {getStoragePrivateKey, clearIdentity} from "src/lib/storage";
+import {getStorageClientKey, clearClientKey} from "src/lib/storage";
 
 export default function Header() {
   const t = translations.header;
   const router = useRouter();
-  const [privateKey, _setPrivateKey] = useState(getStoragePrivateKey());
+  const [privateKey, _setPrivateKey] = useState(getStorageClientKey());
   const [peerId, setPeerId] = useState("");
 
   const resetPeerId = () => {
-    clearIdentity();
+    clearClientKey();
     router.reload();
   };
 

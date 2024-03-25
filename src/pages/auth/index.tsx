@@ -1,6 +1,7 @@
 import {useRouter} from "next/router";
 import {Fragment} from "react";
 import Content from "src/components/Content";
+import Button from "src/components/button/button";
 import {WalletSelectorContextProvider} from "src/contexts/WalletSelectorContext";
 
 export default function Auth() {
@@ -11,7 +12,7 @@ export default function Auth() {
     }
 
     return (
-        <div className="flex w-screen h-screen bg-red justify-center">
+        <div className="flex w-full h-screen justify-center">
             <div className="flex justify-center items-center  ">
                 <div className="items-center bg-gray-500 p-8 gap-y-4 rounded-lg">
                     <div className="w-full text-center text-white mb-4 text-xl">
@@ -19,9 +20,11 @@ export default function Auth() {
                     </div>
                     <div className="flex space-x-4 text-white  justify-between">
                         <Fragment>
-                            <button onClick={onMetamaskSelected} >
-                                Login with Metamask
-                            </button>
+                            <Button
+                                title="Login with Metamask"
+                                onClick={onMetamaskSelected}
+                                backgroundColor={""}
+                                backgroundColorHover={""} />
                         </Fragment>
                         <WalletSelectorContextProvider>
                             <Content />

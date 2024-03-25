@@ -1,25 +1,26 @@
-import bs58 from "bs58";
+export const PRIVATE_KEY = "client-key";
 
-export const PRIVATE_KEY = "privateKey";
+export interface ClientKey {
+    privateKey: string;
+    publicKey: string;
+}
 
-export const setStoragePrivateKey = (privateKeyBuff: Uint8Array) => {
-    const encodedPrivateKey = bs58.encode(privateKeyBuff);
-    localStorage.setItem(PRIVATE_KEY, encodedPrivateKey);
+export const setStorageClientKey = (clientKey: ClientKey) => {
+    localStorage.setItem(PRIVATE_KEY, JSON.stringify(clientKey));
 };
 
-export const getStoragePrivateKey = (): Uint8Array | null => {
+export const getStorageClientKey = (): ClientKey | null => {
     if (typeof window !== 'undefined' && window.localStorage) {
-        let encodedPrivateKey = localStorage.getItem(PRIVATE_KEY);
-        if (!encodedPrivateKey) {
+        let clientKeystore: ClientKey = JSON.parse(localStorage.getItem(PRIVATE_KEY));
+        if (!clientKeystore) {
             return null;
         }
-        const decodedPrivateKey = new Uint8Array(bs58.decode(encodedPrivateKey));
-        return decodedPrivateKey;
+        return clientKeystore;
     } else {
         return null;
     }
 };
 
-export const clearIdentity = () => {
+export const clearClientKey = () => {
     localStorage.removeItem(PRIVATE_KEY);
 };

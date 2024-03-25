@@ -2,10 +2,10 @@ import {useEffect, useState} from "react";
 import bs58 from "bs58";
 import {unmarshalPrivateKey} from "@libp2p/crypto/keys";
 import Login from "../login/Login.jsx";
-import {getStoragePrivateKey, setStoragePrivateKey} from "../../lib/storage.js";
+import {ClientKey, getStorageClientKey, setStorageClientKey} from "../../lib/storage.js";
 
 export default function WithIdAuth({children}: any) {
-  const [privateKey, setPrivateKey] = useState(getStoragePrivateKey());
+  const [privateKey, setPrivateKey] = useState<ClientKey>(getStorageClientKey());
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [keyError, setKeyError] = useState(false);
 
@@ -21,8 +21,8 @@ export default function WithIdAuth({children}: any) {
       const decodedKey = new Uint8Array(bs58.decode(encodedPrivateKey));
       // key validation
       (await unmarshalPrivateKey(decodedKey)).bytes;
-      setStoragePrivateKey(decodedKey);
-      setPrivateKey(decodedKey);
+      // setStorageClientKey(decodedKey);
+      // setPrivateKey(decodedKey);
     } catch (error) {
       console.error(error);
       setKeyError(true);

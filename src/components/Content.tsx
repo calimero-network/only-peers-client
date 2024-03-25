@@ -9,12 +9,12 @@ import {
     verifySignature,
     type SignedMessage,
     type SignMessageParams,
-    type Transaction,
 } from "@near-wallet-selector/core";
 import BN from "bn.js";
 
 import {useWalletSelector} from "../contexts/WalletSelectorContext";
 import Button from "./button/button";
+import {requestChallenge} from "src/api/login";
 
 export interface Message {
     premium: boolean;
@@ -30,36 +30,12 @@ type Submitted = SubmitEvent & {
     target: {elements: {[key: string]: HTMLInputElement;};};
 };
 
-const SUGGESTED_DONATION = "0";
-const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
-
-interface GetAccountBalanceProps {
-    provider: providers.Provider;
-    accountId: string;
-}
-
-const getAccountBalance = async ({
-    provider,
-    accountId,
-}: GetAccountBalanceProps) => {
-    try {
-        const {amount} = await provider.query<AccountView>({
-            request_type: "view_account",
-            finality: "final",
-            account_id: accountId,
-        });
-        const bn = new BN(amount);
-        return {hasBalance: !bn.isZero()};
-    } catch {
-        return {hasBalance: false};
-    }
-};
 
 const Content: React.FC = () => {
-    const {selector, modal, accounts, accountId} = useWalletSelector();
+    const {selector, accounts, modal, accountId} = useWalletSelector();
     const [account, setAccount] = useState<Account | null>(null);
-    const [messages, setMessages] = useState<Array<Message>>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const appName = "only-peers";
 
     const getAccount = useCallback(async (): Promise<Account | null> => {
         if (!accountId) {
@@ -68,20 +44,6 @@ const Content: React.FC = () => {
 
         const {network} = selector.options;
         const provider = new providers.JsonRpcProvider({url: network.nodeUrl});
-
-        const {hasBalance} = await getAccountBalance({
-            provider,
-            accountId,
-        });
-
-        if (!hasBalance) {
-            window.alert(
-                `Account ID: ${ accountId } has not been founded. Please send some NEAR into this account.`
-            );
-            const wallet = await selector.wallet();
-            await wallet.signOut();
-            return null;
-        }
 
         return provider
             .query<AccountView>({
@@ -95,25 +57,7 @@ const Content: React.FC = () => {
             }));
     }, [accountId, selector]);
 
-    const getMessages = useCallback(() => {
-        const {network} = selector.options;
-        const provider = new providers.JsonRpcProvider({url: network.nodeUrl});
-
-        return provider
-            .query<CodeResult>({
-                request_type: "call_function",
-                account_id: "guest-book.testnet",
-                method_name: "getMessages",
-                args_base64: "",
-                finality: "optimistic",
-            })
-            .then((res) => JSON.parse(Buffer.from(res.result).toString()));
-    }, [selector]);
-
     useEffect(() => {
-        // TODO: don't just fetch once; subscribe!
-        getMessages().then(setMessages);
-
         const timeoutId = setTimeout(() => {
             verifyMessageBrowserWallet();
         }, 500);
@@ -131,17 +75,17 @@ const Content: React.FC = () => {
 
         setLoading(true);
 
-        getAccount().then((nextAccount) => {
+        getAccount().then((nextAccount: any) => {
             setAccount(nextAccount);
             setLoading(false);
         });
     }, [accountId, getAccount]);
 
-    const handleSignIn = () => {
+    function handleSignIn() {
         modal.show();
     };
 
-    const handleSignOut = async () => {
+    async function handleSignOut() {
         const wallet = await selector.wallet();
 
         wallet.signOut().catch((err: any) => {
@@ -150,11 +94,11 @@ const Content: React.FC = () => {
         });
     };
 
-    const handleSwitchWallet = () => {
+    function handleSwitchWallet() {
         modal.show();
     };
 
-    const handleSwitchAccount = () => {
+    function handleSwitchAccount() {
         const currentIndex = accounts.findIndex((x) => x.accountId === accountId);
         const nextIndex = currentIndex < accounts.length - 1 ? currentIndex + 1 : 0;
 
@@ -164,66 +108,6 @@ const Content: React.FC = () => {
 
         alert("Switched account to " + nextAccountId);
     };
-
-    const addMessages = useCallback(
-        async (message: string, donation: string, multiple: boolean) => {
-            const {contract} = selector.store.getState();
-            const wallet = await selector.wallet();
-            if (!multiple) {
-                return wallet
-                    .signAndSendTransaction({
-                        signerId: accountId!,
-                        actions: [
-                            {
-                                type: "FunctionCall",
-                                params: {
-                                    methodName: "addMessage",
-                                    args: {text: message},
-                                    gas: BOATLOAD_OF_GAS,
-                                    deposit: utils.format.parseNearAmount(donation)!,
-                                },
-                            },
-                        ],
-                    })
-                    .catch((err: any) => {
-                        alert("Failed to add message");
-                        console.log("Failed to add message");
-
-                        throw err;
-                    });
-            }
-
-            const transactions: Array<Transaction> = [];
-
-            for (let i = 0; i < 2; i += 1) {
-                transactions.push({
-                    signerId: accountId!,
-                    receiverId: contract!.contractId,
-                    actions: [
-                        {
-                            type: "FunctionCall",
-                            params: {
-                                methodName: "addMessage",
-                                args: {
-                                    text: `${ message } (${ i + 1 }/2)`,
-                                },
-                                gas: BOATLOAD_OF_GAS,
-                                deposit: utils.format.parseNearAmount(donation)!,
-                            },
-                        },
-                    ],
-                });
-            }
-
-            return wallet.signAndSendTransactions({transactions}).catch((err: string) => {
-                alert("Failed to add messages exception " + err);
-                console.log("Failed to add messages");
-
-                throw err;
-            });
-        },
-        [selector, accountId]
-    );
 
     const handleVerifyOwner = async () => {
         const wallet = await selector.wallet();
@@ -242,10 +126,10 @@ const Content: React.FC = () => {
         }
     };
 
-    const verifyMessage = async (
+    async function verifyMessage(
         message: SignMessageParams,
         signedMessage: SignedMessage
-    ) => {
+    ) {
         const verifiedSignature = verifySignature({
             message: message.message,
             nonce: message.nonce,
@@ -304,47 +188,13 @@ const Content: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleSubmit = useCallback(
-        async (e: Submitted) => {
-            e.preventDefault();
+    async function handleSignMessage() {
+        const {challenge, applicationId} = await requestChallenge();
 
-            const {fieldset, message, donation, multiple} = e.target.elements;
-
-            fieldset.disabled = true;
-
-            return addMessages(message.value, donation.value || "0", multiple.checked)
-                .then(() => {
-                    return getMessages()
-                        .then((nextMessages) => {
-                            setMessages(nextMessages);
-                            message.value = "";
-                            donation.value = SUGGESTED_DONATION;
-                            fieldset.disabled = false;
-                            multiple.checked = false;
-                            message.focus();
-                        })
-                        .catch((err) => {
-                            alert("Failed to refresh messages");
-                            console.log("Failed to refresh messages");
-
-                            throw err;
-                        });
-                })
-                .catch((err) => {
-                    console.error(err);
-
-                    fieldset.disabled = false;
-                });
-        },
-        [addMessages, getMessages]
-    );
-
-    const handleSignMessage = async () => {
         const wallet = await selector.wallet();
-
-        const message = "test message to sign";
+        const message = challenge;
         const nonce = Buffer.from(crypto.getRandomValues(new Uint8Array(32)));
-        const recipient = "guest-book.testnet";
+        const recipient = appName;
 
         if (wallet.type === "browser") {
             localStorage.setItem(
@@ -394,13 +244,13 @@ const Content: React.FC = () => {
 
     return (
         <Fragment>
-            <div>
-                <button onClick={handleSignOut}>Log out</button>
-                <button onClick={handleSwitchWallet}>Switch Wallet</button>
-                <button onClick={handleVerifyOwner}>Verify Owner</button>
-                <button onClick={handleSignMessage}>Sign Message</button>
+            <div className="flex space-x-2">
+                <Button onClick={handleSignOut} title="Log out" backgroundColor={""} backgroundColorHover={""} />
+                <Button onClick={handleSwitchWallet} title="Switch Wallet" backgroundColor={""} backgroundColorHover={""} />
+                <Button onClick={handleVerifyOwner} title="Verify Owner" backgroundColor={""} backgroundColorHover={""} />
+                <Button onClick={handleSignMessage} title="Sign Message" backgroundColor={""} backgroundColorHover={""} />
                 {accounts.length > 1 && (
-                    <button onClick={handleSwitchAccount}>Switch Account</button>
+                    <Button onClick={handleSwitchAccount} title="Switch Account" backgroundColor={""} backgroundColorHover={""} />
                 )}
             </div>
 

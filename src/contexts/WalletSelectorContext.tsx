@@ -1,4 +1,4 @@
-import type {AccountState, WalletSelector} from "@near-wallet-selector/core";
+import type {AccountState, NetworkId, WalletSelector} from "@near-wallet-selector/core";
 import {setupWalletSelector} from "@near-wallet-selector/core";
 import type {WalletSelectorModal} from "@near-wallet-selector/modal-ui";
 import {setupModal} from "@near-wallet-selector/modal-ui";
@@ -12,7 +12,6 @@ import React, {
     useState,
     useMemo,
 } from "react";
-import {distinctUntilChanged, map} from "rxjs";
 
 import {Loading} from "../components/Loading";
 
@@ -33,6 +32,8 @@ interface WalletSelectorContextValue {
 const WalletSelectorContext =
     React.createContext<WalletSelectorContextValue | null>(null);
 
+const network: NetworkId = process.env["NEXT_PUBLIC_NEAR_ENV"] === "testnet" ? "testnet" : "mainnet";
+
 export const WalletSelectorContextProvider: React.FC<{
     children: ReactNode;
 }> = ({children}) => {
@@ -43,14 +44,14 @@ export const WalletSelectorContextProvider: React.FC<{
 
     const init = useCallback(async () => {
         const _selector = await setupWalletSelector({
-            network: "testnet",
+            network: network,
             debug: true,
             modules: [
                 setupMyNearWallet(),
             ],
         });
         const _modal = setupModal(_selector, {
-            contractId: "guest-book.testnet",
+            contractId: "",
         });
         const state = _selector.store.getState();
         setAccounts(state.accounts);
@@ -71,32 +72,6 @@ export const WalletSelectorContextProvider: React.FC<{
             alert("Failed to initialise wallet selector");
         });
     }, [init]);
-
-    useEffect(() => {
-        if (!selector) {
-            return;
-        }
-
-        const subscription = selector.store.observable
-            .pipe(
-                map((state: any) => state.accounts),
-                distinctUntilChanged()
-            )
-            .subscribe((nextAccounts: React.SetStateAction<AccountState[]>) => {
-                console.log("Accounts Update", nextAccounts);
-
-                setAccounts(nextAccounts);
-            });
-
-        const onHideSubscription = modal!.on("onHide", ({hideReason}) => {
-            console.log(`The reason for hiding the modal ${ hideReason }`);
-        });
-
-        return () => {
-            subscription.unsubscribe();
-            onHideSubscription.remove();
-        };
-    }, [selector, modal]);
 
     const walletSelectorContextValue = useMemo<WalletSelectorContextValue>(
         () => ({

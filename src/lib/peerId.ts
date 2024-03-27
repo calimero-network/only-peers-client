@@ -8,8 +8,7 @@ export async function getPeerId() {
     if (!clientKey) {
         return "";
     }
-
-    let privateKey = await unmarshalPrivateKey(new Uint8Array(bs58.decode(clientKey.privateKey)));
-    let peerId = await peerIdFromKeys(privateKey.public.bytes, privateKey.bytes);
+    let publicKey = Uint8Array.from(Array.from(clientKey.publicKey).map(letter => letter.charCodeAt(0)));
+    let peerId = await peerIdFromKeys(publicKey);
     return peerId.toString();
 };

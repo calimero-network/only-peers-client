@@ -1,21 +1,14 @@
-import {WalletSignData, login, requestChallenge} from "../../api/login";
-import {createAndStoreKeypair as createKeypair} from "../../crypto/ed25519";
+import {getOrCreateKeypair} from "../../crypto/ed25519";
 import {MetaMaskButton, useAccount, useSDK, useSignMessage} from "@metamask/sdk-react-ui";
 import {useRouter} from "next/router";
 import {useCallback, useEffect, useState} from "react";
-import {ClientKey, setStorageClientKey} from "src/lib/storage";
+import apiClient from "src/api";
+import {Challenge, WalletSignatureData} from "src/api/nodeApi";
+import {ResponseData} from "src/api/response";
 
 export default function LoginWithMetamask() {
     const {isConnected, address} = useAccount();
-    const [walletSignData, setWalletSignData] = useState<WalletSignData>({
-        challenge: undefined,
-        pubKey: undefined,
-        applicationId: undefined
-    });
-    const [keys, setKeys] = useState({
-        privateKey: "",
-        publicKey: ""
-    });
+    const [walletSignatureData, setWalletSignatureData] = useState<WalletSignatureData | null>(null);
 
     const {ready} = useSDK();
     const router = useRouter();
@@ -27,73 +20,61 @@ export default function LoginWithMetamask() {
         isSuccess: isSignSuccess,
         signMessage,
     } = useSignMessage({
-        message: walletSignData != null ? JSON.stringify(walletSignData) : undefined,
+        message: walletSignatureData != null ? JSON.stringify(walletSignatureData) : undefined,
     });
 
-    const generatePKey = useCallback(async () => {
-        const {privateKeyString, publicKeyString} = await createKeypair();
-
-        setKeys({
-            privateKey: privateKeyString,
-            publicKey: publicKeyString
-        });
-
-        setWalletSignData(prevState => ({
-            ...prevState,
-            pubKey: publicKeyString
-        }));
-
-    }, []);
-
-
     const requestNodeData = useCallback(async () => {
-        const {challenge, applicationId} = await requestChallenge();
+        const challengeResponseData: ResponseData<Challenge> = await apiClient.node().requestChallenge();
+        const clientKey = await getOrCreateKeypair();
 
-        setWalletSignData(prevState => ({
+        if (challengeResponseData.error) {
+            console.log("requestNodeData error", challengeResponseData.error);
+            return;
+        }
+
+        setWalletSignatureData(prevState => ({
             ...prevState,
-            challenge,
-            applicationId
+            challenge: challengeResponseData.data,
+            clientPubKey: clientKey.publicKey
         }));
 
     }, []);
+
+    const login = useCallback(async () => {
+        if (!signData) {
+            console.log("signature is empty");
+        } else if (!address) {
+            console.log("address is empty");
+        } else {
+            //request challenge
+            await apiClient.node().login(walletSignatureData, signData, address).then((result) => {
+                if (result.error) {
+                    console.log("login error", result.error);
+                } else {
+                    router.push("/feed");
+                }
+            }).catch(() => {
+                console.log("error while login");
+            });
+        }
+    }, [address, router, signData, walletSignatureData]);
+
 
     useEffect(() => {
         if (isConnected) {
-            //TODO prevent double creation
-            generatePKey();
             requestNodeData();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isConnected]);
 
     useEffect(() => {
-        if (isSignSuccess && walletSignData) {
+        if (isSignSuccess && walletSignatureData) {
             //send request to node
             console.log("signature", signData);
             console.log("address", address);
-
-            if (!signData) {
-                console.log("signature is empty");
-            } else if (!address) {
-                console.log("address is empty");
-            } else {
-                //request challenge
-                login(walletSignData, signData, address).then((result) => {
-                    if (result) {
-                        const clientKey: ClientKey = {
-                            privateKey: keys.privateKey,
-                            publicKey: keys.publicKey
-                        };
-                        setStorageClientKey(clientKey);
-                        router.push("/feed");
-                    }
-                }).catch(() => {
-                    console.log("error while login");
-                });
-            }
-
+            login();
         }
-    }, [address, walletSignData, isSignSuccess, signData, keys.privateKey, keys.publicKey, router]);
+    }, [address, isSignSuccess, login, signData, walletSignatureData]);
 
     if (!ready) {
         return <div>Loading...</div>;
@@ -105,7 +86,7 @@ export default function LoginWithMetamask() {
                 Metamask
                 <header>
                     <MetaMaskButton theme={"light"} color="white"></MetaMaskButton>
-                    {isConnected && walletSignData && (
+                    {isConnected && walletSignatureData && (
                         <>
                             <div className="mt-5">
                                 <button

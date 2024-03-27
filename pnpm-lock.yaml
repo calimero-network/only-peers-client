@@ -2519,8 +2519,8 @@ packages:
       react-copy-to-clipboard: 5.1.0(react@18.2.0)
       react-dom: 18.2.0(react@18.2.0)
       react-jazzicon: 1.0.4(react-dom@18.2.0)(react@18.2.0)
-      viem: 2.8.16(typescript@5.3.3)
-      wagmi: 1.4.12(@types/react@18.2.60)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)(typescript@5.3.3)(viem@2.8.16)
+      viem: 2.9.2(typescript@5.3.3)
+      wagmi: 1.4.12(@types/react@18.2.60)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)(typescript@5.3.3)(viem@2.9.2)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -4124,7 +4124,7 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@wagmi/connectors@3.1.10(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.8.16):
+  /@wagmi/connectors@3.1.10(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.9.2):
     resolution: {integrity: sha512-ZLJC1QaeiZarkF07Cr9mOlVjPO1Lf5TBx+JKBms2y5fUIXlKrxCfQgO/gDCureboI+Us2X3IRI659+XacSGpbA==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -4143,7 +4143,7 @@ packages:
       abitype: 0.8.7(typescript@5.3.3)
       eventemitter3: 4.0.7
       typescript: 5.3.3
-      viem: 2.8.16(typescript@5.3.3)
+      viem: 2.9.2(typescript@5.3.3)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -4168,7 +4168,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@1.4.12(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.8.16):
+  /@wagmi/core@1.4.12(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.9.2):
     resolution: {integrity: sha512-bLcYmmGgjtl3jAGo8X3Sm6oUwsdjbVxFMu9SWnwHdE4S9JdYeWM57dEhQgq8SYul2yQ7yY2/gimBf1Or0Ky3dQ==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -4177,11 +4177,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@wagmi/connectors': 3.1.10(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.8.16)
+      '@wagmi/connectors': 3.1.10(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.9.2)
       abitype: 0.8.7(typescript@5.3.3)
       eventemitter3: 4.0.7
       typescript: 5.3.3
-      viem: 2.8.16(typescript@5.3.3)
+      viem: 2.9.2(typescript@5.3.3)
       zustand: 4.5.2(@types/react@18.2.60)(react@18.2.0)
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -11502,8 +11502,8 @@ packages:
       - zod
     dev: false
 
-  /viem@2.8.16(typescript@5.3.3):
-    resolution: {integrity: sha512-J8tu1aP7TfI2HT/IEmyJ+n+WInrA/cuMuJtfgvYhYgHBobxhYGc2SojHm5lZBWcWgErN1Ld7VcKUwTmPh4ToQA==}
+  /viem@2.9.2(typescript@5.3.3):
+    resolution: {integrity: sha512-GRakUTNiYE9W+vL+Be9JkQfzWnkczerHtSpEe2JR/jEGTYZAs4shrA4WLgiaVCI9JxpnduZhQfRWNvy2dlyP2g==}
     peerDependencies:
       typescript: '>=5.0.4'
     peerDependenciesMeta:
@@ -11538,7 +11538,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /wagmi@1.4.12(@types/react@18.2.60)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)(typescript@5.3.3)(viem@2.8.16):
+  /wagmi@1.4.12(@types/react@18.2.60)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)(typescript@5.3.3)(viem@2.9.2):
     resolution: {integrity: sha512-QRxpjhdMlZmbYTfn9VQkQMKq+l3kwA1O7tF10vaykPrjbGX+IIlyn72ib9oqW9BfQO7n/Sf/mnVz1zbxRhGPWA==}
     peerDependencies:
       react: '>=17.0.0'
@@ -11551,12 +11551,12 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.36.1
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.36.1(@tanstack/react-query@4.36.1)
-      '@wagmi/core': 1.4.12(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.8.16)
+      '@wagmi/core': 1.4.12(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.9.2)
       abitype: 0.8.7(typescript@5.3.3)
       react: 18.2.0
       typescript: 5.3.3
       use-sync-external-store: 1.2.0(react@18.2.0)
-      viem: 2.8.16(typescript@5.3.3)
+      viem: 2.9.2(typescript@5.3.3)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'

@@ -1,8 +1,7 @@
 import React, {Fragment, useCallback, useEffect, useState} from "react";
-import {providers, utils} from "near-api-js";
+import {providers} from "near-api-js";
 import type {
     AccountView,
-    CodeResult,
 } from "near-api-js/lib/providers/provider";
 import {
     verifyFullKeyBelongsToUser,
@@ -10,11 +9,13 @@ import {
     type SignedMessage,
     type SignMessageParams,
 } from "@near-wallet-selector/core";
-import BN from "bn.js";
 
 import {useWalletSelector} from "../contexts/WalletSelectorContext";
 import Button from "./button/button";
-import {requestChallenge} from "src/api/login";
+import {getOrCreateKeypair} from "src/crypto/ed25519";
+import apiClient from "src/api";
+import {WalletSignatureData, Challenge} from "src/api/nodeApi";
+import {ResponseData} from "src/api/response";
 
 export interface Message {
     premium: boolean;
@@ -24,10 +25,6 @@ export interface Message {
 
 export type Account = AccountView & {
     account_id: string;
-};
-
-type Submitted = SubmitEvent & {
-    target: {elements: {[key: string]: HTMLInputElement;};};
 };
 
 
@@ -128,8 +125,20 @@ const Content: React.FC = () => {
 
     async function verifyMessage(
         message: SignMessageParams,
-        signedMessage: SignedMessage
-    ) {
+        signedMessage: SignedMessage,
+    ): Promise<boolean> {
+        console.log("verifyMessage", {message, signedMessage});
+        const walletSignatureData: WalletSignatureData = JSON.parse(message.message);
+        if (!walletSignatureData) {
+            return false;
+        }
+
+        const loginResponse = await apiClient.node().login(walletSignatureData, signedMessage.signature, signedMessage.accountId);
+        if (loginResponse.error) {
+            console.log("login error", loginResponse.error);
+            return;
+        }
+
         const verifiedSignature = verifySignature({
             message: message.message,
             nonce: message.nonce,
@@ -154,6 +163,8 @@ const Content: React.FC = () => {
             `${ alertMessage } signed message: '${ message.message
             }': \n ${ JSON.stringify(signedMessage) }`
         );
+
+        return isMessageVerified;
     };
 
     const verifyMessageBrowserWallet = useCallback(async () => {
@@ -189,14 +200,26 @@ const Content: React.FC = () => {
     }, []);
 
     async function handleSignMessage() {
-        const {challenge, applicationId} = await requestChallenge();
+        const challengeResponseData: ResponseData<Challenge> = await apiClient.node().requestChallenge();
+        const {publicKey} = await getOrCreateKeypair();
+
+        if (challengeResponseData.error) {
+            console.log("requestChallenge api error", challengeResponseData.error);
+            return;
+        }
 
         const wallet = await selector.wallet();
-        const message = challenge;
+        const walletSignatureData: WalletSignatureData = {
+            challenge: challengeResponseData.data,
+            clientPubKey: publicKey
+        };
+        const message: string = JSON.stringify(walletSignatureData);
         const nonce = Buffer.from(crypto.getRandomValues(new Uint8Array(32)));
         const recipient = appName;
 
         if (wallet.type === "browser") {
+            console.log("browser");
+
             localStorage.setItem(
                 "message",
                 JSON.stringify({
@@ -209,14 +232,19 @@ const Content: React.FC = () => {
         }
 
         try {
-            const signedMessage = await wallet.signMessage({
+            const signedMessage: void | SignedMessage = await wallet.signMessage({
                 message,
                 nonce,
                 recipient,
             });
+
+
             if (signedMessage) {
+                console.log("signedMessage", signedMessage);
                 await verifyMessage({message, nonce, recipient}, signedMessage);
             }
+
+
         } catch (err) {
             const errMsg =
                 err instanceof Error ? err.message : "Something went wrong";

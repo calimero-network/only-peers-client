@@ -1,41 +1,22 @@
 import {useEffect, useState} from "react";
-import bs58 from "bs58";
-import {unmarshalPrivateKey} from "@libp2p/crypto/keys";
-import Login from "../login/Login.jsx";
-import {ClientKey, getStorageClientKey, setStorageClientKey} from "../../lib/storage.js";
+import {useRouter} from "next/router.js";
+import {ClientKey, getStorageClientKey} from "src/lib/storage";
 
 export default function WithIdAuth({children}: any) {
-  const [privateKey, setPrivateKey] = useState<ClientKey>(getStorageClientKey());
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [keyError, setKeyError] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    if (privateKey) {
-      setIsLoggedIn(true);
+    const clientKey = getStorageClientKey();
+    if (!clientKey) {
+      if (!router.pathname.startsWith("/auth")) {
+        router.push("/auth");
+      }
+    } else if (router.pathname.startsWith("/auth")) {
+      router.push("/feed");
     }
-  }, [privateKey]);
-
-  const generateAndSaveKey = async (encodedPrivateKey: string) => {
-    setKeyError(false);
-    try {
-      const decodedKey = new Uint8Array(bs58.decode(encodedPrivateKey));
-      // key validation
-      (await unmarshalPrivateKey(decodedKey)).bytes;
-      // setStorageClientKey(decodedKey);
-      // setPrivateKey(decodedKey);
-    } catch (error) {
-      console.error(error);
-      setKeyError(true);
-    }
-  };
+  }, [router]);
 
   return (
-    <>
-      {isLoggedIn ? (
-        <>{children}</>
-      ) : (
-        <Login generateAndSaveKey={generateAndSaveKey} keyError={keyError} />
-      )}
-    </>
+    <>{children}</>
   );
 }

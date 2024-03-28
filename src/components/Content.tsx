@@ -14,8 +14,9 @@ import {useWalletSelector} from "../contexts/WalletSelectorContext";
 import Button from "./button/button";
 import {getOrCreateKeypair} from "src/crypto/ed25519";
 import apiClient from "src/api";
-import {WalletSignatureData, Challenge} from "src/api/nodeApi";
+import {WalletSignatureData, NodeChallenge, Payload, SignatureMessage, SignatureMetadata, NearSignatureMessageMetadata, LoginRequest, WalletMetadata, WalletType} from "src/api/nodeApi";
 import {ResponseData} from "src/api/response";
+import {useRouter} from "next/router";
 
 export interface Message {
     premium: boolean;
@@ -27,12 +28,12 @@ export type Account = AccountView & {
     account_id: string;
 };
 
-
 const Content: React.FC = () => {
     const {selector, accounts, modal, accountId} = useWalletSelector();
     const [account, setAccount] = useState<Account | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const appName = "only-peers";
+    const router = useRouter();
 
     const getAccount = useCallback(async (): Promise<Account | null> => {
         if (!accountId) {
@@ -106,38 +107,11 @@ const Content: React.FC = () => {
         alert("Switched account to " + nextAccountId);
     };
 
-    const handleVerifyOwner = async () => {
-        const wallet = await selector.wallet();
-        try {
-            const owner = await wallet.verifyOwner({
-                message: "test message for verification",
-            });
-
-            if (owner) {
-                alert(`Signature for verification: ${ JSON.stringify(owner) }`);
-            }
-        } catch (err) {
-            const message =
-                err instanceof Error ? err.message : "Something went wrong";
-            alert(message);
-        }
-    };
-
-    async function verifyMessage(
+    const verifyMessage = useCallback(async (
         message: SignMessageParams,
         signedMessage: SignedMessage,
-    ): Promise<boolean> {
+    ): Promise<boolean> => {
         console.log("verifyMessage", {message, signedMessage});
-        const walletSignatureData: WalletSignatureData = JSON.parse(message.message);
-        if (!walletSignatureData) {
-            return false;
-        }
-
-        const loginResponse = await apiClient.node().login(walletSignatureData, signedMessage.signature, signedMessage.accountId);
-        if (loginResponse.error) {
-            console.log("login error", loginResponse.error);
-            return;
-        }
 
         const verifiedSignature = verifySignature({
             message: message.message,
@@ -155,17 +129,17 @@ const Content: React.FC = () => {
 
         const isMessageVerified = verifiedFullKeyBelongsToUser && verifiedSignature;
 
-        const alertMessage = isMessageVerified
+        const resultMessage = isMessageVerified
             ? "Successfully verified"
             : "Failed to verify";
 
-        alert(
-            `${ alertMessage } signed message: '${ message.message
+        console.log(
+            `${ resultMessage } signed message: '${ message.message
             }': \n ${ JSON.stringify(signedMessage) }`
         );
 
         return isMessageVerified;
-    };
+    }, [selector.options.network]);
 
     const verifyMessageBrowserWallet = useCallback(async () => {
         const urlParams = new URLSearchParams(
@@ -189,7 +163,7 @@ const Content: React.FC = () => {
             signature,
         };
 
-        await verifyMessage(message, signedMessage);
+        const isMessageVerified: boolean = await verifyMessage(message, signedMessage);
 
         const url = new URL(location.href);
         url.hash = "";
@@ -197,10 +171,49 @@ const Content: React.FC = () => {
         window.history.replaceState({}, document.title, url);
         localStorage.removeItem("message");
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+
+        if (isMessageVerified) {
+            const signatureMessage: SignatureMessage = JSON.parse(message.message);
+            const signatureMetadata: NearSignatureMessageMetadata = {
+                recipient: message.recipient,
+                callbackUrl: message.callbackUrl,
+                nonce: message.nonce
+            };
+            const payload: Payload = {
+                message: signatureMessage,
+                metadata: signatureMetadata
+            };
+            const walletSignatureData: WalletSignatureData = {
+                payload: payload,
+                clientPubKey: publicKey
+            };
+            const walletMetadata: WalletMetadata = {
+                type: WalletType.NEAR,
+                signingKey: publicKey
+            };
+            const loginRequest: LoginRequest = {
+                walletSignature: signature,
+                payload: walletSignatureData.payload,
+                walletMetadata: walletMetadata
+            };
+            await apiClient.node().login(loginRequest).then((result) => {
+                if (result.error) {
+                    console.error("login error", result.error);
+                    //TODO handle error
+                } else {
+                    router.push("/feed");
+                }
+            }).catch(() => {
+                console.error("error while login");
+                //TODO handle error
+            });
+        } else {
+            //TODO handle error
+        }
+    }, [router, verifyMessage]);
 
     async function handleSignMessage() {
-        const challengeResponseData: ResponseData<Challenge> = await apiClient.node().requestChallenge();
+        const challengeResponseData: ResponseData<NodeChallenge> = await apiClient.node().requestChallenge();
         const {publicKey} = await getOrCreateKeypair();
 
         if (challengeResponseData.error) {
@@ -209,13 +222,15 @@ const Content: React.FC = () => {
         }
 
         const wallet = await selector.wallet();
-        const walletSignatureData: WalletSignatureData = {
-            challenge: challengeResponseData.data,
-            clientPubKey: publicKey
-        };
-        const message: string = JSON.stringify(walletSignatureData);
         const nonce = Buffer.from(crypto.getRandomValues(new Uint8Array(32)));
         const recipient = appName;
+        const callbackUrl = location.href;
+
+        const signatureMessage: SignatureMessage = {
+            nodeSignature: challengeResponseData.data.nodeSignature,
+            clientPublicKey: publicKey
+        };
+        const message: string = JSON.stringify(signatureMessage);
 
         if (wallet.type === "browser") {
             console.log("browser");
@@ -226,7 +241,7 @@ const Content: React.FC = () => {
                     message,
                     nonce: [...nonce],
                     recipient,
-                    callbackUrl: location.href,
+                    callbackUrl,
                 })
             );
         }
@@ -238,10 +253,11 @@ const Content: React.FC = () => {
                 recipient,
             });
 
-
-            if (signedMessage) {
+            if (signedMessage) { //return void
                 console.log("signedMessage", signedMessage);
-                await verifyMessage({message, nonce, recipient}, signedMessage);
+                const isMessageVerified = await verifyMessage({message, nonce, recipient}, signedMessage);
+                console.log("isMesssss", isMessageVerified);
+                //LOGIN????
             }
 
 
@@ -275,8 +291,7 @@ const Content: React.FC = () => {
             <div className="flex space-x-2">
                 <Button onClick={handleSignOut} title="Log out" backgroundColor={""} backgroundColorHover={""} />
                 <Button onClick={handleSwitchWallet} title="Switch Wallet" backgroundColor={""} backgroundColorHover={""} />
-                <Button onClick={handleVerifyOwner} title="Verify Owner" backgroundColor={""} backgroundColorHover={""} />
-                <Button onClick={handleSignMessage} title="Sign Message" backgroundColor={""} backgroundColorHover={""} />
+                <Button onClick={handleSignMessage} title="Authenticate" backgroundColor={""} backgroundColorHover={""} />
                 {accounts.length > 1 && (
                     <Button onClick={handleSwitchAccount} title="Switch Account" backgroundColor={""} backgroundColorHover={""} />
                 )}

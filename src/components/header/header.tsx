@@ -5,17 +5,13 @@ import translations from "../../constants/en.global.json";
 import {useRouter} from "next/router";
 import {getPeerId} from "src/lib/peerId";
 import {getStorageClientKey, clearClientKey} from "src/lib/storage";
+import Button from "../button/button";
 
 export default function Header() {
   const t = translations.header;
   const router = useRouter();
   const [privateKey, _setPrivateKey] = useState(getStorageClientKey());
   const [peerId, setPeerId] = useState("");
-
-  const resetPeerId = () => {
-    clearClientKey();
-    router.reload();
-  };
 
   useEffect(() => {
     const setPeer = async () => {
@@ -26,6 +22,11 @@ export default function Header() {
       setPeer();
     }
   }, [privateKey]);
+
+  function logout() {
+    clearClientKey();
+    router.reload();
+  }
 
   return (
     <header className="border-b-2 border-[#1c2123] mx-10">
@@ -64,13 +65,19 @@ export default function Header() {
               {t.peerIdText}:{" "}
               <span
                 className="text-purple-500 pl-1"
-                onClick={() => resetPeerId()}
               >
                 {`${ peerId.slice(0, 4).toLocaleLowerCase() }...${ peerId
                   .slice(peerId.length - 4, peerId.length)
                   .toLocaleLowerCase() }`}
               </span>
             </div>
+          )}
+          {getStorageClientKey() && (
+            <Button
+              title={"LogOut"}
+              onClick={logout}
+              backgroundColor={""}
+              backgroundColorHover={""} />
           )}
         </div>
       </nav>

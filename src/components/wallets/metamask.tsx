@@ -3,7 +3,7 @@ import {MetaMaskButton, useAccount, useSDK, useSignMessage} from "@metamask/sdk-
 import {useRouter} from "next/router";
 import {useCallback, useEffect, useState} from "react";
 import apiClient from "src/api";
-import {Challenge, WalletSignatureData} from "src/api/nodeApi";
+import {EthSignatureMessageMetadata, LoginRequest, NodeChallenge, Payload, SignatureMessage, WalletMetadata, WalletSignatureData, WalletType} from "src/api/nodeApi";
 import {ResponseData} from "src/api/response";
 
 export default function LoginWithMetamask() {
@@ -13,6 +13,11 @@ export default function LoginWithMetamask() {
     const {ready} = useSDK();
     const router = useRouter();
 
+    const signatureMessage = useCallback((): string => {
+        return walletSignatureData != null ? JSON.stringify(walletSignatureData) : undefined;
+    }, [walletSignatureData]);
+
+
     const {
         data: signData,
         isError: isSignError,
@@ -20,41 +25,62 @@ export default function LoginWithMetamask() {
         isSuccess: isSignSuccess,
         signMessage,
     } = useSignMessage({
-        message: walletSignatureData != null ? JSON.stringify(walletSignatureData) : undefined,
+        message: signatureMessage(),
     });
 
     const requestNodeData = useCallback(async () => {
-        const challengeResponseData: ResponseData<Challenge> = await apiClient.node().requestChallenge();
-        const clientKey = await getOrCreateKeypair();
+        const challengeResponseData: ResponseData<NodeChallenge> = await apiClient.node().requestChallenge();
+        const {publicKey} = await getOrCreateKeypair();
 
         if (challengeResponseData.error) {
-            console.log("requestNodeData error", challengeResponseData.error);
+            console.error("requestNodeData error", challengeResponseData.error);
+            //TODO handle error
             return;
         }
 
-        setWalletSignatureData(prevState => ({
-            ...prevState,
-            challenge: challengeResponseData.data,
-            clientPubKey: clientKey.publicKey
-        }));
-
+        const signatureMessage: SignatureMessage = {
+            nodeSignature: challengeResponseData.data.nodeSignature,
+            clientPublicKey: publicKey
+        };
+        const signatureMetadata: EthSignatureMessageMetadata = {};
+        const payload: Payload = {
+            message: signatureMessage,
+            metadata: signatureMetadata
+        };
+        const wsd: WalletSignatureData = {
+            payload: payload,
+            clientPubKey: publicKey
+        };
+        setWalletSignatureData(wsd);
     }, []);
 
     const login = useCallback(async () => {
         if (!signData) {
-            console.log("signature is empty");
+            console.error("signature is empty");
+            //TODO handle error
         } else if (!address) {
-            console.log("address is empty");
+            console.error("address is empty");
+            //TODO handle error
         } else {
-            //request challenge
-            await apiClient.node().login(walletSignatureData, signData, address).then((result) => {
+            const walletMetadata: WalletMetadata = {
+                type: WalletType.ETH,
+                signingKey: address
+            };
+            const loginRequest: LoginRequest = {
+                walletSignature: signData,
+                payload: walletSignatureData.payload,
+                walletMetadata: walletMetadata
+            };
+            await apiClient.node().login(loginRequest).then((result) => {
                 if (result.error) {
-                    console.log("login error", result.error);
+                    console.error("login error", result.error);
+                    //TODO handle error
                 } else {
                     router.push("/feed");
                 }
             }).catch(() => {
-                console.log("error while login");
+                console.error("error while login");
+                //TODO handle error
             });
         }
     }, [address, router, signData, walletSignatureData]);

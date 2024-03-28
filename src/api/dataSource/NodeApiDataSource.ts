@@ -1,7 +1,6 @@
 import {HttpClient} from "../httpClient";
-import {Challenge, LoginResponse, NodeApi, WalletSignatureData} from "../nodeApi";
+import {NodeChallenge, LoginResponse, NodeApi, WalletSignatureData, LoginRequest} from "../nodeApi";
 import {ApiResponse, ResponseData} from "../response";
-
 
 export class NodeApiDataSource implements NodeApi {
     private client: HttpClient;
@@ -10,12 +9,13 @@ export class NodeApiDataSource implements NodeApi {
         this.client = client;
     }
 
-    async requestChallenge(): ApiResponse<Challenge> {
-        const apiResponse: ResponseData<Challenge> = {
+    async requestChallenge(): ApiResponse<NodeChallenge> {
+        const apiResponse: ResponseData<NodeChallenge> = {
             data: {
                 nonce: "challenge123",
                 applicationId: "app123",
-                timestamp: 123
+                timestamp: 123,
+                nodeSignature: "abcdefhgjsdajbadk"
             }
         };
         return apiResponse;
@@ -25,8 +25,8 @@ export class NodeApiDataSource implements NodeApi {
         // );
     }
 
-    async login(walletSignatureData: WalletSignatureData, signature: String, address: String): ApiResponse<LoginResponse> {
-        console.log("Send request to node with params", {walletSignatureData, signature, address});
+    async login(loginRequest: LoginRequest): ApiResponse<LoginResponse> {
+        console.log("Send request to node with params", loginRequest);
         const apiResponse: ResponseData<LoginResponse> = {
             data: {
 

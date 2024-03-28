@@ -11,6 +11,10 @@ export default function Auth() {
         router.push("/auth/metamask");
     }
 
+    function onNearSelected() {
+        router.push("/auth/near");
+    }
+
     return (
         <div className="flex w-full h-screen justify-center">
             <div className="flex justify-center items-center  ">
@@ -25,10 +29,12 @@ export default function Auth() {
                                 onClick={onMetamaskSelected}
                                 backgroundColor={""}
                                 backgroundColorHover={""} />
+                            <Button
+                                title="Login with NEAR"
+                                onClick={onNearSelected}
+                                backgroundColor={""}
+                                backgroundColorHover={""} />
                         </Fragment>
-                        <WalletSelectorContextProvider>
-                            <Content />
-                        </WalletSelectorContextProvider>
                     </div>
                 </div>
             </div >

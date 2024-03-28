@@ -4,7 +4,7 @@ enum AlgorithmType {
     Ed25519
 }
 
-enum WalletType {
+export enum WalletType {
     ETH,
     NEAR,
 }
@@ -32,22 +32,71 @@ interface VerifiablePresentation {
     signature: number[];
 }
 
-export interface Challenge {
+export interface LoginRequest {
+    walletSignature: String;
+    payload: Payload;
+    walletMetadata: WalletMetadata;
+}
+
+export interface NodeChallenge {
     nonce: String;
     applicationId: String;
     timestamp: number;
+    nodeSignature: String;
 }
 
+export interface SignatureMessage {
+    nodeSignature: String;
+    clientPublicKey: String;
+}
+
+export interface Payload {
+    message: SignatureMessage;
+    metadata: SignatureMetadata;
+}
+
+export interface WalletMetadata {
+    type: WalletType;
+    signingKey: String;
+}
+
+export interface NearMetadata extends WalletMetadata {
+    type: WalletType.NEAR;
+    signingKey: "e.g.: ed25519:DfRy7qn3upQS4KFTLChpMG9DmiR29zDMdR1YuUG7cYML";
+}
+
+export interface EthMetadata extends WalletMetadata {
+    type: WalletType.ETH;
+    signingKey: "e.g.: 0x63f9a92d8d61b48a9fff8d58080425a3012d05c8";
+}
+
+export interface SignatureMetadata {
+    //
+}
+
+export interface NearSignatureMessageMetadata extends SignatureMetadata {
+    recipient: String;
+    callbackUrl: String;
+    nonce: Buffer;
+}
+
+export interface EthSignatureMessageMetadata extends SignatureMetadata {
+    //
+}
+
+
 export interface WalletSignatureData {
-    challenge: Challenge | undefined;
+    payload: Payload | undefined;
     clientPubKey: String | undefined;
 }
+
+
 
 export interface LoginResponse {
 
 }
 
 export interface NodeApi {
-    login(walletSignatureData: WalletSignatureData, signature: String, address: String): ApiResponse<LoginResponse>;
-    requestChallenge(): ApiResponse<Challenge>;
+    login(loginRequest: LoginRequest): ApiResponse<LoginResponse>;
+    requestChallenge(): ApiResponse<NodeChallenge>;
 }

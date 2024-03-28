@@ -1,4 +1,4 @@
-export const PRIVATE_KEY = "client-key";
+export const CLIENT_KEY = "client-key";
 
 export interface ClientKey {
     privateKey: string;
@@ -6,21 +6,19 @@ export interface ClientKey {
 }
 
 export const setStorageClientKey = (clientKey: ClientKey) => {
-    localStorage.setItem(PRIVATE_KEY, JSON.stringify(clientKey));
+    localStorage.setItem(CLIENT_KEY, JSON.stringify(clientKey));
 };
 
 export const getStorageClientKey = (): ClientKey | null => {
     if (typeof window !== 'undefined' && window.localStorage) {
-        let clientKeystore: ClientKey = JSON.parse(localStorage.getItem(PRIVATE_KEY));
-        if (!clientKeystore) {
-            return null;
+        let clientKeystore: ClientKey = JSON.parse(localStorage.getItem(CLIENT_KEY));
+        if (clientKeystore) {
+            return clientKeystore;
         }
-        return clientKeystore;
-    } else {
-        return null;
     }
+    return null;
 };
 
 export const clearClientKey = () => {
-    localStorage.removeItem(PRIVATE_KEY);
+    localStorage.removeItem(CLIENT_KEY);
 };

@@ -25,22 +25,9 @@ export default function LoginWithMetamask() {
         isLoading: isSignLoading,
         isSuccess: isSignSuccess,
         signMessage,
-        variables,
     } = useSignMessage({
         message: signatureMessage(),
     });
-
-    useEffect(() => {
-
-        bla();
-
-        async function bla() {
-            let cc = JSON.stringify({nodeSignature: "abcdefhgjsdajbadk", clientPublicKey: "4XTTMH1eBALVQjZnuNGpo46QsQ76XC8MSt6zDa64NkerhaDgX"});
-            const msg = `0x${ Buffer.from("blabla", "utf8").toString("hex") }`;
-
-            console.log("heheh", msg);
-        }
-    }, []);
 
     const requestNodeData = useCallback(async () => {
         const challengeResponseData: ResponseData<NodeChallenge> = await apiClient.node().requestChallenge();
@@ -57,14 +44,13 @@ export default function LoginWithMetamask() {
             clientPublicKey: publicKey
         };
 
-
         const signatureMessageMetadata: SignatureMessageMetadata = {
             nodeSignature: challengeResponseData.data.nodeSignature,
             clientPublicKey: publicKey,
             nonce: challengeResponseData.data.nonce.toString("base64"),
             applicationId: challengeResponseData.data.applicationId,
             timestamp: challengeResponseData.data.timestamp,
-            message: "blabla"
+            message: JSON.stringify(signatureMessage)
         };
         const signatureMetadata: EthSignatureMessageMetadata = {};
         const payload: Payload = {
@@ -86,9 +72,6 @@ export default function LoginWithMetamask() {
             console.error("address is empty");
             //TODO handle error
         } else {
-
-            console.log("variables", variables);
-
             const walletMetadata: WalletMetadata = {
                 type: WalletType.ETH,
                 signingKey: address

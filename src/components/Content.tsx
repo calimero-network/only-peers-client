@@ -267,26 +267,7 @@ const Content: React.FC = () => {
             );
         }
 
-        try {
-            const signedMessage: void | SignedMessage = await wallet.signMessage({
-                message,
-                nonce,
-                recipient,
-            });
-
-            if (signedMessage) { //return void
-                console.log("signedMessage", signedMessage);
-                const isMessageVerified = await verifyMessage({message, nonce, recipient}, signedMessage);
-                console.log("isMesssss", isMessageVerified);
-                //LOGIN????
-            }
-
-
-        } catch (err) {
-            const errMsg =
-                err instanceof Error ? err.message : "Something went wrong";
-            alert(errMsg);
-        }
+        await wallet.signMessage({message, nonce, recipient, callbackUrl});
     };
 
     if (loading) {

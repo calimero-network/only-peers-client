@@ -14,7 +14,7 @@ export class NodeApiDataSource implements NodeApi {
             data: {
                 nonce: Buffer.from("challenge123"),
                 applicationId: "app123",
-                timestamp: 1717240610,
+                timestamp: Math.floor(Date.now() / 1000),
                 nodeSignature: "abcdefhgjsdajbadk"
             }
         };

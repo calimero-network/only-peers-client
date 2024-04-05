@@ -1,13 +1,14 @@
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router.js";
-import {ClientKey, getStorageClientKey} from "src/lib/storage";
+import {ClientKey, getStorageClientKey, getStorageNodeAuthorized} from "src/lib/storage";
 
 export default function WithIdAuth({children}: any) {
   const router = useRouter();
 
   useEffect(() => {
     const clientKey = getStorageClientKey();
-    if (!clientKey) {
+    const nodeAuthorized = getStorageNodeAuthorized();
+    if (!clientKey || !nodeAuthorized) {
       if (!router.pathname.startsWith("/auth")) {
         router.push("/auth");
       }

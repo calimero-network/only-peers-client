@@ -5,8 +5,8 @@ enum AlgorithmType {
 }
 
 export enum WalletType {
-    ETH,
-    NEAR,
+    ETH = "ETH",
+    NEAR = "NEAR",
 }
 
 enum VerifiableCredentialType {
@@ -39,7 +39,7 @@ export interface LoginRequest {
 }
 
 export interface NodeChallenge {
-    nonce: String;
+    nonce: Buffer;
     applicationId: String;
     timestamp: number;
     nodeSignature: String;
@@ -50,8 +50,17 @@ export interface SignatureMessage {
     clientPublicKey: String;
 }
 
+export interface SignatureMessageMetadata {
+    clientPublicKey: String;
+    nodeSignature: String;
+    nonce: String;
+    applicationId: String;
+    timestamp: number;
+    message: string; //signed message by wallet
+}
+
 export interface Payload {
-    message: SignatureMessage;
+    message: SignatureMessageMetadata;
     metadata: SignatureMetadata;
 }
 
@@ -77,7 +86,7 @@ export interface SignatureMetadata {
 export interface NearSignatureMessageMetadata extends SignatureMetadata {
     recipient: String;
     callbackUrl: String;
-    nonce: Buffer;
+    nonce: String;
 }
 
 export interface EthSignatureMessageMetadata extends SignatureMetadata {

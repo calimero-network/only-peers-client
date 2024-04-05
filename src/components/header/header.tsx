@@ -4,7 +4,7 @@ import Link from "next/link";
 import translations from "../../constants/en.global.json";
 import {useRouter} from "next/router";
 import {getPeerId} from "src/lib/peerId";
-import {getStorageClientKey, clearClientKey} from "src/lib/storage";
+import {getStorageClientKey, clearClientKey, clearNodeAuthorized} from "src/lib/storage";
 import Button from "../button/button";
 
 export default function Header() {
@@ -25,6 +25,7 @@ export default function Header() {
 
   function logout() {
     clearClientKey();
+    clearNodeAuthorized();
     router.reload();
   }
 

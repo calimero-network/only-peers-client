@@ -2,7 +2,6 @@ import {ClientKey, getStorageClientKey as getStoragePrivateKey} from '../lib/sto
 import {unmarshalPrivateKey} from "@libp2p/crypto/keys";
 import {PrivateKey} from '@libp2p/interface';
 import bs58 from 'bs58';
-import {generatePrivateKey} from './ed25519';
 
 export interface SignedMessageObject {
     signature: string;

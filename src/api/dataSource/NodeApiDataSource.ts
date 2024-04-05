@@ -12,9 +12,9 @@ export class NodeApiDataSource implements NodeApi {
     async requestChallenge(): ApiResponse<NodeChallenge> {
         const apiResponse: ResponseData<NodeChallenge> = {
             data: {
-                nonce: "challenge123",
+                nonce: Buffer.from("challenge123"),
                 applicationId: "app123",
-                timestamp: 123,
+                timestamp: 1717240610,
                 nodeSignature: "abcdefhgjsdajbadk"
             }
         };
@@ -27,11 +27,12 @@ export class NodeApiDataSource implements NodeApi {
 
     async login(loginRequest: LoginRequest): ApiResponse<LoginResponse> {
         console.log("Send request to node with params", loginRequest);
-        const apiResponse: ResponseData<LoginResponse> = {
-            data: {
 
+        return await this.client.post<LoginRequest>(
+            `http://localhost:2428/admin-api/add-client-key`,
+            {
+                ...loginRequest
             }
-        };
-        return apiResponse;
+        );
     }
 }

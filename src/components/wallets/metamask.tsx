@@ -3,8 +3,9 @@ import {MetaMaskButton, useAccount, useSDK, useSignMessage} from "@metamask/sdk-
 import {useRouter} from "next/router";
 import {useCallback, useEffect, useState} from "react";
 import apiClient from "src/api";
-import {EthSignatureMessageMetadata, LoginRequest, NodeChallenge, Payload, SignatureMessage, WalletMetadata, WalletSignatureData, WalletType} from "src/api/nodeApi";
+import {EthSignatureMessageMetadata, LoginRequest, NodeChallenge, Payload, SignatureMessage, SignatureMessageMetadata, WalletMetadata, WalletSignatureData, WalletType} from "src/api/nodeApi";
 import {ResponseData} from "src/api/response";
+import {setStorageNodeAuthorized} from "src/lib/storage";
 
 export default function LoginWithMetamask() {
     const {isConnected, address} = useAccount();
@@ -14,7 +15,7 @@ export default function LoginWithMetamask() {
     const router = useRouter();
 
     const signatureMessage = useCallback((): string => {
-        return walletSignatureData != null ? JSON.stringify(walletSignatureData) : undefined;
+        return walletSignatureData != null ? walletSignatureData?.payload.message.message : undefined;
     }, [walletSignatureData]);
 
 
@@ -24,9 +25,22 @@ export default function LoginWithMetamask() {
         isLoading: isSignLoading,
         isSuccess: isSignSuccess,
         signMessage,
+        variables,
     } = useSignMessage({
         message: signatureMessage(),
     });
+
+    useEffect(() => {
+
+        bla();
+
+        async function bla() {
+            let cc = JSON.stringify({nodeSignature: "abcdefhgjsdajbadk", clientPublicKey: "4XTTMH1eBALVQjZnuNGpo46QsQ76XC8MSt6zDa64NkerhaDgX"});
+            const msg = `0x${ Buffer.from("blabla", "utf8").toString("hex") }`;
+
+            console.log("heheh", msg);
+        }
+    }, []);
 
     const requestNodeData = useCallback(async () => {
         const challengeResponseData: ResponseData<NodeChallenge> = await apiClient.node().requestChallenge();
@@ -42,9 +56,19 @@ export default function LoginWithMetamask() {
             nodeSignature: challengeResponseData.data.nodeSignature,
             clientPublicKey: publicKey
         };
+
+
+        const signatureMessageMetadata: SignatureMessageMetadata = {
+            nodeSignature: challengeResponseData.data.nodeSignature,
+            clientPublicKey: publicKey,
+            nonce: challengeResponseData.data.nonce.toString("base64"),
+            applicationId: challengeResponseData.data.applicationId,
+            timestamp: challengeResponseData.data.timestamp,
+            message: "blabla"
+        };
         const signatureMetadata: EthSignatureMessageMetadata = {};
         const payload: Payload = {
-            message: signatureMessage,
+            message: signatureMessageMetadata,
             metadata: signatureMetadata
         };
         const wsd: WalletSignatureData = {
@@ -62,6 +86,9 @@ export default function LoginWithMetamask() {
             console.error("address is empty");
             //TODO handle error
         } else {
+
+            console.log("variables", variables);
+
             const walletMetadata: WalletMetadata = {
                 type: WalletType.ETH,
                 signingKey: address
@@ -76,6 +103,7 @@ export default function LoginWithMetamask() {
                     console.error("login error", result.error);
                     //TODO handle error
                 } else {
+                    setStorageNodeAuthorized();
                     router.push("/feed");
                 }
             }).catch(() => {
@@ -83,7 +111,7 @@ export default function LoginWithMetamask() {
                 //TODO handle error
             });
         }
-    }, [address, router, signData, walletSignatureData]);
+    }, [address, router, signData, walletSignatureData?.payload]);
 
 
     useEffect(() => {

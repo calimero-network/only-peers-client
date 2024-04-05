@@ -14,9 +14,10 @@ import {useWalletSelector} from "../contexts/WalletSelectorContext";
 import Button from "./button/button";
 import {getOrCreateKeypair} from "src/crypto/ed25519";
 import apiClient from "src/api";
-import {WalletSignatureData, NodeChallenge, Payload, SignatureMessage, SignatureMetadata, NearSignatureMessageMetadata, LoginRequest, WalletMetadata, WalletType} from "src/api/nodeApi";
+import {WalletSignatureData, NodeChallenge, Payload, SignatureMessage, SignatureMetadata, NearSignatureMessageMetadata, LoginRequest, WalletMetadata, WalletType, SignatureMessageMetadata} from "src/api/nodeApi";
 import {ResponseData} from "src/api/response";
 import {useRouter} from "next/router";
+import {setStorageNodeAuthorized} from "src/lib/storage";
 
 export interface Message {
     premium: boolean;
@@ -150,12 +151,15 @@ const Content: React.FC = () => {
         const signature = urlParams.get("signature") as string;
 
         if (!accId && !publicKey && !signature) {
+            console.error("Missing params in url.");
             return;
         }
 
         const message: SignMessageParams = JSON.parse(
             localStorage.getItem("message")!
         );
+
+        const state: SignatureMessageMetadata = JSON.parse(message.state);
 
         const signedMessage = {
             accountId: accId,
@@ -173,14 +177,13 @@ const Content: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
 
         if (isMessageVerified) {
-            const signatureMessage: SignatureMessage = JSON.parse(message.message);
             const signatureMetadata: NearSignatureMessageMetadata = {
                 recipient: message.recipient,
                 callbackUrl: message.callbackUrl,
-                nonce: message.nonce
+                nonce: message.nonce.toString("base64"),
             };
             const payload: Payload = {
-                message: signatureMessage,
+                message: state,
                 metadata: signatureMetadata
             };
             const walletSignatureData: WalletSignatureData = {
@@ -196,11 +199,14 @@ const Content: React.FC = () => {
                 payload: walletSignatureData.payload,
                 walletMetadata: walletMetadata
             };
+
             await apiClient.node().login(loginRequest).then((result) => {
+                console.log("result", result);
                 if (result.error) {
                     console.error("login error", result.error);
                     //TODO handle error
                 } else {
+                    setStorageNodeAuthorized();
                     router.push("/feed");
                 }
             }).catch(() => {
@@ -209,6 +215,7 @@ const Content: React.FC = () => {
             });
         } else {
             //TODO handle error
+            console.error("Message not verified");
         }
     }, [router, verifyMessage]);
 
@@ -225,12 +232,25 @@ const Content: React.FC = () => {
         const nonce = Buffer.from(crypto.getRandomValues(new Uint8Array(32)));
         const recipient = appName;
         const callbackUrl = location.href;
+        const applicationId = challengeResponseData.data.applicationId;
+        const nodeSignature = challengeResponseData.data.nodeSignature;
+        const timestamp = challengeResponseData.data.timestamp;
+
 
         const signatureMessage: SignatureMessage = {
-            nodeSignature: challengeResponseData.data.nodeSignature,
+            nodeSignature,
             clientPublicKey: publicKey
         };
         const message: string = JSON.stringify(signatureMessage);
+
+        const state: SignatureMessageMetadata = {
+            clientPublicKey: publicKey,
+            nodeSignature,
+            nonce: nonce.toString("base64"),
+            applicationId,
+            timestamp,
+            message
+        };
 
         if (wallet.type === "browser") {
             console.log("browser");
@@ -242,6 +262,7 @@ const Content: React.FC = () => {
                     nonce: [...nonce],
                     recipient,
                     callbackUrl,
+                    state: JSON.stringify(state),
                 })
             );
         }

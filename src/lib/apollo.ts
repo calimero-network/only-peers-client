@@ -1,6 +1,6 @@
 import {ApolloClient, InMemoryCache, HttpLink} from '@apollo/client';
 
-const APOLLO_SERVER_URL = process.env.NEXT_PUBLIC_APOLLO_SERVER_URL;
+const APOLLO_SERVER_URL = process.env['NEXT_PUBLIC_APOLLO_SERVER_URL'];
 
 const apolloClient = () => {
   return new ApolloClient({

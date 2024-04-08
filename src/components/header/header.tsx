@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 
 import Link from "next/link";
 import translations from "../../constants/en.global.json";
-import { clearIdentity, getStoragePrivateKey } from "@/lib/storage";
-import { useRouter } from "next/router";
-import { getPeerId } from "@/lib/peerId";
+import {useRouter} from "next/router";
+import {getPeerId} from "src/lib/peerId";
+import {getStorageClientKey, clearClientKey, clearNodeAuthorized} from "src/lib/storage";
+import Button from "../button/button";
 
 export default function Header() {
   const t = translations.header;
   const router = useRouter();
-  const [privateKey, _setPrivateKey] = useState(getStoragePrivateKey());
+  const [privateKey, _setPrivateKey] = useState(getStorageClientKey());
   const [peerId, setPeerId] = useState("");
-
-  const resetPeerId = () => {
-    clearIdentity();
-    router.reload();
-  };
 
   useEffect(() => {
     const setPeer = async () => {
@@ -26,6 +22,12 @@ export default function Header() {
       setPeer();
     }
   }, [privateKey]);
+
+  function logout() {
+    clearClientKey();
+    clearNodeAuthorized();
+    router.reload();
+  }
 
   return (
     <header className="border-b-2 border-[#1c2123] mx-10">
@@ -64,13 +66,19 @@ export default function Header() {
               {t.peerIdText}:{" "}
               <span
                 className="text-purple-500 pl-1"
-                onClick={() => resetPeerId()}
               >
-                {`${peerId.slice(0, 4).toLocaleLowerCase()}...${peerId
+                {`${ peerId.slice(0, 4).toLocaleLowerCase() }...${ peerId
                   .slice(peerId.length - 4, peerId.length)
-                  .toLocaleLowerCase()}`}
+                  .toLocaleLowerCase() }`}
               </span>
             </div>
+          )}
+          {getStorageClientKey() && (
+            <Button
+              title={"LogOut"}
+              onClick={logout}
+              backgroundColor={""}
+              backgroundColorHover={""} />
           )}
         </div>
       </nav>

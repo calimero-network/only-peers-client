@@ -1,6 +1,6 @@
-import {getStoragePrivateKey} from '@/lib/storage';
+import {ClientKey, getStorageClientKey as getStoragePrivateKey} from '../lib/storage';
 import {unmarshalPrivateKey} from "@libp2p/crypto/keys";
-import {PrivateKey, PublicKey} from '@libp2p/interface';
+import {PrivateKey} from '@libp2p/interface';
 import bs58 from 'bs58';
 
 export interface SignedMessageObject {
@@ -32,14 +32,15 @@ export async function signMessage(content: string): Promise<SignedMessageObject 
     };
 }
 
-export async function getPrivateKey() {
-    const privateKeyBuff = getStoragePrivateKey();
-
-    if (!privateKeyBuff) {
+export async function getPrivateKey(): Promise<PrivateKey | null> {
+    try {
+        const clientKey: ClientKey | null = getStoragePrivateKey();
+        if (!clientKey) {
+            return null;
+        }
+        return await unmarshalPrivateKey(bs58.decode(clientKey.privateKey));
+    } catch (error) {
+        console.error('Error extracting private key:', error);
         return null;
     }
-
-    const privateKey: PrivateKey = await unmarshalPrivateKey(privateKeyBuff);
-
-    return privateKey;
 }

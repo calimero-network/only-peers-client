@@ -1,15 +1,15 @@
-import Header from "@/components/header/header";
-import ExtendedPost from "@/components/post/extendedPost";
+import Header from "../../components/header/header";
+import ExtendedPost from "../../components/post/extendedPost";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import {GET_POST} from "@/graphql/queries";
-import Loader from "@/components/loader/loader";
-import ErrorPopup from "@/components/error/errorPopup";
+import {GET_POST} from "../../graphql/queries";
+import Loader from "../../components/loader/loader";
+import ErrorPopup from "../../components/error/errorPopup";
 import {useMutation, useLazyQuery} from "@apollo/client";
-import {CREATE_COMMENT} from "@/graphql/mutations";
-import {Post} from "@/types/types";
-import {SignedMessageObject, signMessage} from "@/crypto/crypto";
-import {getPeerId} from "@/lib/peerId";
+import {CREATE_COMMENT} from "../../graphql/mutations";
+import {Post} from "../../types/types";
+import {SignedMessageObject, signMessage} from "../../crypto/crypto";
+import {getPeerId} from "../../lib/peerId";
 
 export default function Post() {
   const router = useRouter();

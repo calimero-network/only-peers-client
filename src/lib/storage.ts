@@ -1,25 +1,43 @@
-import bs58 from "bs58";
+export const CLIENT_KEY = "client-key";
+export const AUTHORIZED = "node-authorized";
 
-export const PRIVATE_KEY = "privateKey";
-
-export const setStoragePrivateKey = (privateKeyBuff: Uint8Array) => {
-    const encodedPrivateKey = bs58.encode(privateKeyBuff);
-    localStorage.setItem(PRIVATE_KEY, encodedPrivateKey);
+export interface ClientKey {
+    privateKey: string;
+    publicKey: string;
 }
 
-export const getStoragePrivateKey = (): Uint8Array | null => {
+export const setStorageClientKey = (clientKey: ClientKey) => {
+    localStorage.setItem(CLIENT_KEY, JSON.stringify(clientKey));
+};
+
+export const getStorageClientKey = (): ClientKey | null => {
     if (typeof window !== 'undefined' && window.localStorage) {
-        let encodedPrivateKey = localStorage.getItem(PRIVATE_KEY);
-        if (!encodedPrivateKey) {
-            return null;
+        let clientKeystore: ClientKey = JSON.parse(localStorage.getItem(CLIENT_KEY));
+        if (clientKeystore) {
+            return clientKeystore;
         }
-        const decodedPrivateKey = new Uint8Array(bs58.decode(encodedPrivateKey));
-        return decodedPrivateKey;
-    } else {
-        return null
     }
-}
+    return null;
+};
 
-export const clearIdentity = () => {
-    localStorage.removeItem(PRIVATE_KEY);
-}
+export const clearClientKey = () => {
+    localStorage.removeItem(CLIENT_KEY);
+};
+
+export const setStorageNodeAuthorized = () => {
+    localStorage.setItem(AUTHORIZED, JSON.stringify(true));
+};
+
+export const getStorageNodeAuthorized = (): boolean | null => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+        let authorized: boolean = JSON.parse(localStorage.getItem(AUTHORIZED));
+        if (authorized) {
+            return authorized;
+        }
+    }
+    return null;
+};
+
+export const clearNodeAuthorized = () => {
+    localStorage.removeItem(AUTHORIZED);
+};

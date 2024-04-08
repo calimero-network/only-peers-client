@@ -18,6 +18,7 @@ import {WalletSignatureData, NodeChallenge, Payload, SignatureMessage, Signature
 import {ResponseData} from "src/api/response";
 import {useRouter} from "next/router";
 import {setStorageNodeAuthorized} from "src/lib/storage";
+import {Loading} from "./Loading";
 
 export interface Message {
     premium: boolean;
@@ -271,7 +272,7 @@ const Content: React.FC = () => {
     };
 
     if (loading) {
-        return null;
+        return <Loading />;
     }
 
     if (!account) {

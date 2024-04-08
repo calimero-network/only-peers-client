@@ -6,6 +6,7 @@ import apiClient from "src/api";
 import {EthSignatureMessageMetadata, LoginRequest, NodeChallenge, Payload, SignatureMessage, SignatureMessageMetadata, WalletMetadata, WalletSignatureData, WalletType} from "src/api/nodeApi";
 import {ResponseData} from "src/api/response";
 import {setStorageNodeAuthorized} from "src/lib/storage";
+import {Loading} from "../Loading";
 
 export default function LoginWithMetamask() {
     const {isConnected, address} = useAccount();
@@ -15,7 +16,7 @@ export default function LoginWithMetamask() {
     const router = useRouter();
 
     const signatureMessage = useCallback((): string => {
-        return walletSignatureData != null ? walletSignatureData?.payload.message.message : undefined;
+        return walletSignatureData ? walletSignatureData?.payload.message.message : undefined;
     }, [walletSignatureData]);
 
 
@@ -114,7 +115,7 @@ export default function LoginWithMetamask() {
     }, [address, isSignSuccess, login, signData, walletSignatureData]);
 
     if (!ready) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     return (
@@ -124,17 +125,15 @@ export default function LoginWithMetamask() {
                 <header>
                     <MetaMaskButton theme={"light"} color="white"></MetaMaskButton>
                     {isConnected && walletSignatureData && (
-                        <>
-                            <div className="mt-5">
-                                <button
-                                    disabled={isSignLoading}
-                                    onClick={() => signMessage()}
-                                >
-                                    Sign authentication transaction
-                                </button>
-                                {isSignError && <div>Error signing message</div>}
-                            </div>
-                        </>
+                        <div className="mt-5">
+                            <button
+                                disabled={isSignLoading}
+                                onClick={() => signMessage()}
+                            >
+                                Sign authentication transaction
+                            </button>
+                            {isSignError && <div>Error signing message</div>}
+                        </div>
                     )}
                 </header>
             </div>

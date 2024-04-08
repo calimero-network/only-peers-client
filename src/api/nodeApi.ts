@@ -1,7 +1,7 @@
 import {ApiResponse} from "./response";
 
 enum AlgorithmType {
-    Ed25519
+    Ed25519,
 }
 
 export enum WalletType {

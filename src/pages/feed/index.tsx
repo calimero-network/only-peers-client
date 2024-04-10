@@ -1,85 +1,53 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {Post} from "../../types/types";
-import {GET_POSTS} from "../../graphql/queries";
-import {CREATE_POST} from "../../graphql/mutations";
-import {useMutation, useLazyQuery} from "@apollo/client";
 
 import ErrorPopup from "../../components/error/errorPopup";
 import Feed from "../../components/feed/feed";
 import Header from "../../components/header/header";
 import Loader from "../../components/loader/loader";
-import {SignedMessageObject, signMessage} from "../../crypto/crypto";
+import {CreatePostRequest, FeedRequest} from "src/api/clientApi";
+import {ClientApiDataSource, getJsonRpcClient} from "src/api/dataSource/ClientApiDataSource";
 
 export default function FeedPage() {
-  const [getPosts, {loading, error: FetchError, data, refetch}] =
-    useLazyQuery(GET_POSTS);
-
-  useEffect(() => {
-    const signGetPostRequest = async () => {
-      const headers: SignedMessageObject | null = await signMessage(
-        JSON.stringify(GET_POSTS)
-      );
-      if (headers) {
-        getPosts({
-          context: {
-            headers: {
-              Signature: headers.signature,
-              Challenge: headers.challenge,
-            },
-          },
-        });
-      }
-    };
-    signGetPostRequest();
-  }, []);
-
   const [openCreatePost, setOpenCreatePost] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const [createPostMutation] = useMutation(CREATE_POST, {
-    context: {},
-    onCompleted: () => {
-      setOpenCreatePost(false);
-      refetch();
-    },
-    onError: (error) => {
-      setError(error.message);
-    },
-  });
-
-  const createPost = async (title: string, content: string) => {
-    let payload = {
-      variables: {
-        input: {
-          title,
-          content,
-        },
-      },
-      context: {},
-    };
-    const mutationHeaders = await signMessage(JSON.stringify(payload));
-
-    if (mutationHeaders) {
-      payload["context"] = {
-        headers: {
-          Signature: mutationHeaders.signature,
-          Challenge: mutationHeaders.challenge,
-        },
-      };
-      createPostMutation(payload);
+  const fetchFeed = useCallback(async (request: FeedRequest) => {
+    const response = await new ClientApiDataSource().fetchFeed(request);
+    if (response.error) {
+      setError(response.error.message);
     }
-  };
+    setPosts(response.data.slice().reverse());
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
-    if (!loading && data) {
-      const reversedPosts = data.posts.slice().reverse();
-      setPosts(reversedPosts);
+    const signGetPostRequest = async () => {
+      const feedRequest: FeedRequest = {};
+      fetchFeed({feedRequest});
+    };
+    signGetPostRequest();
+  }, [fetchFeed]);
+
+  const createPost = async (title: string, content: string) => {
+    const createPostRequest: CreatePostRequest = {
+      title,
+      content,
+    };
+    const result = await new ClientApiDataSource().createPost(createPostRequest);
+    if (result.error) {
+      setError(result.error.message);
+      return;
     }
-    if (FetchError) {
-      setError(FetchError.message);
-    }
-  }, [data, loading, FetchError]);
+
+    setOpenCreatePost(false);
+
+    //TODO solve pagination
+    const feedRequest: FeedRequest = {};
+    fetchFeed({feedRequest});
+  };
 
   return (
     <>

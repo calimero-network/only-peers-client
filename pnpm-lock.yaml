@@ -53,15 +53,9 @@ dependencies:
   bs58:
     specifier: ^5.0.0
     version: 5.0.0
-  graphql:
-    specifier: ^16.8.1
-    version: 16.8.1
-  graphql-request:
-    specifier: ^6.1.0
-    version: 6.1.0(graphql@16.8.1)
-  graphql-type-json:
-    specifier: ^0.3.2
-    version: 0.3.2(graphql@16.8.1)
+  jsonrpc-ts:
+    specifier: ^0.3.0
+    version: 0.3.0
   libp2p:
     specifier: ^1.2.4
     version: 1.3.0
@@ -80,6 +74,9 @@ dependencies:
   rxjs:
     specifier: ^7.8.1
     version: 7.8.1
+  uuid:
+    specifier: ^9.0.1
+    version: 9.0.1
 
 devDependencies:
   '@types/node':
@@ -91,6 +88,9 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18
     version: 18.2.19
+  '@types/uuid':
+    specifier: ^9.0.8
+    version: 9.0.8
   autoprefixer:
     specifier: ^10.0.1
     version: 10.4.17(postcss@8.4.35)
@@ -2519,8 +2519,8 @@ packages:
       react-copy-to-clipboard: 5.1.0(react@18.2.0)
       react-dom: 18.2.0(react@18.2.0)
       react-jazzicon: 1.0.4(react-dom@18.2.0)(react@18.2.0)
-      viem: 2.9.2(typescript@5.3.3)
-      wagmi: 1.4.12(@types/react@18.2.60)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)(typescript@5.3.3)(viem@2.9.2)
+      viem: 2.9.15(typescript@5.3.3)
+      wagmi: 1.4.12(@types/react@18.2.60)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)(typescript@5.3.3)(viem@2.9.15)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -4034,6 +4034,10 @@ packages:
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
     dev: false
 
+  /@types/uuid@9.0.8:
+    resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
+    dev: true
+
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
@@ -4124,7 +4128,7 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@wagmi/connectors@3.1.10(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.9.2):
+  /@wagmi/connectors@3.1.10(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.9.15):
     resolution: {integrity: sha512-ZLJC1QaeiZarkF07Cr9mOlVjPO1Lf5TBx+JKBms2y5fUIXlKrxCfQgO/gDCureboI+Us2X3IRI659+XacSGpbA==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -4143,7 +4147,7 @@ packages:
       abitype: 0.8.7(typescript@5.3.3)
       eventemitter3: 4.0.7
       typescript: 5.3.3
-      viem: 2.9.2(typescript@5.3.3)
+      viem: 2.9.15(typescript@5.3.3)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -4168,7 +4172,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@1.4.12(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.9.2):
+  /@wagmi/core@1.4.12(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.9.15):
     resolution: {integrity: sha512-bLcYmmGgjtl3jAGo8X3Sm6oUwsdjbVxFMu9SWnwHdE4S9JdYeWM57dEhQgq8SYul2yQ7yY2/gimBf1Or0Ky3dQ==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -4177,11 +4181,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@wagmi/connectors': 3.1.10(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.9.2)
+      '@wagmi/connectors': 3.1.10(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.9.15)
       abitype: 0.8.7(typescript@5.3.3)
       eventemitter3: 4.0.7
       typescript: 5.3.3
-      viem: 2.9.2(typescript@5.3.3)
+      viem: 2.9.15(typescript@5.3.3)
       zustand: 4.5.2(@types/react@18.2.60)(react@18.2.0)
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -7240,18 +7244,6 @@ packages:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
     dev: true
 
-  /graphql-request@6.1.0(graphql@16.8.1):
-    resolution: {integrity: sha512-p+XPfS4q7aIpKVcgmnZKhMNqhltk20hfXtkaIkTfjjmiKMJ5xrt5c743cL03y/K7y1rg3WrIC49xGiEQ4mxdNw==}
-    peerDependencies:
-      graphql: 14 - 16
-    dependencies:
-      '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.1)
-      cross-fetch: 3.1.8
-      graphql: 16.8.1
-    transitivePeerDependencies:
-      - encoding
-    dev: false
-
   /graphql-tag@2.12.6(graphql@16.8.1):
     resolution: {integrity: sha512-FdSNcu2QQcWnM2VNvSCCDCVS5PpPqpzgFT8+GXzqJuoDd0CBncxCY278u4mhRO7tMgo2JjgJA5aZ+nWSQ/Z+xg==}
     engines: {node: '>=10'}
@@ -7260,14 +7252,6 @@ packages:
     dependencies:
       graphql: 16.8.1
       tslib: 2.6.2
-    dev: false
-
-  /graphql-type-json@0.3.2(graphql@16.8.1):
-    resolution: {integrity: sha512-J+vjof74oMlCWXSvt0DOf2APEdZOCdubEvGDUAlqH//VBYcOYsGgRW7Xzorr44LvkjiuvecWc8fChxuZZbChtg==}
-    peerDependencies:
-      graphql: '>=0.8.0'
-    dependencies:
-      graphql: 16.8.1
     dev: false
 
   /graphql@16.8.1:
@@ -8241,6 +8225,15 @@ packages:
   /jsonparse@1.3.1:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
     engines: {'0': node >= 0.2.0}
+    dev: false
+
+  /jsonrpc-ts@0.3.0:
+    resolution: {integrity: sha512-aNs/CRknZh6X5OGt2waYy78Tb8R8l8NCcTg2jeyM+sXaMe4EwDKSg3QjQpYux66+MuoIoc80/w3JX+KjehF8iQ==}
+    dependencies:
+      axios: 1.6.7
+      typescript: 5.3.3
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /jsx-ast-utils@3.3.5:
@@ -11502,8 +11495,8 @@ packages:
       - zod
     dev: false
 
-  /viem@2.9.2(typescript@5.3.3):
-    resolution: {integrity: sha512-GRakUTNiYE9W+vL+Be9JkQfzWnkczerHtSpEe2JR/jEGTYZAs4shrA4WLgiaVCI9JxpnduZhQfRWNvy2dlyP2g==}
+  /viem@2.9.15(typescript@5.3.3):
+    resolution: {integrity: sha512-7kcmHqybc3JhpjL8gKY7YxBYpZt1//qhoTZIU5Ez9JdyRCnYMMnJu20s7wd7Gv6a3zPbq8jV8dCp94a/NLJJcA==}
     peerDependencies:
       typescript: '>=5.0.4'
     peerDependenciesMeta:
@@ -11538,7 +11531,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /wagmi@1.4.12(@types/react@18.2.60)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)(typescript@5.3.3)(viem@2.9.2):
+  /wagmi@1.4.12(@types/react@18.2.60)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)(typescript@5.3.3)(viem@2.9.15):
     resolution: {integrity: sha512-QRxpjhdMlZmbYTfn9VQkQMKq+l3kwA1O7tF10vaykPrjbGX+IIlyn72ib9oqW9BfQO7n/Sf/mnVz1zbxRhGPWA==}
     peerDependencies:
       react: '>=17.0.0'
@@ -11551,12 +11544,12 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.36.1
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.36.1(@tanstack/react-query@4.36.1)
-      '@wagmi/core': 1.4.12(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.9.2)
+      '@wagmi/core': 1.4.12(@types/react@18.2.60)(react@18.2.0)(typescript@5.3.3)(viem@2.9.15)
       abitype: 0.8.7(typescript@5.3.3)
       react: 18.2.0
       typescript: 5.3.3
       use-sync-external-store: 1.2.0(react@18.2.0)
-      viem: 2.9.2(typescript@5.3.3)
+      viem: 2.9.15(typescript@5.3.3)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'

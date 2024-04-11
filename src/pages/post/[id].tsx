@@ -1,15 +1,13 @@
 import Header from "../../components/header/header";
 import ExtendedPost from "../../components/post/extendedPost";
 import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
-import {GET_POST} from "../../graphql/queries";
+import {useCallback, useEffect, useState} from "react";
 import Loader from "../../components/loader/loader";
 import ErrorPopup from "../../components/error/errorPopup";
-import {useMutation, useLazyQuery} from "@apollo/client";
-import {CREATE_COMMENT} from "../../graphql/mutations";
 import {Post} from "../../types/types";
-import {SignedMessageObject, signMessage} from "../../crypto/crypto";
 import {getPeerId} from "../../lib/peerId";
+import {ClientApiDataSource} from "src/api/dataSource/ClientApiDataSource";
+import {CreateCommentRequest, PostRequest} from "src/api/clientApi";
 
 export default function Post() {
   const router = useRouter();
@@ -18,80 +16,53 @@ export default function Post() {
   const [post, setPost] = useState<Post | null>(null);
   const [openCreateComment, setOpenCreateComment] = useState(false);
   const postId = id ? parseInt(id as string, 10) : null;
-  const [getPost, {loading, error: FetchError, data, refetch}] =
-    useLazyQuery(GET_POST);
-  const [createCommentMutation] = useMutation(CREATE_COMMENT, {
-    context: {},
-    onCompleted: () => {
-      setOpenCreateComment(false);
-      refetch();
-    },
-    onError: (error) => {
-      setError(error.message);
-    },
-  });
+  const [loading, setLoading] = useState(true);
 
   const createComment = async (text: string) => {
-    const user = getPeerId();
-    let payload = {
-      variables: {
-        input: {
-          postId,
-          text,
-          user,
-        },
-      },
-      context: {},
+    const user = await getPeerId();
+    const commentRequest: CreateCommentRequest = {
+      post_id: postId,
+      text: text,
+      user: user
     };
-
-    const mutationHeaders = await signMessage(JSON.stringify(payload));
-
-    if (mutationHeaders) {
-      payload["context"] = {
-        headers: {
-          Signature: mutationHeaders.signature,
-          Challenge: mutationHeaders.challenge,
-        },
-      };
-      createCommentMutation(payload);
+    const result = await new ClientApiDataSource().createComment(commentRequest);
+    if (result.error) {
+      setError(result.error.message);
+      return;
     }
+
+    setOpenCreateComment(false);
+    // TODO implement pagination
+    fetchPost(postId);
   };
+
+  const fetchPost = useCallback(async (postId: number | null) => {
+    if (!postId) {
+      return;
+    }
+    const postRequest: PostRequest = {id: postId};
+    const result = await new ClientApiDataSource().fetchPost(postRequest);
+    if (result.error) {
+      setError(result.error.message);
+      return;
+    }
+    setPost(result.data);
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     const signGetPostRequest = async () => {
-      const headers: SignedMessageObject | null = await signMessage(
-        JSON.stringify(GET_POST)
-      );
-      if (headers) {
-        getPost({
-          variables: {id: postId},
-          context: {
-            headers: {
-              Signature: headers.signature,
-              Challenge: headers.challenge,
-            },
-          },
-        });
-      }
+      fetchPost(postId);
     };
     signGetPostRequest();
-  }, [postId]);
-
-  useEffect(() => {
-    if (id && !loading && data && data.post) {
-      setPost(data.post);
-    }
-    if (FetchError) {
-      setError(FetchError?.message);
-    }
-  }, [id, data, loading, FetchError]);
+  }, [fetchPost, postId]);
 
   return (
     <>
       <Header />
       {loading && <Loader />}
       {error && <ErrorPopup error={error} />}
-      {!loading && data && (
+      {!loading && post && (
         <ExtendedPost
           post={post}
           openCreateComment={openCreateComment}

@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "^3.9.5",
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
     "@libp2p/crypto": "^4.0.3",

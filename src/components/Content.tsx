@@ -229,7 +229,10 @@ const Content: React.FC = () => {
             return;
         }
 
-        const wallet = await selector.wallet();
+        // Comment out for now as we are not showing wallet selector
+        //const wallet = await selector.wallet();
+        // Predefine wallet selector
+        const wallet = await selector.wallet("my-near-wallet");
         const nonce = Buffer.from(crypto.getRandomValues(new Uint8Array(32)));
         const recipient = appName;
         const callbackUrl = location.href;
@@ -275,19 +278,20 @@ const Content: React.FC = () => {
         return <Loading />;
     }
 
-    if (!account) {
-        return (
-            <Fragment>
-                <div>
-                    <Button
-                        title="Log in with NEAR"
-                        onClick={handleSignIn}
-                        backgroundColor={""}
-                        backgroundColorHover={""} />
-                </div>
-            </Fragment>
-        );
-    }
+    // Comment out for now as we are not showing wallet selector
+    // if (!account) {
+    //     return (
+    //         <Fragment>
+    //             <div>
+    //                 <Button
+    //                     title="Log in with NEAR"
+    //                     onClick={handleSignIn}
+    //                     backgroundColor={""}
+    //                     backgroundColorHover={""} />
+    //             </div>
+    //         </Fragment>
+    //     );
+    // }
 
     return (
         <Fragment>

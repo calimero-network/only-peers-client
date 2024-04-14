@@ -317,33 +317,38 @@ const Content: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="flex space-x-2">
-        <Button
-          onClick={handleSignOut}
-          title="Log out"
-          backgroundColor={""}
-          backgroundColorHover={""}
-        />
-        <Button
-          onClick={handleSwitchWallet}
-          title="Switch Wallet"
-          backgroundColor={""}
-          backgroundColorHover={""}
-        />
-        <Button
-          onClick={handleSignMessage}
-          title="Authenticate"
-          backgroundColor={""}
-          backgroundColorHover={""}
-        />
-        {accounts.length > 1 && (
+      <div className="flex flex-col">
+        <div className="text-center">
+          AccountId: <span className="text-[#FF7A00]">{accountId}</span>
+        </div>
+        <div className="flex space-x-2 mt-6">
           <Button
-            onClick={handleSwitchAccount}
-            title="Switch Account"
+            onClick={handleSignOut}
+            title="Log out"
             backgroundColor={""}
             backgroundColorHover={""}
           />
-        )}
+          <Button
+            onClick={handleSwitchWallet}
+            title="Switch Wallet"
+            backgroundColor={""}
+            backgroundColorHover={""}
+          />
+          <Button
+            onClick={handleSignMessage}
+            title="Authenticate"
+            backgroundColor={""}
+            backgroundColorHover={""}
+          />
+          {accounts.length > 1 && (
+            <Button
+              onClick={handleSwitchAccount}
+              title="Switch Account"
+              backgroundColor={""}
+              backgroundColorHover={""}
+            />
+          )}
+        </div>
       </div>
     </Fragment>
   );

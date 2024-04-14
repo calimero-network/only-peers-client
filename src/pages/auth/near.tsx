@@ -1,5 +1,8 @@
 import { Fragment } from "react";
-import { WalletSelectorContextProvider } from "../../contexts/WalletSelectorContext";
+import {
+  WalletSelectorContextProvider,
+  useWalletSelector,
+} from "../../contexts/WalletSelectorContext";
 import Content from "../../components/Content";
 import NearIcon from "src/components/icons/Near";
 import CalimeroLogo from "src/components/icons/Logo";

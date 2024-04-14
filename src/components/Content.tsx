@@ -319,7 +319,7 @@ const Content: React.FC = () => {
     <Fragment>
       <div className="flex flex-col">
         <div className="text-center">
-          AccountId: <span className="text-[#FF7A00]">{accountId}</span>
+          Account Id: <span className="text-[#FF7A00]">{accountId}</span>
         </div>
         <div className="flex space-x-2 mt-6">
           <Button

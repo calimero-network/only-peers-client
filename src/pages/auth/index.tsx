@@ -43,7 +43,7 @@ export default function Auth() {
           ) : (
             <>
               <div className="w-full text-center text-white mt-6 mb-6 text-2xl font-medium">
-                Continue With wallet
+                Continue with wallet
               </div>
               <div className="flex flex-col w-full gap-2 pt-[50px]">
                 <LoginButton

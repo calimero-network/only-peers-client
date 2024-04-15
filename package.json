@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@calimero-is-near/calimero-p2p-sdk": "0.0.6",
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
     "@libp2p/crypto": "^4.0.3",

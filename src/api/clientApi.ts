@@ -1,11 +1,11 @@
 import { Post } from "src/types/types";
 import { ApiResponse } from "./response";
 
-export interface QueryPostsRequest {
+export interface FeedRequest {
     // ignore
 }
 
-export interface QueryPostRequest {
+export interface PostRequest {
     id: number;
 }
 
@@ -28,8 +28,8 @@ export enum ClientMethod {
 }
 
 export interface ClientApi {
-    queryPosts(params: QueryPostsRequest): ApiResponse<Post[]>;
-    queryPost(params: QueryPostRequest): ApiResponse<Post>;
+    fetchFeed(params: FeedRequest): ApiResponse<Post[]>;
+    fetchPost(params: PostRequest): ApiResponse<Post>;
     createPost(params: CreatePostRequest): ApiResponse<Post>;
     createComment(params: CreateCommentRequest): ApiResponse<Comment>;
 }

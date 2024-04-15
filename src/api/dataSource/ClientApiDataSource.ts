@@ -1,7 +1,7 @@
-import { ClientApi, ClientMethod, CreateCommentRequest, CreatePostRequest, QueryPostsRequest, QueryPostRequest } from "../clientApi";
+import { ClientApi, ClientMethod, CreateCommentRequest, CreatePostRequest, FeedRequest, PostRequest } from "../clientApi";
 import { ApiResponse } from "../response";
 import { Post } from "src/types/types";
-import { JsonRpcClient } from "@calimero-is-near/calimero-p2p-sdk";
+import { JsonRpcClient } from "@calimero-is-near/calimero-p2p-sdk/lib";
 
 export function getJsonRpcClient() {
     return new JsonRpcClient(
@@ -11,8 +11,8 @@ export function getJsonRpcClient() {
 }
 
 export class ClientApiDataSource implements ClientApi {
-    async queryPosts(params: QueryPostsRequest): ApiResponse<Post[]> {
-        const response = await getJsonRpcClient().query<QueryPostsRequest, Post[]>({
+    async fetchFeed(params: FeedRequest): ApiResponse<Post[]> {
+        const response = await getJsonRpcClient().query<FeedRequest, Post[]>({
             applicationId: "/calimero/experimental/app/9SFTEoc6RBHtCn9b6cm4PPmhYzrogaMCd5CRiYAQichP",
             method: ClientMethod.POSTS,
             argsJson: params
@@ -23,8 +23,8 @@ export class ClientApiDataSource implements ClientApi {
         };
     }
 
-    async queryPost(params: QueryPostRequest): ApiResponse<Post> {
-        const response = await getJsonRpcClient().query<QueryPostRequest, Post>({
+    async fetchPost(params: PostRequest): ApiResponse<Post> {
+        const response = await getJsonRpcClient().query<PostRequest, Post>({
             applicationId: "/calimero/experimental/app/9SFTEoc6RBHtCn9b6cm4PPmhYzrogaMCd5CRiYAQichP",
             method: ClientMethod.POST,
             argsJson: params

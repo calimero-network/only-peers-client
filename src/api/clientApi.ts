@@ -1,5 +1,5 @@
-import {Post} from "src/types/types";
-import {ApiResponse} from "./response";
+import { Post } from "src/types/types";
+import { ApiResponse } from "./response";
 
 export interface FeedRequest {
     // ignore
@@ -29,7 +29,7 @@ export enum ClientMethod {
 
 export interface ClientApi {
     fetchFeed(params: FeedRequest): ApiResponse<Post[]>;
+    fetchPost(params: PostRequest): ApiResponse<Post>;
     createPost(params: CreatePostRequest): ApiResponse<Post>;
     createComment(params: CreateCommentRequest): ApiResponse<Comment>;
-    fetchPost(params: PostRequest): ApiResponse<Post>;
 }

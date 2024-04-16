@@ -16,7 +16,7 @@ export class NodeApiDataSource implements NodeApi {
 
   async requestChallenge(): ApiResponse<NodeChallenge> {
     return await this.client.post<NodeChallenge>(
-      `http://localhost:2428/admin-api/request-challenge`,
+      `${process.env["NEXT_PUBLIC_RPC_BASE_URL"]}/admin-api/request-challenge`,
       {
         applicationId: process.env["NEXT_APPLICATION_ID"],
       }
@@ -27,7 +27,7 @@ export class NodeApiDataSource implements NodeApi {
     console.log("Send request to node with params", loginRequest);
 
     return await this.client.post<LoginRequest>(
-      `http://localhost:2428/admin-api/add-client-key`,
+      `${process.env["NEXT_PUBLIC_RPC_BASE_URL"]}/admin-api/add-client-key`,
       {
         ...loginRequest,
       }

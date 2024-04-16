@@ -10,10 +10,12 @@ export function getJsonRpcClient() {
     );
 }
 
+const applicationId = process.env["NEXT_APPLICATION_ID"]
+
 export class ClientApiDataSource implements ClientApi {
     async fetchFeed(params: FeedRequest): ApiResponse<Post[]> {
         const response = await getJsonRpcClient().query<FeedRequest, Post[]>({
-            applicationId: "/calimero/experimental/app/9SFTEoc6RBHtCn9b6cm4PPmhYzrogaMCd5CRiYAQichP",
+            applicationId: applicationId,
             method: ClientMethod.POSTS,
             argsJson: params
         });
@@ -25,7 +27,7 @@ export class ClientApiDataSource implements ClientApi {
 
     async fetchPost(params: PostRequest): ApiResponse<Post> {
         const response = await getJsonRpcClient().query<PostRequest, Post>({
-            applicationId: "/calimero/experimental/app/9SFTEoc6RBHtCn9b6cm4PPmhYzrogaMCd5CRiYAQichP",
+            applicationId: applicationId,
             method: ClientMethod.POST,
             argsJson: params
         });
@@ -37,7 +39,7 @@ export class ClientApiDataSource implements ClientApi {
 
     async createPost(params: CreatePostRequest): ApiResponse<Post> {
         const response = await getJsonRpcClient().mutate<CreatePostRequest, Post>({
-            applicationId: "/calimero/experimental/app/9SFTEoc6RBHtCn9b6cm4PPmhYzrogaMCd5CRiYAQichP",
+            applicationId: applicationId,
             method: ClientMethod.CREATE_POST,
             argsJson: params
         });
@@ -49,7 +51,7 @@ export class ClientApiDataSource implements ClientApi {
 
     async createComment(params: CreateCommentRequest): ApiResponse<Comment> {
         const response = await getJsonRpcClient().mutate<CreateCommentRequest, Comment>({
-            applicationId: "/calimero/experimental/app/9SFTEoc6RBHtCn9b6cm4PPmhYzrogaMCd5CRiYAQichP",
+            applicationId: applicationId,
             method: ClientMethod.CREATE_COMMENT,
             argsJson: params
         });

@@ -17,7 +17,6 @@ import {
   NodeChallenge,
   Payload,
   SignatureMessage,
-  SignatureMetadata,
   NearSignatureMessageMetadata,
   LoginRequest,
   WalletMetadata,
@@ -43,7 +42,7 @@ const Content: React.FC = () => {
   const { selector, accounts, modal, accountId } = useWalletSelector();
   const [account, setAccount] = useState<Account | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const appName = "only-peers";
+  const appName = "me";
   const router = useRouter();
 
   const getAccount = useCallback(async (): Promise<Account | null> => {
@@ -256,7 +255,11 @@ const Content: React.FC = () => {
     //const wallet = await selector.wallet();
     // Predefine wallet selector
     const wallet = await selector.wallet("my-near-wallet");
-    const nonce = Buffer.from(crypto.getRandomValues(new Uint8Array(32)));
+
+    const nonce: Buffer = Buffer.from(
+      challengeResponseData.data.nonce,
+      "base64"
+    );
     const recipient = appName;
     const callbackUrl = location.href;
     const applicationId = challengeResponseData.data.applicationId;

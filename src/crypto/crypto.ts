@@ -11,20 +11,13 @@ export enum WalletType {
   ETH = "ETH",
 }
 
-export interface Header {
+export interface AxiosHeader {
   [key: string]: string;
-}
-
-export interface AuthHeader {
-  walletTypeHeader: Header;
-  signingKeyHeader: Header;
-  signatureHeader: Header;
-  challengeHeader: Header;
 }
 
 export async function createAuthHeader(
   payload: string
-): Promise<AuthHeader | null> {
+): Promise<AxiosHeader | null> {
   const privateKey: PrivateKey = await getPrivateKey();
 
   if (!privateKey) {
@@ -43,28 +36,14 @@ export async function createAuthHeader(
   const signatureBase58 = bs58.encode(signature);
   const contentBase58 = bs58.encode(hashArray);
 
-  let walletTypeHeader: Header = {
+  const headers: AxiosHeader = {
     wallet_type: WalletType.NEAR,
-  };
-
-  let signingKeyHeader: Header = {
     signing_key: signing_key,
-  };
-
-  let challengeHeader: Header = {
+    signature: signatureBase58,
     challenge: contentBase58,
   };
 
-  let signatureHeader: Header = {
-    signature: signatureBase58,
-  };
-
-  return {
-    walletTypeHeader,
-    signingKeyHeader,
-    signatureHeader,
-    challengeHeader,
-  };
+  return headers;
 }
 
 export async function getPrivateKey(): Promise<PrivateKey | null> {

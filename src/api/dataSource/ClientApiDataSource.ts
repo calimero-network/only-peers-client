@@ -12,8 +12,7 @@ import {
   JsonRpcClient,
   RequestConfig,
 } from "@calimero-is-near/calimero-p2p-sdk/lib";
-import { AxiosHeaders } from "axios";
-import { createAuthHeader } from "src/crypto/crypto";
+import { AxiosHeader, createAuthHeader } from "src/crypto/crypto";
 
 export function getJsonRpcClient() {
   return new JsonRpcClient(
@@ -26,66 +25,46 @@ const applicationId = process.env["NEXT_PUBLIC_APPLICATION_ID"];
 
 export class ClientApiDataSource implements ClientApi {
   async fetchFeed(params: FeedRequest): ApiResponse<Post[]> {
-    const authHeaders = await createAuthHeader(JSON.stringify(params));
-
-    const headers = new AxiosHeaders();
-    headers.set(
-      "wallet_type",
-      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
-      true
+    const authHeaders: AxiosHeader = await createAuthHeader(
+      JSON.stringify(params)
     );
-    headers.set("signing_key", "s");
-    headers.set("signature", "ss");
-    headers.set("challenge", "xx");
-    headers.set("Authorization", "dinamo");
-
-    console.log("headers", headers);
 
     const config: RequestConfig = {
-      headers: headers,
+      headers: authHeaders,
     };
 
-    let params22: CreatePostRequest = {
-      title: "ddd",
-      content: "sss",
-    };
-
-    const response = await getJsonRpcClient().mutate<CreatePostRequest, Post>(
+    const response = await getJsonRpcClient().query<FeedRequest, Post[]>(
       {
         applicationId: applicationId,
-        method: ClientMethod.CREATE_POST,
-        argsJson: params22,
+        method: ClientMethod.POSTS,
+        argsJson: params,
       },
       config
     );
+
     return {
-      data: [],
+      data: response.result.output,
       error: null,
     };
-
-    // const response = await getJsonRpcClient().query<FeedRequest, Post[]>(
-    //   {
-    //     applicationId: applicationId,
-    //     method: ClientMethod.POSTS,
-    //     argsJson: params,
-    //   },
-    //   config
-    // );
-
-    // console.log("response", response);
-
-    // return {
-    //   data: response.result.output,
-    //   error: null,
-    // };
   }
 
   async fetchPost(params: PostRequest): ApiResponse<Post> {
-    const response = await getJsonRpcClient().query<PostRequest, Post>({
-      applicationId: applicationId,
-      method: ClientMethod.POST,
-      argsJson: params,
-    });
+    const authHeaders: AxiosHeader = await createAuthHeader(
+      JSON.stringify(params)
+    );
+
+    const config: RequestConfig = {
+      headers: authHeaders,
+    };
+
+    const response = await getJsonRpcClient().query<PostRequest, Post>(
+      {
+        applicationId: applicationId,
+        method: ClientMethod.POST,
+        argsJson: params,
+      },
+      config
+    );
     return {
       data: response.result.output,
       error: null,
@@ -93,11 +72,22 @@ export class ClientApiDataSource implements ClientApi {
   }
 
   async createPost(params: CreatePostRequest): ApiResponse<Post> {
-    const response = await getJsonRpcClient().mutate<CreatePostRequest, Post>({
-      applicationId: applicationId,
-      method: ClientMethod.CREATE_POST,
-      argsJson: params,
-    });
+    const authHeaders: AxiosHeader = await createAuthHeader(
+      JSON.stringify(params)
+    );
+
+    const config: RequestConfig = {
+      headers: authHeaders,
+    };
+
+    const response = await getJsonRpcClient().mutate<CreatePostRequest, Post>(
+      {
+        applicationId: applicationId,
+        method: ClientMethod.CREATE_POST,
+        argsJson: params,
+      },
+      config
+    );
     return {
       data: response.result.output,
       error: null,
@@ -105,14 +95,25 @@ export class ClientApiDataSource implements ClientApi {
   }
 
   async createComment(params: CreateCommentRequest): ApiResponse<Comment> {
+    const authHeaders: AxiosHeader = await createAuthHeader(
+      JSON.stringify(params)
+    );
+
+    const config: RequestConfig = {
+      headers: authHeaders,
+    };
+
     const response = await getJsonRpcClient().mutate<
       CreateCommentRequest,
       Comment
-    >({
-      applicationId: applicationId,
-      method: ClientMethod.CREATE_COMMENT,
-      argsJson: params,
-    });
+    >(
+      {
+        applicationId: applicationId,
+        method: ClientMethod.CREATE_COMMENT,
+        argsJson: params,
+      },
+      config
+    );
     return {
       data: response.result.output,
       error: null,

@@ -68,7 +68,7 @@ export default function LoginWithMetamask() {
     const signatureMessageMetadata: SignatureMessageMetadata = {
       nodeSignature: challengeResponseData.data.nodeSignature,
       clientPublicKey: publicKey,
-      nonce: challengeResponseData.data.nonce.toString("base64"),
+      nonce: challengeResponseData.data.nonce,
       applicationId: challengeResponseData.data.applicationId,
       timestamp: challengeResponseData.data.timestamp,
       message: JSON.stringify(signatureMessage),

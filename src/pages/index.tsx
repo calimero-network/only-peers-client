@@ -15,7 +15,7 @@ export default function Index() {
     }, [clientKey, router]);
 
     return (
-        <> </>
+        <></>
     );
 
 }

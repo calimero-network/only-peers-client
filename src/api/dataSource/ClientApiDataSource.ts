@@ -43,9 +43,10 @@ export class ClientApiDataSource implements ClientApi {
     );
 
     return {
-      data: response.result.output,
+      data: response.result?.output ?? [],
       error: null,
     };
+
   }
 
   async fetchPost(params: PostRequest): ApiResponse<Post> {
@@ -66,7 +67,7 @@ export class ClientApiDataSource implements ClientApi {
       config
     );
     return {
-      data: response.result.output,
+      data: response?.result?.output,
       error: null,
     };
   }
@@ -89,7 +90,7 @@ export class ClientApiDataSource implements ClientApi {
       config
     );
     return {
-      data: response.result.output,
+      data: response?.result?.output,
       error: null,
     };
   }
@@ -115,7 +116,7 @@ export class ClientApiDataSource implements ClientApi {
       config
     );
     return {
-      data: response.result.output,
+      data: response?.result?.output,
       error: null,
     };
   }

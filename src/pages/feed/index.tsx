@@ -18,6 +18,7 @@ export default function FeedPage() {
     const response = await new ClientApiDataSource().fetchFeed(request);
     if (response.error) {
       setError(response.error.message);
+      setLoading(false);
     }
     setPosts(response.data.slice().reverse());
     setLoading(false);

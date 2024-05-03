@@ -5,7 +5,6 @@ import translations from "../../constants/en.global.json";
 import {useRouter} from "next/router";
 import {getPeerId} from "src/lib/peerId";
 import {getStorageClientKey, clearClientKey, clearNodeAuthorized} from "src/lib/storage";
-import Button from "../button/button";
 
 export default function Header() {
   const t = translations.header;
@@ -66,19 +65,13 @@ export default function Header() {
               {t.peerIdText}:{" "}
               <span
                 className="text-purple-500 pl-1"
+                onClick={logout}
               >
                 {`${ peerId.slice(0, 4).toLocaleLowerCase() }...${ peerId
                   .slice(peerId.length - 4, peerId.length)
                   .toLocaleLowerCase() }`}
               </span>
             </div>
-          )}
-          {getStorageClientKey() && (
-            <Button
-              title={"LogOut"}
-              onClick={logout}
-              backgroundColor={""}
-              backgroundColorHover={""} />
           )}
         </div>
       </nav>

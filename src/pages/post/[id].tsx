@@ -9,7 +9,7 @@ import { getPeerId } from "../../lib/peerId";
 import { ClientApiDataSource } from "src/api/dataSource/ClientApiDataSource";
 import { CreateCommentRequest, PostRequest } from "src/api/clientApi";
 
-export default function Post() {
+export default function PostPage() {
   const router = useRouter();
   const { id } = router.query;
   const [error, setError] = useState("");
@@ -23,9 +23,11 @@ export default function Post() {
     const commentRequest: CreateCommentRequest = {
       post_id: postId,
       text: text,
-      user: user
+      user: user,
     };
-    const result = await new ClientApiDataSource().createComment(commentRequest);
+    const result = await new ClientApiDataSource().createComment(
+      commentRequest
+    );
     if (result.error) {
       setError(result.error.message);
       return;

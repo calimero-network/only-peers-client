@@ -9,7 +9,7 @@ runs:
         node-version-file: ".nvmrc"
 
     - name: Install pnpm
-        run: npm install -g pnpm
+      run: npm install -g pnpm
 
     - name: Cache dependencies ⚡
       id: cache_dependencies

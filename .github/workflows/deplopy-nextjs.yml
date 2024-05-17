@@ -63,7 +63,7 @@ jobs:
         run: ${{ steps.set-package-manager.outputs.runner }} next build
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           name: build
           path: .next

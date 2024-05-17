@@ -10,6 +10,7 @@ runs:
 
     - name: Install pnpm
       run: npm install -g pnpm
+      shell: bash
 
     - name: Cache dependencies ⚡
       id: cache_dependencies
@@ -21,4 +22,4 @@ runs:
     - name: Install dependencies 🔧
       shell: bash
       if: steps.cache_dependencies.outputs.cache-hit != 'true'
-      run: pnpm install
+      run: pnpm install --frozen-lockfile

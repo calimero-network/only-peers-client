@@ -11,6 +11,11 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+permissions:
+  id-token: write
+  contents: write
+  pages: write
+
 jobs:
   # Build job
   build:

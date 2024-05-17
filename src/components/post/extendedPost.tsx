@@ -1,6 +1,6 @@
-import {ChatBubbleLeftIcon} from "@heroicons/react/24/outline";
-import {Post} from "../../types/types";
-import Comment from "./comment";
+import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
+import { Post } from "../../types/types";
+import CommentComponent from "./comment";
 import CreateCommentPopup from "./createCommentPopup";
 import translations from "../../constants/en.global.json";
 import Button from "../button/button";
@@ -46,7 +46,7 @@ export default function ExtendedPost({
             <div className="mt-4">
               {post.comments.map((commentItem, id) => (
                 <div key={id}>
-                  <Comment commentItem={commentItem} />
+                  <CommentComponent commentItem={commentItem} />
                 </div>
               ))}
             </div>

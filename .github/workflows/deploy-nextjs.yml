@@ -31,7 +31,6 @@ jobs:
         id: set-package-manager
         run: |
           echo "manager=pnpm" >> $GITHUB_ENV
-          echo "command=install" >> $GITHUB_ENV
           echo "runner=pnpm" >> $GITHUB_ENV
 
       - name: Setup Node
@@ -57,10 +56,10 @@ jobs:
           restore-keys: ${{ runner.os }}-nextjs-
 
       - name: Install dependencies
-        run: ${{ steps.set-package-manager.outputs.manager }} ${{ steps.set-package-manager.outputs.command }}
+        run: ${{ steps.set-package-manager.outputs.manager }} install
 
       - name: Build with Next.js
-        run: ${{ steps.set-package-manager.outputs.runner }} run build
+        run: ${{ steps.set-package-manager.outputs.runner }} build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

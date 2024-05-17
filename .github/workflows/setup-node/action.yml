@@ -19,5 +19,6 @@ runs:
         key: node-modules-${{ hashFiles('pnpm-lock.json') }}
 
     - name: Install dependencies 🔧
+      shell: bash
       if: steps.cache_dependencies.outputs.cache-hit != 'true'
       run: pnpm install

@@ -27,17 +27,11 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Set package manager
-        id: set-package-manager
-        run: |
-          echo "manager=pnpm" >> $GITHUB_ENV
-          echo "runner=pnpm" >> $GITHUB_ENV
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: ${{ steps.set-package-manager.outputs.manager }}
+          cache: pnpm
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -56,10 +50,10 @@ jobs:
           restore-keys: ${{ runner.os }}-nextjs-
 
       - name: Install dependencies
-        run: ${{ steps.set-package-manager.outputs.manager }} install
+        run: pnpm install
 
       - name: Build with Next.js
-        run: ${{ steps.set-package-manager.outputs.runner }} build
+        run: pnpm build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

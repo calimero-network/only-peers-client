@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: build
-          path: .next
+          path: ./build
 
   deploy:
     environment:
@@ -71,4 +71,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .next
+          publish_dir: ./build

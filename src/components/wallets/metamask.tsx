@@ -22,7 +22,6 @@ import {
 import { ResponseData } from "src/api/response";
 import { setStorageNodeAuthorized } from "src/lib/storage";
 import { Loading } from "../Loading";
-import OnlyPeers from "../icons/Onlypeers";
 
 export default function LoginWithMetamask() {
   const { isConnected, address } = useAccount();
@@ -144,9 +143,6 @@ export default function LoginWithMetamask() {
   return (
     <div className="flex flex-col align-middle p-2">
       <div className="flex justify-center items-center gap-3 px-14">
-        <div>
-          <OnlyPeers />
-        </div>
         <div className="text-white text-4xl font-semibold">Only Peers</div>
       </div>
       <div className="mt-6 grid text-white text-2xl font-medium leading-6 text-center">

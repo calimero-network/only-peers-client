@@ -5,7 +5,6 @@ import LoginButton from "src/components/button/LoginButton";
 import CalimeroLogo from "src/components/icons/Logo";
 import Metamask from "src/components/icons/Metamask";
 import NearIcon from "src/components/icons/Near";
-import OnlyPeers from "src/components/icons/Onlypeers";
 import Spinner from "src/components/icons/Spinner";
 import { WalletSelectorContextProvider } from "src/contexts/WalletSelectorContext";
 
@@ -28,9 +27,6 @@ export default function Auth() {
       <div className="flex flex-col justify-center items-center">
         <div className="items-center bg-[#1C1C1C] p-8 gap-y-4 rounded-lg">
           <div className="flex justify-center items-center gap-3 px-14">
-            <div>
-              <OnlyPeers />
-            </div>
             <div className="text-white text-4xl font-semibold">Only Peers</div>
           </div>
           {loading ? (

@@ -1,10 +1,15 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 import Link from "next/link";
 import translations from "../../constants/en.global.json";
-import {useRouter} from "next/router";
-import {getPeerId} from "src/lib/peerId";
-import {getStorageClientKey, clearClientKey, clearNodeAuthorized} from "src/lib/storage";
+import { useRouter } from "next/router";
+import { getPeerId } from "src/lib/peerId";
+import {
+  getStorageClientKey,
+  clearClientKey,
+  clearNodeAuthorized,
+  clearAppEndpoint,
+} from "src/lib/storage";
 
 export default function Header() {
   const t = translations.header;
@@ -25,6 +30,7 @@ export default function Header() {
   function logout() {
     clearClientKey();
     clearNodeAuthorized();
+    clearAppEndpoint();
     router.reload();
   }
 
@@ -48,13 +54,10 @@ export default function Header() {
           {peerId && (
             <div className="text-sm font-semibold leading-6 text-white cursor-pointer">
               {t.peerIdText}:{" "}
-              <span
-                className="text-purple-500 pl-1"
-                onClick={logout}
-              >
-                {`${ peerId.slice(0, 4).toLocaleLowerCase() }...${ peerId
+              <span className="text-purple-500 pl-1" onClick={logout}>
+                {`${peerId.slice(0, 4).toLocaleLowerCase()}...${peerId
                   .slice(peerId.length - 4, peerId.length)
-                  .toLocaleLowerCase() }`}
+                  .toLocaleLowerCase()}`}
               </span>
             </div>
           )}

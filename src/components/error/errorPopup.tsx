@@ -6,7 +6,7 @@ import translations from "../../constants/en.global.json";
 import Button from "../button/button";
 
 interface ErrorPopupProps {
-  error: string;
+  error: String;
 }
 
 export default function ErrorPopup(props: ErrorPopupProps) {

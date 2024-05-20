@@ -1,9 +1,12 @@
+import { getAppEndpointKey } from "src/lib/storage";
 import { HttpClient } from "../httpClient";
 import {
   NodeChallenge,
   LoginResponse,
   NodeApi,
   LoginRequest,
+  HealthRequest,
+  HealthStatus,
 } from "../nodeApi";
 import { ApiResponse } from "../response";
 
@@ -16,7 +19,7 @@ export class NodeApiDataSource implements NodeApi {
 
   async requestChallenge(): ApiResponse<NodeChallenge> {
     return await this.client.post<NodeChallenge>(
-      `${process.env["NEXT_PUBLIC_RPC_BASE_URL"]}/admin-api/request-challenge`,
+      `${getAppEndpointKey()}/admin-api/request-challenge`,
       {
         applicationId: process.env["NEXT_APPLICATION_ID"],
       }
@@ -27,10 +30,16 @@ export class NodeApiDataSource implements NodeApi {
     console.log("Send request to node with params", loginRequest);
 
     return await this.client.post<LoginRequest>(
-      `${process.env["NEXT_PUBLIC_RPC_BASE_URL"]}/admin-api/add-client-key`,
+      `${getAppEndpointKey()}/admin-api/add-client-key`,
       {
         ...loginRequest,
       }
+    );
+  }
+
+  async health(request: HealthRequest): ApiResponse<HealthStatus> {
+    return await this.client.get<HealthStatus>(
+      `${request.url}/admin-api/health`
     );
   }
 }

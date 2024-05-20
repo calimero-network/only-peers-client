@@ -100,7 +100,16 @@ export interface WalletSignatureData {
 
 export interface LoginResponse {}
 
+export interface HealthRequest {
+  url: String;
+}
+
+export interface HealthStatus {
+  status: String;
+}
+
 export interface NodeApi {
   login(loginRequest: LoginRequest): ApiResponse<LoginResponse>;
   requestChallenge(): ApiResponse<NodeChallenge>;
+  health(request: HealthRequest): ApiResponse<HealthStatus>;
 }

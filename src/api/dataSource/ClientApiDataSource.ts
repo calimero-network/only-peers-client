@@ -13,10 +13,11 @@ import {
   RequestConfig,
 } from "@calimero-is-near/calimero-p2p-sdk/lib";
 import { AxiosHeader, createAuthHeader } from "src/crypto/crypto";
+import { getAppEndpointKey } from "src/lib/storage";
 
 export function getJsonRpcClient() {
   return new JsonRpcClient(
-    process.env["NEXT_PUBLIC_RPC_BASE_URL"],
+    getAppEndpointKey()?.toString(),
     process.env["NEXT_PUBLIC_RPC_PATH"]
   );
 }
@@ -46,7 +47,6 @@ export class ClientApiDataSource implements ClientApi {
       data: response.result?.output ?? [],
       error: null,
     };
-
   }
 
   async fetchPost(params: PostRequest): ApiResponse<Post> {

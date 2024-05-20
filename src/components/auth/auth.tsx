@@ -1,14 +1,24 @@
-import {useEffect, useState} from "react";
-import {useRouter} from "next/router.js";
-import {ClientKey, getStorageClientKey, getStorageNodeAuthorized} from "src/lib/storage";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router.js";
+import {
+  getAppEndpointKey,
+  getStorageClientKey,
+  getStorageNodeAuthorized,
+} from "src/lib/storage";
 
-export default function WithIdAuth({children}: any) {
+export default function WithIdAuth({ children }: any) {
   const router = useRouter();
 
   useEffect(() => {
     const clientKey = getStorageClientKey();
     const nodeAuthorized = getStorageNodeAuthorized();
-    if (!clientKey || !nodeAuthorized) {
+    const url = getAppEndpointKey();
+
+    if (!url) {
+      if (!router.pathname.startsWith("/setup")) {
+        router.push("/setup");
+      }
+    } else if (!clientKey || !nodeAuthorized) {
       if (!router.pathname.startsWith("/auth")) {
         router.push("/auth");
       }
@@ -17,7 +27,5 @@ export default function WithIdAuth({children}: any) {
     }
   }, [router]);
 
-  return (
-    <>{children}</>
-  );
+  return <>{children}</>;
 }

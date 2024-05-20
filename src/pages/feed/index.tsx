@@ -6,7 +6,7 @@ import Feed from "../../components/feed/feed";
 import Header from "../../components/header/header";
 import Loader from "../../components/loader/loader";
 import { CreatePostRequest, FeedRequest } from "src/api/clientApi";
-import { ClientApiDataSource, getJsonRpcClient } from "src/api/dataSource/ClientApiDataSource";
+import { ClientApiDataSource } from "src/api/dataSource/ClientApiDataSource";
 
 export default function FeedPage() {
   const [openCreatePost, setOpenCreatePost] = useState(false);
@@ -37,7 +37,9 @@ export default function FeedPage() {
       title,
       content,
     };
-    const result = await new ClientApiDataSource().createPost(createPostRequest);
+    const result = await new ClientApiDataSource().createPost(
+      createPostRequest
+    );
     if (result.error) {
       setError(result.error.message);
       return;

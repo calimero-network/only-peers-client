@@ -15,7 +15,7 @@ export default function SetupPage() {
   );
   const MINIMUM_LOADING_TIME = 2000; // Minimum loading time in milliseconds (e.g., 2 seconds)
 
-  function validateUrl(value: string | URL): boolean {
+  function validateUrl(value: string): boolean {
     try {
       new URL(value);
       return true;
@@ -31,7 +31,8 @@ export default function SetupPage() {
   };
 
   const checkConnection = useCallback(async () => {
-    if (validateUrl(url)) {
+    if (!url) return;
+    if (validateUrl(url.toString())) {
       setLoading(true);
       const timer = new Promise((resolve) =>
         setTimeout(resolve, MINIMUM_LOADING_TIME)

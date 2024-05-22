@@ -1,28 +1,28 @@
-import { Fragment } from "react";
-import {
-  WalletSelectorContextProvider,
-  useWalletSelector,
-} from "../../contexts/WalletSelectorContext";
-import Content from "../../components/Content";
-import NearIcon from "src/components/icons/Near";
+import { WalletSelectorContextProvider } from "@calimero-is-near/calimero-p2p-sdk/lib/wallet/NearLogin/WalletSelectorContext";
+import NearLogin from "@calimero-is-near/calimero-p2p-sdk/lib/wallet/NearLogin/NearLogin";
 import CalimeroLogo from "src/components/icons/Logo";
+import { useRouter } from "next/router";
+import { nodeConfig } from "src/utils/nodeConfig";
+import { NetworkId } from "@near-wallet-selector/core/src";
+
+import "@near-wallet-selector/modal-ui/styles.css";
 
 export default function Near() {
+  const router = useRouter();
+  
   return (
     <div className="flex w-full h-screen justify-center bg-[#111111]">
       <div className="flex flex-col justify-center items-center">
-        <div className="items-center bg-[#1C1C1C] p-8 gap-y-4 rounded-lg">
-          <div className="flex justify-center items-center w-full gap-2">
-            <div className="text-white text-4xl font-semibold">NEAR Wallet</div>
-          </div>
-          <div className="flex mt-6 space-x-4 text-white justify-center">
-            <Fragment>
-              <WalletSelectorContextProvider>
-                <Content />
-              </WalletSelectorContextProvider>
-            </Fragment>
-          </div>
-        </div>
+        <WalletSelectorContextProvider network={nodeConfig.network as NetworkId}>
+          <NearLogin
+            appId={nodeConfig.applicationId}
+            rpcBaseUrl={nodeConfig.nodeServerUrl}
+            successRedirect={() => router.push("/feed")}
+            navigateBack={() => router.push("/auth")}
+            cardBackgroundColor={"#1C1C1C"}
+            nearTitleColor={"white"}
+          />
+        </WalletSelectorContextProvider>
         <div className="mt-6">
           <CalimeroLogo />
         </div>

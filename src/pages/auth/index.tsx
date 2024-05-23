@@ -1,10 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import LoginButton from "src/components/button/LoginButton";
-import Header from "src/components/header/header";
 import CalimeroLogo from "src/components/icons/Logo";
-import Metamask from "src/components/icons/Metamask";
-import NearIcon from "src/components/icons/Near";
+import LoginSelector from "@calimero-is-near/calimero-p2p-sdk/lib/wallet/LoginSelector";
 import Spinner from "src/components/icons/Spinner";
 import { clearAppEndpoint } from "src/lib/storage";
 
@@ -54,25 +51,11 @@ export default function Auth() {
                 </div>
               ) : (
                 <>
-                  <div className="w-full text-center text-white mt-6 mb-6 text-2xl font-medium">
-                    Continue with wallet
-                  </div>
-                  <div className="flex flex-col w-full gap-2 pt-[50px]">
-                    <LoginButton
-                      title="Metamask"
-                      onClick={onMetamaskSelected}
-                      backgroundColor={"bg-[#FF7A00]"}
-                      textColor={"text-white"}
-                      icon={<Metamask />}
-                    />
-                    <LoginButton
-                      title="Near Wallet"
-                      onClick={onNearSelected}
-                      backgroundColor={"bg-[#D1D5DB]"}
-                      textColor={"text-black"}
-                      icon={<NearIcon />}
-                    />
-                  </div>
+                  <LoginSelector
+                    navigateMetamaskLogin={onMetamaskSelected}
+                    navigateNearLogin={onNearSelected}
+                    cardBackgroundColor={""}
+                  />
                 </>
               )}
             </div>

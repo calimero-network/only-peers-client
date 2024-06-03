@@ -36,7 +36,7 @@ jobs:
         run: pnpm install
 
       - name: Build with Next.js
-        run: exit 1
+        run: pnpm build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -73,7 +73,7 @@ jobs:
         uses: "ravsamhq/notify-slack-action@2.5.0"
         with:
           status: failure
-          notification_title: "Deploy Only-Peers site to Pages - ${{ github.event.workflow_run.conclusion }} on ${{ github.ref_name }} - <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Failure>"
+          notification_title: "Deploy failed on ${{ github.ref_name }} - <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Failure>"
           message_format: ":fire: *Deploy Only-Peers site to Pages* ${{ github.event.workflow_run.conclusion }} in <${{ github.server_url }}/${{ github.repository }}/${{ github.ref_name }}|${{ github.repository }}>"
           footer: "Linked Repo <${{ github.server_url }}/${{ github.repository }}|${{ github.repository }}> | <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Failure>"
         env:

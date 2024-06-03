@@ -48,10 +48,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     runs-on: ubuntu-latest
     needs: build
-
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -67,11 +65,18 @@ jobs:
     needs: [build, deploy]
     if: failure()
     steps:
-      - uses: "ravsamhq/notify-slack-action@2.5.0"
+      - name: Set job status output
+        id: set_job_status
+        run: echo "build_status=${{ needs.build.outputs.status }}" >> $GITHUB_ENV && echo "deploy_status=${{ needs.deploy.outputs.status }}" >> $GITHUB_ENV
+
+      - name: Notify failure
+        uses: "ravsamhq/notify-slack-action@2.5.0"
         with:
-          status: ${{ job.status }}
-          notification_title: "Deploy Next.js site to Pages - ${{ job.status }} on ${{ github.ref_name }} - <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Failure>"
-          message_format: ":fire: *Deploy Next.js site to Pages* ${{ job.status }} in <${{ github.server_url }}/${{ github.repository }}/${{ github.ref_name }}|${{ github.repository }}>"
+          status: failure
+          notification_title: "Deploy Only-Peers site to Pages - ${{ job.status }} on ${{ github.ref_name }} - <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Failure>"
+          message_format: ":fire: *Deploy Only-Peers site to Pages* ${{ job.status }} in <${{ github.server_url }}/${{ github.repository }}/${{ github.ref_name }}|${{ github.repository }}>"
           footer: "Linked Repo <${{ github.server_url }}/${{ github.repository }}|${{ github.repository }}> | <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Failure>"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.DEPLOY_FAIL_SLACK }}
+          build_status: ${{ env.build_status }}
+          deploy_status: ${{ env.deploy_status }}

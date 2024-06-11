@@ -13,7 +13,7 @@
     "deploy": "gh-pages -d build"
   },
   "dependencies": {
-    "@calimero-is-near/calimero-p2p-sdk": "0.0.13",
+    "@calimero-is-near/calimero-p2p-sdk": "0.0.18",
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
     "@libp2p/crypto": "^4.0.3",

@@ -1,4 +1,4 @@
-import MetamaskContext from "@calimero-is-near/calimero-p2p-sdk/lib/wallet/MetamaskLogin/MetamaskWrapper";
+import MetamaskContext from "@calimero-is-near/calimero-p2p-sdk/lib/wallets/MetamaskLogin/MetamaskWrapper";
 import { useRouter } from "next/router";
 import { nodeConfig } from "src/utils/nodeConfig";
 

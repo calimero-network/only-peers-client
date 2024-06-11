@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import CalimeroLogo from "src/components/icons/Logo";
-import LoginSelector from "@calimero-is-near/calimero-p2p-sdk/lib/wallet/LoginSelector";
+import LoginSelector from "@calimero-is-near/calimero-p2p-sdk/lib/wallets/LoginSelector";
 import Spinner from "src/components/icons/Spinner";
 import { clearAppEndpoint } from "src/lib/storage";
 

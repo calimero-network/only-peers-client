@@ -1,5 +1,5 @@
-import { WalletSelectorContextProvider } from "@calimero-is-near/calimero-p2p-sdk/lib/wallet/NearLogin/WalletSelectorContext";
-import NearLogin from "@calimero-is-near/calimero-p2p-sdk/lib/wallet/NearLogin/NearLogin";
+import { WalletSelectorContextProvider } from "@calimero-is-near/calimero-p2p-sdk/lib/wallets/NearLogin/WalletSelectorContext";
+import NearLogin from "@calimero-is-near/calimero-p2p-sdk/lib/wallets/NearLogin/NearLogin";
 import CalimeroLogo from "src/components/icons/Logo";
 import { useRouter } from "next/router";
 import { nodeConfig } from "src/utils/nodeConfig";

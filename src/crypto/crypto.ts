@@ -5,11 +5,7 @@ import {
 import { unmarshalPrivateKey } from "@libp2p/crypto/keys";
 import { PrivateKey } from "@libp2p/interface";
 import bs58 from "bs58";
-
-export enum WalletType {
-  NEAR = "NEAR",
-  ETH = "ETH",
-}
+import { WalletType } from "@calimero-is-near/calimero-p2p-sdk";
 
 export interface AxiosHeader {
   [key: string]: string;
@@ -37,7 +33,7 @@ export async function createAuthHeader(
   const contentBase58 = bs58.encode(hashArray);
 
   const headers: AxiosHeader = {
-    wallet_type: WalletType.NEAR,
+    wallet_type: JSON.stringify(WalletType.NEAR),
     signing_key: signing_key,
     signature: signatureBase58,
     challenge: contentBase58,

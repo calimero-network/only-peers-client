@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router.js";
 import {
   getAppEndpointKey,
   getStorageClientKey,
   getStorageNodeAuthorized,
-} from "src/lib/storage";
+} from "../../utils/storage";
 
 export default function WithIdAuth({ children }: any) {
   const router = useRouter();

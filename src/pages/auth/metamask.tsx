@@ -1,13 +1,13 @@
-import MetamaskContext from "@calimero-is-near/calimero-p2p-sdk/lib/wallets/MetamaskLogin/MetamaskWrapper";
+import { MetamaskWrapper } from "@calimero-is-near/calimero-p2p-sdk";
 import { useRouter } from "next/router";
-import { nodeConfig } from "src/utils/nodeConfig";
+import { nodeConfig } from "../../utils/nodeConfig";
 
 export default function Metamask() {
   const router = useRouter();
   return (
     <div className="flex w-full h-screen justify-center bg-[#111111]">
       <div className="flex flex-col justify-center items-center">
-        <MetamaskContext
+        <MetamaskWrapper
           applicationId={nodeConfig.applicationId}
           rpcBaseUrl={nodeConfig.nodeServerUrl}
           successRedirect={() => router.push("/feed")}

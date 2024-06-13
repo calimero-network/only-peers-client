@@ -1,4 +1,4 @@
-import { getAppEndpointKey } from "src/lib/storage";
+import { getAppEndpointKey } from "../../utils/storage";
 import { HttpClient } from "../httpClient";
 import {
   NodeChallenge,

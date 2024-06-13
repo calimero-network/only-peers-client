@@ -1,3 +1,5 @@
+"use client";
+
 export const CLIENT_KEY = "client-key";
 export const APP_URL = "app-url";
 export const AUTHORIZED = "node-authorized";
@@ -33,7 +35,9 @@ export const setStorageNodeAuthorized = () => {
 
 export const getStorageNodeAuthorized = (): boolean | null => {
   if (typeof window !== "undefined" && window.localStorage) {
-    let authorized: boolean = JSON.parse(localStorage.getItem(AUTHORIZED));
+    let authorized: boolean = JSON.parse(
+      window.localStorage.getItem(AUTHORIZED)
+    );
     if (authorized) {
       return authorized;
     }
@@ -49,13 +53,13 @@ export const clearAppEndpoint = () => {
   localStorage.removeItem(APP_URL);
 };
 
-export const setAppEndpointKey = (url: String) => {
+export const setAppEndpointKey = (url: string) => {
   localStorage.setItem(APP_URL, JSON.stringify(url));
 };
 
-export const getAppEndpointKey = (): String | null => {
+export const getAppEndpointKey = (): string | null => {
   if (typeof window !== "undefined" && window.localStorage) {
-    let url: String = JSON.parse(localStorage.getItem(APP_URL));
+    let url: string = JSON.parse(localStorage.getItem(APP_URL));
     if (url) {
       return url;
     }

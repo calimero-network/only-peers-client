@@ -5,15 +5,15 @@
   "type": "module",
   "homepage": "https://calimero-network.github.io/only-peers-client/",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "NODE_OPTIONS=--experimental-specifier-resolution=node next dev",
+    "build": "NODE_OPTIONS=--experimental-specifier-resolution=node next build",
+    "start": "NODE_OPTIONS=--experimental-specifier-resolution=node next start",
     "lint": "next lint",
     "predeploy": "pnpm run build",
     "deploy": "gh-pages -d build"
   },
   "dependencies": {
-    "@calimero-is-near/calimero-p2p-sdk": "0.0.18",
+    "@calimero-is-near/calimero-p2p-sdk": "0.0.20",
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
     "@libp2p/crypto": "^4.0.3",
@@ -31,7 +31,7 @@
     "bs58": "^5.0.0",
     "libp2p": "^1.2.4",
     "near-api-js": "^3.0.4",
-    "next": "14.1.0",
+    "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
     "rxjs": "^7.8.1"

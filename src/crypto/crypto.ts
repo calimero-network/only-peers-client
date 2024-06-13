@@ -1,7 +1,7 @@
 import {
   ClientKey,
   getStorageClientKey as getStoragePrivateKey,
-} from "../lib/storage";
+} from "../utils/storage";
 import { unmarshalPrivateKey } from "@libp2p/crypto/keys";
 import { PrivateKey } from "@libp2p/interface";
 import bs58 from "bs58";

@@ -1,17 +1,17 @@
-import React, { Fragment, useCallback, useEffect, useState } from "react";
-import { providers } from "near-api-js";
-import type { AccountView } from "near-api-js/lib/providers/provider";
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import { providers } from 'near-api-js';
+import type { AccountView } from 'near-api-js/lib/providers/provider';
 import {
   verifyFullKeyBelongsToUser,
   verifySignature,
   type SignedMessage,
   type SignMessageParams,
-} from "@near-wallet-selector/core";
+} from '@near-wallet-selector/core';
 
-import { useWalletSelector } from "../contexts/WalletSelectorContext";
-import Button from "./button/button";
-import { getOrCreateKeypair } from "../crypto/ed25519";
-import apiClient from "../api";
+import { useWalletSelector } from '../contexts/WalletSelectorContext';
+import Button from './button/button';
+import { getOrCreateKeypair } from '../crypto/ed25519';
+import apiClient from '../api';
 import {
   WalletSignatureData,
   NodeChallenge,
@@ -22,11 +22,11 @@ import {
   WalletMetadata,
   WalletType,
   SignatureMessageMetadata,
-} from "../api/nodeApi";
-import { ResponseData } from "../api/response";
-import { useRouter } from "next/router";
-import { setStorageNodeAuthorized } from "../utils/storage";
-import { Loading } from "./Loading";
+} from '../api/nodeApi';
+import { ResponseData } from '../api/response';
+import { useRouter } from 'next/router';
+import { setStorageNodeAuthorized } from '../utils/storage';
+import { Loading } from './Loading';
 
 export interface Message {
   premium: boolean;
@@ -42,7 +42,7 @@ const Content: React.FC = () => {
   const { selector, accounts, modal, accountId } = useWalletSelector();
   const [account, setAccount] = useState<Account | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const appName = "me";
+  const appName = 'me';
   const router = useRouter();
 
   const getAccount = useCallback(async (): Promise<Account | null> => {
@@ -55,8 +55,8 @@ const Content: React.FC = () => {
 
     return provider
       .query<AccountView>({
-        request_type: "view_account",
-        finality: "final",
+        request_type: 'view_account',
+        finality: 'final',
         account_id: accountId,
       })
       .then((data) => ({
@@ -97,7 +97,7 @@ const Content: React.FC = () => {
     const wallet = await selector.wallet();
 
     wallet.signOut().catch((err: any) => {
-      console.log("Failed to sign out");
+      console.log('Failed to sign out');
       console.error(err);
     });
   }
@@ -114,15 +114,15 @@ const Content: React.FC = () => {
 
     selector.setActiveAccount(nextAccountId);
 
-    alert("Switched account to " + nextAccountId);
+    alert('Switched account to ' + nextAccountId);
   }
 
   const verifyMessage = useCallback(
     async (
       message: SignMessageParams,
-      signedMessage: SignedMessage
+      signedMessage: SignedMessage,
     ): Promise<boolean> => {
-      console.log("verifyMessage", { message, signedMessage });
+      console.log('verifyMessage', { message, signedMessage });
 
       const verifiedSignature = verifySignature({
         message: message.message,
@@ -142,35 +142,35 @@ const Content: React.FC = () => {
         verifiedFullKeyBelongsToUser && verifiedSignature;
 
       const resultMessage = isMessageVerified
-        ? "Successfully verified"
-        : "Failed to verify";
+        ? 'Successfully verified'
+        : 'Failed to verify';
 
       console.log(
         `${resultMessage} signed message: '${
           message.message
-        }': \n ${JSON.stringify(signedMessage)}`
+        }': \n ${JSON.stringify(signedMessage)}`,
       );
 
       return isMessageVerified;
     },
-    [selector.options.network]
+    [selector.options.network],
   );
 
   const verifyMessageBrowserWallet = useCallback(async () => {
     const urlParams = new URLSearchParams(
-      window.location.hash.substring(1) // skip the first char (#)
+      window.location.hash.substring(1), // skip the first char (#)
     );
-    const accId = urlParams.get("accountId") as string;
-    const publicKey = urlParams.get("publicKey") as string;
-    const signature = urlParams.get("signature") as string;
+    const accId = urlParams.get('accountId') as string;
+    const publicKey = urlParams.get('publicKey') as string;
+    const signature = urlParams.get('signature') as string;
 
     if (!accId && !publicKey && !signature) {
-      console.error("Missing params in url.");
+      console.error('Missing params in url.');
       return;
     }
 
     const message: SignMessageParams = JSON.parse(
-      localStorage.getItem("message")!
+      localStorage.getItem('message')!,
     );
 
     const state: SignatureMessageMetadata = JSON.parse(message.state);
@@ -183,21 +183,21 @@ const Content: React.FC = () => {
 
     const isMessageVerified: boolean = await verifyMessage(
       message,
-      signedMessage
+      signedMessage,
     );
 
-    const url = new URL(location.href);
-    url.hash = "";
-    url.search = "";
+    const url = new URL(window.location.href);
+    url.hash = '';
+    url.search = '';
     window.history.replaceState({}, document.title, url);
-    localStorage.removeItem("message");
+    localStorage.removeItem('message');
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     if (isMessageVerified) {
       const signatureMetadata: NearSignatureMessageMetadata = {
         recipient: message.recipient,
         callbackUrl: message.callbackUrl,
-        nonce: message.nonce.toString("base64"),
+        nonce: message.nonce.toString('base64'),
       };
       const payload: Payload = {
         message: state,
@@ -221,22 +221,22 @@ const Content: React.FC = () => {
         .node()
         .login(loginRequest)
         .then((result) => {
-          console.log("result", result);
+          console.log('result', result);
           if (result.error) {
-            console.error("login error", result.error);
+            console.error('login error', result.error);
             //TODO handle error
           } else {
             setStorageNodeAuthorized();
-            router.push("/feed");
+            router.push('/feed');
           }
         })
         .catch(() => {
-          console.error("error while login");
+          console.error('error while login');
           //TODO handle error
         });
     } else {
       //TODO handle error
-      console.error("Message not verified");
+      console.error('Message not verified');
     }
   }, [router, verifyMessage]);
 
@@ -247,21 +247,21 @@ const Content: React.FC = () => {
     const { publicKey } = await getOrCreateKeypair();
 
     if (challengeResponseData.error) {
-      console.log("requestChallenge api error", challengeResponseData.error);
+      console.log('requestChallenge api error', challengeResponseData.error);
       return;
     }
 
     // Comment out for now as we are not showing wallet selector
     //const wallet = await selector.wallet();
     // Predefine wallet selector
-    const wallet = await selector.wallet("my-near-wallet");
+    const wallet = await selector.wallet('my-near-wallet');
 
     const nonce: Buffer = Buffer.from(
       challengeResponseData.data.nonce,
-      "base64"
+      'base64',
     );
     const recipient = appName;
-    const callbackUrl = location.href;
+    const callbackUrl = window.location.href;
     const applicationId = challengeResponseData.data.applicationId;
     const nodeSignature = challengeResponseData.data.nodeSignature;
     const timestamp = challengeResponseData.data.timestamp;
@@ -275,24 +275,24 @@ const Content: React.FC = () => {
     const state: SignatureMessageMetadata = {
       clientPublicKey: publicKey,
       nodeSignature,
-      nonce: nonce.toString("base64"),
+      nonce: nonce.toString('base64'),
       applicationId,
       timestamp,
       message,
     };
 
-    if (wallet.type === "browser") {
-      console.log("browser");
+    if (wallet.type === 'browser') {
+      console.log('browser');
 
       localStorage.setItem(
-        "message",
+        'message',
         JSON.stringify({
           message,
           nonce: [...nonce],
           recipient,
           callbackUrl,
           state: JSON.stringify(state),
-        })
+        }),
       );
     }
 
@@ -328,27 +328,27 @@ const Content: React.FC = () => {
           <Button
             onClick={handleSignOut}
             title="Log out"
-            backgroundColor={""}
-            backgroundColorHover={""}
+            backgroundColor={''}
+            backgroundColorHover={''}
           />
           <Button
             onClick={handleSwitchWallet}
             title="Switch Wallet"
-            backgroundColor={""}
-            backgroundColorHover={""}
+            backgroundColor={''}
+            backgroundColorHover={''}
           />
           <Button
             onClick={handleSignMessage}
             title="Authenticate"
-            backgroundColor={""}
-            backgroundColorHover={""}
+            backgroundColor={''}
+            backgroundColorHover={''}
           />
           {accounts.length > 1 && (
             <Button
               onClick={handleSwitchAccount}
               title="Switch Account"
-              backgroundColor={""}
-              backgroundColorHover={""}
+              backgroundColor={''}
+              backgroundColorHover={''}
             />
           )}
         </div>

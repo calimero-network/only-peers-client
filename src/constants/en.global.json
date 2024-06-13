@@ -1,50 +1,50 @@
 {
-    "errorPopup": {
-        "dialogTitle": "Error: Failed to fetch data",
-        "reloadButtonText": "Reload the page"
-    },
-    "feedPage": {
-        "feedTitle": "Posts",
-        "createButtonText": "Create a post",
-        "noPostsText": "No posts yet"
-    },
-    "header": {
-        "logoText": "OnlyPeers",
-        "peerIdText": "PeerId",
-        "addButtonText": "Add peerId"
-    },
-    "loader": {
-        "srOnlyText": "Loading..."
-    },
-    "commentPopup": {
-        "loadingText": "Creating Comment...",
-        "dialogTitle": "Add a comment",
-        "inputLabel": "Comment",
-        "inputPlaceholder": "content",
-        "maxCharLength": "/250",
-        "cancelButtonText": "Cancel",
-        "createButtonText": "Comment"
-    },
-    "postPopup": {
-        "loadingText": "Creating Post...",
-        "dialogTitle": "Create a post",
-        "inputTitleLabel": "Post Title",
-        "inputTitlePlaceholder": "title",
-        "inputContentLabel": "Post Content",
-        "inputContentPlacerholder": "content",
-        "maxCharLength": "/250",
-        "backButtonText": "Back to the feed",
-        "createButtonText": "Create Post"
-    },
-    "extendedPost": {
-        "addButtonText": "Add a comment"
-    },
-    "loginWrapper": {
-        "loginTitle": "Login",
-        "privateKeyText": "Private Key",
-        "placeHolderText": "Enter your Node Private Key",
-        "loginDescription": "To authenticate your session with the local node, please provide your private key",
-        "generateButtonText": "Connect",
-        "keyGenerationError": "An error occurred while generating or saving the key."
-    }
+  "errorPopup": {
+    "dialogTitle": "Error: Failed to fetch data",
+    "reloadButtonText": "Reload the page"
+  },
+  "feedPage": {
+    "feedTitle": "Posts",
+    "createButtonText": "Create a post",
+    "noPostsText": "No posts yet"
+  },
+  "header": {
+    "logoText": "OnlyPeers",
+    "peerIdText": "PeerId",
+    "addButtonText": "Add peerId"
+  },
+  "loader": {
+    "srOnlyText": "Loading..."
+  },
+  "commentPopup": {
+    "loadingText": "Creating Comment...",
+    "dialogTitle": "Add a comment",
+    "inputLabel": "Comment",
+    "inputPlaceholder": "content",
+    "maxCharLength": "/250",
+    "cancelButtonText": "Cancel",
+    "createButtonText": "Comment"
+  },
+  "postPopup": {
+    "loadingText": "Creating Post...",
+    "dialogTitle": "Create a post",
+    "inputTitleLabel": "Post Title",
+    "inputTitlePlaceholder": "title",
+    "inputContentLabel": "Post Content",
+    "inputContentPlacerholder": "content",
+    "maxCharLength": "/250",
+    "backButtonText": "Back to the feed",
+    "createButtonText": "Create Post"
+  },
+  "extendedPost": {
+    "addButtonText": "Add a comment"
+  },
+  "loginWrapper": {
+    "loginTitle": "Login",
+    "privateKeyText": "Private Key",
+    "placeHolderText": "Enter your Node Private Key",
+    "loginDescription": "To authenticate your session with the local node, please provide your private key",
+    "generateButtonText": "Connect",
+    "keyGenerationError": "An error occurred while generating or saving the key."
+  }
 }

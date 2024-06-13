@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import Link from "next/link";
-import translations from "../../constants/en.global.json";
-import { useRouter } from "next/router";
-import { getPeerId } from "../../lib/peerId";
+import Link from 'next/link';
+import translations from '../../constants/en.global.json';
+import { useRouter } from 'next/router';
+import { getPeerId } from '../../lib/peerId';
 import {
   getStorageClientKey,
   clearClientKey,
   clearNodeAuthorized,
   clearAppEndpoint,
-} from "../../utils/storage";
+} from '../../utils/storage';
 
 export default function Header() {
   const t = translations.header;
   const router = useRouter();
   const [privateKey, _setPrivateKey] = useState(getStorageClientKey());
-  const [peerId, setPeerId] = useState("");
+  const [peerId, setPeerId] = useState('');
 
   useEffect(() => {
     const setPeer = async () => {
@@ -53,7 +53,7 @@ export default function Header() {
         <div className="flex flex-1 justify-end items-center gap-2">
           {peerId && (
             <div className="text-sm font-semibold leading-6 text-white cursor-pointer">
-              {t.peerIdText}:{" "}
+              {t.peerIdText}:{' '}
               <span className="text-purple-500 pl-1" onClick={logout}>
                 {`${peerId.slice(0, 4).toLocaleLowerCase()}...${peerId
                   .slice(peerId.length - 4, peerId.length)

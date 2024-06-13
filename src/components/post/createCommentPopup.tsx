@@ -1,8 +1,8 @@
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import Loader from "../loader/loader";
-import translations from "../../constants/en.global.json";
-import Button from "../button/button";
+import { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import Loader from '../loader/loader';
+import translations from '../../constants/en.global.json';
+import Button from '../button/button';
 
 interface CreateCommentPopupProps {
   createComment: (text: string) => void;
@@ -16,7 +16,7 @@ export default function CreateCommentPopup({
   setOpen,
 }: CreateCommentPopupProps) {
   const t = translations.commentPopup;
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
 
   const onCreateComment = () => {
@@ -96,11 +96,11 @@ export default function CreateCommentPopup({
                         title={t.createButtonText}
                         backgroundColor="bg-[#ECB159]"
                         backgroundColorHover={`${
-                          text.trim() === "" || text.length > 250
-                            ? "opacity-50 cursor-not-allowed"
-                            : ""
+                          text.trim() === '' || text.length > 250
+                            ? 'opacity-50 cursor-not-allowed'
+                            : ''
                         }`}
-                        disabled={text.trim() === "" || text.length > 250}
+                        disabled={text.trim() === '' || text.length > 250}
                         onClick={onCreateComment}
                       />
                     </div>

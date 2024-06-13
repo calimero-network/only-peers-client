@@ -5,29 +5,29 @@ import {
   CreatePostRequest,
   FeedRequest,
   PostRequest,
-} from "../clientApi";
-import { ApiResponse } from "../response";
-import { Post } from "../../types/types";
+} from '../clientApi';
+import { ApiResponse } from '../response';
+import { Post } from '../../types/types';
 import {
   JsonRpcClient,
   RequestConfig,
-} from "@calimero-is-near/calimero-p2p-sdk";
-import { AxiosHeader, createAuthHeader } from "../../crypto/crypto";
-import { getAppEndpointKey } from "../../utils/storage";
+} from '@calimero-is-near/calimero-p2p-sdk';
+import { AxiosHeader, createAuthHeader } from '../../crypto/crypto';
+import { getAppEndpointKey } from '../../utils/storage';
 
 export function getJsonRpcClient() {
   return new JsonRpcClient(
     getAppEndpointKey()?.toString(),
-    process.env["NEXT_PUBLIC_RPC_PATH"]
+    process.env['NEXT_PUBLIC_RPC_PATH'],
   );
 }
 
-const applicationId = process.env["NEXT_PUBLIC_APPLICATION_ID"];
+const applicationId = process.env['NEXT_PUBLIC_APPLICATION_ID'];
 
 export class ClientApiDataSource implements ClientApi {
   async fetchFeed(params: FeedRequest): ApiResponse<Post[]> {
     const authHeaders: AxiosHeader = await createAuthHeader(
-      JSON.stringify(params)
+      JSON.stringify(params),
     );
 
     const config: RequestConfig = {
@@ -40,7 +40,7 @@ export class ClientApiDataSource implements ClientApi {
         method: ClientMethod.POSTS,
         argsJson: params,
       },
-      config
+      config,
     );
 
     return {
@@ -51,7 +51,7 @@ export class ClientApiDataSource implements ClientApi {
 
   async fetchPost(params: PostRequest): ApiResponse<Post> {
     const authHeaders: AxiosHeader = await createAuthHeader(
-      JSON.stringify(params)
+      JSON.stringify(params),
     );
 
     const config: RequestConfig = {
@@ -64,7 +64,7 @@ export class ClientApiDataSource implements ClientApi {
         method: ClientMethod.POST,
         argsJson: params,
       },
-      config
+      config,
     );
     return {
       data: response?.result?.output,
@@ -74,7 +74,7 @@ export class ClientApiDataSource implements ClientApi {
 
   async createPost(params: CreatePostRequest): ApiResponse<Post> {
     const authHeaders: AxiosHeader = await createAuthHeader(
-      JSON.stringify(params)
+      JSON.stringify(params),
     );
 
     const config: RequestConfig = {
@@ -87,7 +87,7 @@ export class ClientApiDataSource implements ClientApi {
         method: ClientMethod.CREATE_POST,
         argsJson: params,
       },
-      config
+      config,
     );
     return {
       data: response?.result?.output,
@@ -97,7 +97,7 @@ export class ClientApiDataSource implements ClientApi {
 
   async createComment(params: CreateCommentRequest): ApiResponse<Comment> {
     const authHeaders: AxiosHeader = await createAuthHeader(
-      JSON.stringify(params)
+      JSON.stringify(params),
     );
 
     const config: RequestConfig = {
@@ -113,7 +113,7 @@ export class ClientApiDataSource implements ClientApi {
         method: ClientMethod.CREATE_COMMENT,
         argsJson: params,
       },
-      config
+      config,
     );
     return {
       data: response?.result?.output,

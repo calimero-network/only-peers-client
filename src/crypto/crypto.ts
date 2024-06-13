@@ -1,18 +1,18 @@
 import {
   ClientKey,
   getStorageClientKey as getStoragePrivateKey,
-} from "../utils/storage";
-import { unmarshalPrivateKey } from "@libp2p/crypto/keys";
-import { PrivateKey } from "@libp2p/interface";
-import bs58 from "bs58";
-import { WalletType } from "@calimero-is-near/calimero-p2p-sdk";
+} from '../utils/storage';
+import { unmarshalPrivateKey } from '@libp2p/crypto/keys';
+import { PrivateKey } from '@libp2p/interface';
+import bs58 from 'bs58';
+import { WalletType } from '@calimero-is-near/calimero-p2p-sdk';
 
 export interface AxiosHeader {
   [key: string]: string;
 }
 
 export async function createAuthHeader(
-  payload: string
+  payload: string,
 ): Promise<AxiosHeader | null> {
   const privateKey: PrivateKey = await getPrivateKey();
 
@@ -25,7 +25,7 @@ export async function createAuthHeader(
 
   const signing_key = bs58.encode(privateKey.public.bytes);
 
-  const hashBuffer = await crypto.subtle.digest("SHA-256", contentBuff);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', contentBuff);
   const hashArray = new Uint8Array(hashBuffer);
 
   const signature = await privateKey.sign(hashArray);
@@ -50,7 +50,7 @@ export async function getPrivateKey(): Promise<PrivateKey | null> {
     }
     return await unmarshalPrivateKey(bs58.decode(clientKey.privateKey));
   } catch (error) {
-    console.error("Error extracting private key:", error);
+    console.error('Error extracting private key:', error);
     return null;
   }
 }

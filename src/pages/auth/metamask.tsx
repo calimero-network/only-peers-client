@@ -1,6 +1,6 @@
-import { MetamaskWrapper } from "@calimero-is-near/calimero-p2p-sdk";
-import { useRouter } from "next/router";
-import { nodeConfig } from "../../utils/nodeConfig";
+import { MetamaskWrapper } from '@calimero-is-near/calimero-p2p-sdk';
+import { useRouter } from 'next/router';
+import { nodeConfig } from '../../utils/nodeConfig';
 
 export default function Metamask() {
   const router = useRouter();
@@ -10,10 +10,10 @@ export default function Metamask() {
         <MetamaskWrapper
           applicationId={nodeConfig.applicationId}
           rpcBaseUrl={nodeConfig.nodeServerUrl}
-          successRedirect={() => router.push("/feed")}
-          navigateBack={() => router.push("/auth")}
-          cardBackgroundColor={"#1C1C1C"}
-          metamaskTitleColor={""}
+          successRedirect={() => router.push('/feed')}
+          navigateBack={() => router.push('/auth')}
+          cardBackgroundColor={'#1C1C1C'}
+          metamaskTitleColor={''}
         />
       </div>
     </div>

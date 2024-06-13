@@ -1,9 +1,9 @@
-import { useRouter } from "next/router";
-import { useState } from "react";
-import CalimeroLogo from "../../components/icons/Logo";
-import { LoginSelector } from "@calimero-is-near/calimero-p2p-sdk";
-import Spinner from "../../components/icons/Spinner";
-import { clearAppEndpoint } from "../../utils/storage";
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import CalimeroLogo from '../../components/icons/Logo';
+import { LoginSelector } from '@calimero-is-near/calimero-p2p-sdk';
+import Spinner from '../../components/icons/Spinner';
+import { clearAppEndpoint } from '../../utils/storage';
 
 export default function Auth() {
   const [loading, setLoading] = useState(false);
@@ -11,17 +11,17 @@ export default function Auth() {
 
   function onMetamaskSelected() {
     setLoading(true);
-    router.push("/auth/metamask");
+    router.push('/auth/metamask');
   }
 
   function onNearSelected() {
     setLoading(true);
-    router.push("/auth/near");
+    router.push('/auth/near');
   }
 
   function onSetupClick() {
     clearAppEndpoint();
-    router.push("/setup");
+    router.push('/setup');
   }
 
   return (

@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router.js";
+import { useEffect } from 'react';
+import { useRouter } from 'next/router.js';
 import {
   getAppEndpointKey,
   getStorageClientKey,
   getStorageNodeAuthorized,
-} from "../../utils/storage";
+} from '../../utils/storage';
 
 export default function WithIdAuth({ children }: any) {
   const router = useRouter();
@@ -15,15 +15,15 @@ export default function WithIdAuth({ children }: any) {
     const url = getAppEndpointKey();
 
     if (!url) {
-      if (!router.pathname.startsWith("/setup")) {
-        router.push("/setup");
+      if (!router.pathname.startsWith('/setup')) {
+        router.push('/setup');
       }
     } else if (!clientKey || !nodeAuthorized) {
-      if (!router.pathname.startsWith("/auth")) {
-        router.push("/auth");
+      if (!router.pathname.startsWith('/auth')) {
+        router.push('/auth');
       }
-    } else if (router.pathname.startsWith("/auth")) {
-      router.push("/feed");
+    } else if (router.pathname.startsWith('/auth')) {
+      router.push('/feed');
     }
   }, [router]);
 

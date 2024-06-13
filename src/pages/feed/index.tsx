@@ -1,17 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
-import { Post } from "../../types/types";
+import { useCallback, useEffect, useState } from 'react';
+import { Post } from '../../types/types';
 
-import ErrorPopup from "../../components/error/errorPopup";
-import Feed from "../../components/feed/feed";
-import Header from "../../components/header/header";
-import Loader from "../../components/loader/loader";
-import { CreatePostRequest, FeedRequest } from "../../api/clientApi";
-import { ClientApiDataSource } from "../../api/dataSource/ClientApiDataSource";
+import ErrorPopup from '../../components/error/errorPopup';
+import Feed from '../../components/feed/feed';
+import Header from '../../components/header/header';
+import Loader from '../../components/loader/loader';
+import { CreatePostRequest, FeedRequest } from '../../api/clientApi';
+import { ClientApiDataSource } from '../../api/dataSource/ClientApiDataSource';
 
 export default function FeedPage() {
   const [openCreatePost, setOpenCreatePost] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
   const fetchFeed = useCallback(async (request: FeedRequest) => {
@@ -38,7 +38,7 @@ export default function FeedPage() {
       content,
     };
     const result = await new ClientApiDataSource().createPost(
-      createPostRequest
+      createPostRequest,
     );
     if (result.error) {
       setError(result.error.message);

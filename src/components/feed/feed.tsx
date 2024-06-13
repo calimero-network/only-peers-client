@@ -1,8 +1,8 @@
-import PostFeed from "./post";
-import CreatePostPopup from "../post/createPostPopup";
-import translations from "../../constants/en.global.json";
-import Button from "../button/button";
-import { Post } from "../../types/types";
+import PostFeed from './post';
+import CreatePostPopup from '../post/createPostPopup';
+import translations from '../../constants/en.global.json';
+import Button from '../button/button';
+import { Post } from '../../types/types';
 
 interface FeedProps {
   posts: Post[];

@@ -2,13 +2,13 @@ name: Deploy Next.js site to Pages
 
 on:
   push:
-    branches: ["master"]
+    branches: ['master']
   workflow_dispatch:
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: false
 
 permissions:
@@ -66,11 +66,11 @@ jobs:
     if: failure()
     steps:
       - name: Notify failure
-        uses: "ravsamhq/notify-slack-action@2.5.0"
+        uses: 'ravsamhq/notify-slack-action@2.5.0'
         with:
           status: failure
-          notification_title: "Deploy failed on ${{ github.ref_name }} - <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Failure>"
-          message_format: ":fire: *Deploy Only-Peers site to Pages* in <${{ github.server_url }}/${{ github.repository }}/${{ github.ref_name }}|${{ github.repository }}>"
-          footer: "Linked Repo <${{ github.server_url }}/${{ github.repository }}|${{ github.repository }}> | <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Failure>"
+          notification_title: 'Deploy failed on ${{ github.ref_name }} - <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Failure>'
+          message_format: ':fire: *Deploy Only-Peers site to Pages* in <${{ github.server_url }}/${{ github.repository }}/${{ github.ref_name }}|${{ github.repository }}>'
+          footer: 'Linked Repo <${{ github.server_url }}/${{ github.repository }}|${{ github.repository }}> | <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Failure>'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.DEPLOY_FAIL_SLACK }}

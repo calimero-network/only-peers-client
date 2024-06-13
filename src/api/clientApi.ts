@@ -1,5 +1,5 @@
-import { Post } from "../types/types";
-import { ApiResponse } from "./response";
+import { Post } from '../types/types';
+import { ApiResponse } from './response';
 
 export interface FeedRequest {
   // ignore
@@ -21,10 +21,10 @@ export interface CreateCommentRequest {
 }
 
 export enum ClientMethod {
-  CREATE_COMMENT = "create_comment",
-  POST = "post",
-  CREATE_POST = "create_post",
-  POSTS = "posts",
+  CREATE_COMMENT = 'create_comment',
+  POST = 'post',
+  CREATE_POST = 'create_post',
+  POSTS = 'posts',
 }
 
 export interface ClientApi {

@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { NodeApi } from "./nodeApi";
-import { NodeApiDataSource } from "./dataSource/NodeApiDataSource";
-import { AxiosHttpClient, HttpClient } from "./httpClient";
+import { NodeApi } from './nodeApi';
+import { NodeApiDataSource } from './dataSource/NodeApiDataSource';
+import { AxiosHttpClient, HttpClient } from './httpClient';
 
 class ApiClient {
   private nodeApi: NodeApi;

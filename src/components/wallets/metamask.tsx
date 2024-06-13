@@ -1,12 +1,12 @@
-import { getOrCreateKeypair } from "../../crypto/ed25519";
+import { getOrCreateKeypair } from '../../crypto/ed25519';
 import {
   MetaMaskButton,
   useAccount,
   useSDK,
   useSignMessage,
-} from "@metamask/sdk-react-ui";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+} from '@metamask/sdk-react-ui';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useState } from 'react';
 import {
   EthSignatureMessageMetadata,
   LoginRequest,
@@ -17,11 +17,11 @@ import {
   WalletMetadata,
   WalletSignatureData,
   WalletType,
-} from "../../api/nodeApi";
-import { ResponseData } from "../../api/response";
-import { setStorageNodeAuthorized } from "../../utils/storage";
-import { Loading } from "../Loading";
-import apiClient from "../../api";
+} from '../../api/nodeApi';
+import { ResponseData } from '../../api/response';
+import { setStorageNodeAuthorized } from '../../utils/storage';
+import { Loading } from '../Loading';
+import apiClient from '../../api';
 
 export default function LoginWithMetamask() {
   const { isConnected, address } = useAccount();
@@ -54,7 +54,7 @@ export default function LoginWithMetamask() {
     const { publicKey } = await getOrCreateKeypair();
 
     if (challengeResponseData.error) {
-      console.error("requestNodeData error", challengeResponseData.error);
+      console.error('requestNodeData error', challengeResponseData.error);
       //TODO handle error
       return;
     }
@@ -86,10 +86,10 @@ export default function LoginWithMetamask() {
 
   const login = useCallback(async () => {
     if (!signData) {
-      console.error("signature is empty");
+      console.error('signature is empty');
       //TODO handle error
     } else if (!address) {
-      console.error("address is empty");
+      console.error('address is empty');
       //TODO handle error
     } else {
       const walletMetadata: WalletMetadata = {
@@ -106,15 +106,15 @@ export default function LoginWithMetamask() {
         .login(loginRequest)
         .then((result) => {
           if (result.error) {
-            console.error("login error", result.error);
+            console.error('login error', result.error);
             //TODO handle error
           } else {
             setStorageNodeAuthorized();
-            router.push("/feed");
+            router.push('/feed');
           }
         })
         .catch(() => {
-          console.error("error while login");
+          console.error('error while login');
           //TODO handle error
         });
     }
@@ -130,8 +130,8 @@ export default function LoginWithMetamask() {
   useEffect(() => {
     if (isSignSuccess && walletSignatureData) {
       //send request to node
-      console.log("signature", signData);
-      console.log("address", address);
+      console.log('signature', signData);
+      console.log('address', address);
       login();
     }
   }, [address, isSignSuccess, login, signData, walletSignatureData]);
@@ -150,16 +150,16 @@ export default function LoginWithMetamask() {
         <header className="mt-6 flex flex-col">
           <MetaMaskButton
             theme="dark"
-            color={isConnected && walletSignatureData ? "blue" : "white"}
+            color={isConnected && walletSignatureData ? 'blue' : 'white'}
             buttonStyle={
               isConnected && walletSignatureData
                 ? {
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: "#25282D",
-                    height: "73px",
-                    borderRadius: "6px",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: '#25282D',
+                    height: '73px',
+                    borderRadius: '6px',
                   }
                 : {}
             }

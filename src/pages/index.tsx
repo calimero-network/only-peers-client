@@ -1,6 +1,6 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { getStorageClientKey } from "../utils/storage";
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { getStorageClientKey } from '../utils/storage';
 
 export default function Index() {
   const router = useRouter();
@@ -8,9 +8,9 @@ export default function Index() {
 
   useEffect(() => {
     if (!clientKey) {
-      router.push("/setup");
+      router.push('/setup');
     } else {
-      router.push("/feed");
+      router.push('/feed');
     }
   }, [clientKey, router]);
 

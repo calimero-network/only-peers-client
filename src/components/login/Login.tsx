@@ -1,14 +1,14 @@
-import {useState} from "react";
-import Button from "../button/button";
-import translations from "../../constants/en.global.json";
+import { useState } from 'react';
+import Button from '../button/button';
+import translations from '../../constants/en.global.json';
 
 interface LoginProps {
   generateAndSaveKey: (privateKey: string) => void;
   keyError: boolean;
 }
 
-export default function Login({generateAndSaveKey, keyError}: LoginProps) {
-  const [privateKey, setPrivateKey] = useState("");
+export default function Login({ generateAndSaveKey, keyError }: LoginProps) {
+  const [privateKey, setPrivateKey] = useState('');
   const t = translations.loginWrapper;
 
   return (
@@ -28,7 +28,7 @@ export default function Login({generateAndSaveKey, keyError}: LoginProps) {
           onChange={(e) => setPrivateKey(e.target.value)}
         />
         <div className="h-4 text-xs font-normal text-red-800 pl-2">
-          {keyError && `${ t.keyGenerationError }`}
+          {keyError && `${t.keyGenerationError}`}
         </div>
         <div className="text-gray-400 text-sm px-2 mt-1">
           {t.loginDescription}
@@ -36,7 +36,7 @@ export default function Login({generateAndSaveKey, keyError}: LoginProps) {
         <div className="flex justify-center mt-4">
           <Button
             title={t.generateButtonText}
-            backgroundColor={!!privateKey ? "bg-[#ECB159]" : "bg-[#B67352]"}
+            backgroundColor={!!privateKey ? 'bg-[#ECB159]' : 'bg-[#B67352]'}
             backgroundColorHover=""
             disabled={!privateKey}
             onClick={() => generateAndSaveKey(privateKey)}

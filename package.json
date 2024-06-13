@@ -8,9 +8,13 @@
     "dev": "NODE_OPTIONS=--experimental-specifier-resolution=node next dev",
     "build": "NODE_OPTIONS=--experimental-specifier-resolution=node next build",
     "start": "NODE_OPTIONS=--experimental-specifier-resolution=node next start",
-    "lint": "next lint",
+    "lint": "concurrently \"pnpm:lint:*(!fix)\"",
+    "lint:src": "eslint . --ext .ts,.tsx src --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "concurrently \"pnpm:lint:*:fix\"",
+    "lint:src:fix": "eslint . --ext .ts,.tsx --fix src",
     "predeploy": "pnpm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "prettier": "exec prettier . --write"
   },
   "dependencies": {
     "@calimero-is-near/calimero-p2p-sdk": "0.0.20",
@@ -37,15 +41,32 @@
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.4.0",
+    "@types/eslint__js": "^8.42.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^7.13.0",
+    "@typescript-eslint/parser": "^7.13.0",
     "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.0",
+    "concurrently": "^7.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-react": "^7.34.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
     "gh-pages": "^6.1.1",
     "postcss": "^8",
+    "prettier": "3.3.2",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^7.13.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   }
 }

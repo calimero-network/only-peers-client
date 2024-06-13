@@ -1,5 +1,5 @@
-import { getNearEnvironment } from "./node";
-import { getAppEndpointKey } from "./storage";
+import { getNearEnvironment } from './node';
+import { getAppEndpointKey } from './storage';
 
 interface NodeConfig {
   network: string;
@@ -8,7 +8,7 @@ interface NodeConfig {
 }
 
 export const nodeConfig: NodeConfig = {
-  network: getNearEnvironment() === "testnet" ? "testnet" : "mainnet",
-  applicationId: process.env["NEXT_PUBLIC_APPLICATION_ID"],
+  network: getNearEnvironment() === 'testnet' ? 'testnet' : 'mainnet',
+  applicationId: process.env['NEXT_PUBLIC_APPLICATION_ID'],
   nodeServerUrl: getAppEndpointKey() as string,
 };

@@ -1,6 +1,6 @@
-import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/router";
-import { Post } from "../../types/types";
+import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/router';
+import { Post } from '../../types/types';
 
 export interface PostProps {
   post: Post;

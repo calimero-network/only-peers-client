@@ -1,12 +1,12 @@
-import { ApiResponse } from "./response";
+import { ApiResponse } from './response';
 
 enum AlgorithmType {
   Ed25519,
 }
 
 export enum WalletType {
-  ETH = "ETH",
-  NEAR = "NEAR",
+  ETH = 'ETH',
+  NEAR = 'NEAR',
 }
 
 enum VerifiableCredentialType {
@@ -71,12 +71,12 @@ export interface WalletMetadata {
 
 export interface NearMetadata extends WalletMetadata {
   type: WalletType.NEAR;
-  signingKey: "e.g.: ed25519:DfRy7qn3upQS4KFTLChpMG9DmiR29zDMdR1YuUG7cYML";
+  signingKey: 'e.g.: ed25519:DfRy7qn3upQS4KFTLChpMG9DmiR29zDMdR1YuUG7cYML';
 }
 
 export interface EthMetadata extends WalletMetadata {
   type: WalletType.ETH;
-  signingKey: "e.g.: 0x63f9a92d8d61b48a9fff8d58080425a3012d05c8";
+  signingKey: 'e.g.: 0x63f9a92d8d61b48a9fff8d58080425a3012d05c8';
 }
 
 export interface SignatureMetadata {

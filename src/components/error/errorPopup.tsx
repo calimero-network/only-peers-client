@@ -1,9 +1,9 @@
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/router";
-import translations from "../../constants/en.global.json";
-import Button from "../button/button";
+import { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/router';
+import translations from '../../constants/en.global.json';
+import Button from '../button/button';
 
 interface ErrorPopupProps {
   error: String;

@@ -17,5 +17,3 @@ export default function SetupPage() {
     </ContentWrapper>
   );
 }
-
-//    process.env["NEXT_PUBLIC_RPC_BASE_URL"]

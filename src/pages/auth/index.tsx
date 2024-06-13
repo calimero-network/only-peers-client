@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import CalimeroLogo from "src/components/icons/Logo";
-import LoginSelector from "@calimero-is-near/calimero-p2p-sdk/lib/wallet/LoginSelector";
-import Spinner from "src/components/icons/Spinner";
-import { clearAppEndpoint } from "src/lib/storage";
+import CalimeroLogo from "../../components/icons/Logo";
+import { LoginSelector } from "@calimero-is-near/calimero-p2p-sdk";
+import Spinner from "../../components/icons/Spinner";
+import { clearAppEndpoint } from "../../utils/storage";
 
 export default function Auth() {
   const [loading, setLoading] = useState(false);
@@ -54,7 +54,7 @@ export default function Auth() {
                   <LoginSelector
                     navigateMetamaskLogin={onMetamaskSelected}
                     navigateNearLogin={onNearSelected}
-                    cardBackgroundColor={""}
+                    cardBackgroundColor={undefined}
                   />
                 </>
               )}

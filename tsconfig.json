@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "ESNext"],
-    "baseUrl": ".",
-    "rootDir": ".",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "ESNext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "target": "ESNext",
     "sourceMap": true,
-    // "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -22,6 +23,13 @@
     "noPropertyAccessFromIndexSignature": true,
     "strict": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next"
+  ]
 }

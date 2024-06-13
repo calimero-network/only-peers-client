@@ -10,8 +10,8 @@ import {
 
 import { useWalletSelector } from "../contexts/WalletSelectorContext";
 import Button from "./button/button";
-import { getOrCreateKeypair } from "src/crypto/ed25519";
-import apiClient from "src/api";
+import { getOrCreateKeypair } from "../crypto/ed25519";
+import apiClient from "../api";
 import {
   WalletSignatureData,
   NodeChallenge,
@@ -22,10 +22,10 @@ import {
   WalletMetadata,
   WalletType,
   SignatureMessageMetadata,
-} from "src/api/nodeApi";
-import { ResponseData } from "src/api/response";
+} from "../api/nodeApi";
+import { ResponseData } from "../api/response";
 import { useRouter } from "next/router";
-import { setStorageNodeAuthorized } from "src/lib/storage";
+import { setStorageNodeAuthorized } from "../utils/storage";
 import { Loading } from "./Loading";
 
 export interface Message {

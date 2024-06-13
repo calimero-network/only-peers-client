@@ -6,8 +6,8 @@ import Loader from "../../components/loader/loader";
 import ErrorPopup from "../../components/error/errorPopup";
 import { Post } from "../../types/types";
 import { getPeerId } from "../../lib/peerId";
-import { ClientApiDataSource } from "src/api/dataSource/ClientApiDataSource";
-import { CreateCommentRequest, PostRequest } from "src/api/clientApi";
+import { ClientApiDataSource } from "../../api/dataSource/ClientApiDataSource";
+import { CreateCommentRequest, PostRequest } from "../../api/clientApi";
 
 export default function PostPage() {
   const router = useRouter();

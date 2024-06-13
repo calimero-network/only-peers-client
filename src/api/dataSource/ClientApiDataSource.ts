@@ -7,13 +7,13 @@ import {
   PostRequest,
 } from "../clientApi";
 import { ApiResponse } from "../response";
-import { Post } from "src/types/types";
+import { Post } from "../../types/types";
 import {
   JsonRpcClient,
   RequestConfig,
-} from "@calimero-is-near/calimero-p2p-sdk/lib";
-import { AxiosHeader, createAuthHeader } from "src/crypto/crypto";
-import { getAppEndpointKey } from "src/lib/storage";
+} from "@calimero-is-near/calimero-p2p-sdk";
+import { AxiosHeader, createAuthHeader } from "../../crypto/crypto";
+import { getAppEndpointKey } from "../../utils/storage";
 
 export function getJsonRpcClient() {
   return new JsonRpcClient(

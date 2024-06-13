@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { getStorageClientKey } from "src/lib/storage";
+import { getStorageClientKey } from "../utils/storage";
 
 export default function Index() {
   const router = useRouter();

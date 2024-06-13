@@ -7,7 +7,6 @@ import {
 } from "@metamask/sdk-react-ui";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import apiClient from "src/api";
 import {
   EthSignatureMessageMetadata,
   LoginRequest,
@@ -18,10 +17,11 @@ import {
   WalletMetadata,
   WalletSignatureData,
   WalletType,
-} from "src/api/nodeApi";
-import { ResponseData } from "src/api/response";
-import { setStorageNodeAuthorized } from "src/lib/storage";
+} from "../../api/nodeApi";
+import { ResponseData } from "../../api/response";
+import { setStorageNodeAuthorized } from "../../utils/storage";
 import { Loading } from "../Loading";
+import apiClient from "../../api";
 
 export default function LoginWithMetamask() {
   const { isConnected, address } = useAccount();

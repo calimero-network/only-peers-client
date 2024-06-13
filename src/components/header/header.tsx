@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import translations from "../../constants/en.global.json";
 import { useRouter } from "next/router";
-import { getPeerId } from "src/lib/peerId";
+import { getPeerId } from "../../lib/peerId";
 import {
   getStorageClientKey,
   clearClientKey,
   clearNodeAuthorized,
   clearAppEndpoint,
-} from "src/lib/storage";
+} from "../../utils/storage";
 
 export default function Header() {
   const t = translations.header;

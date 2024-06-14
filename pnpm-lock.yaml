@@ -122,6 +122,9 @@ importers:
       gh-pages:
         specifier: ^6.1.1
         version: 6.1.1
+      husky:
+        specifier: ^9.0.11
+        version: 9.0.11
       postcss:
         specifier: ^8
         version: 8.4.38
@@ -6404,6 +6407,14 @@ packages:
       }
     engines: { node: '>=16.17.0' }
 
+  husky@9.0.11:
+    resolution:
+      {
+        integrity: sha512-AB6lFlbwwyIqMdHYhwPe+kjOC3Oc5P3nThEoW/AaO2BX3vJDjWPFxYLxokUZOo6RNX20He3AaT8sESs9NJcmEw==,
+      }
+    engines: { node: '>=18' }
+    hasBin: true
+
   i18next-browser-languagedetector@7.1.0:
     resolution:
       {
@@ -10399,10 +10410,10 @@ packages:
       typescript:
         optional: true
 
-  viem@2.13.10:
+  viem@2.14.0:
     resolution:
       {
-        integrity: sha512-fPnbjqlLfWniczYCbnK47MKjyp1/O/b5wMe5ZpflpccD3GUz/f47dLxwLjfSYxXkwS+GERWHWd+2OXb6N/BBQA==,
+        integrity: sha512-+XnuRNONDRyMNEM+1n6Ak41Py0KBFOmirQ67wPv//ytCmNIJhmy8vqhdFREr3m51GAGgDkllh4JoAdCUUaZJLw==,
       }
     peerDependencies:
       typescript: '>=5.0.4'
@@ -12575,8 +12586,8 @@ snapshots:
       react-copy-to-clipboard: 5.1.0(react@18.3.0)
       react-dom: 18.3.1(react@18.3.0)
       react-jazzicon: 1.0.4(react-dom@18.3.1(react@18.3.0))(react@18.3.0)
-      viem: 2.13.10(bufferutil@4.0.8)(typescript@5.4.5)
-      wagmi: 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0)(typescript@5.4.5)(viem@2.13.10(bufferutil@4.0.8)(typescript@5.4.5))
+      viem: 2.14.0(bufferutil@4.0.8)(typescript@5.4.5)
+      wagmi: 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0)(typescript@5.4.5)(viem@2.14.0(bufferutil@4.0.8)(typescript@5.4.5))
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -12615,8 +12626,8 @@ snapshots:
       react-copy-to-clipboard: 5.1.0(react@18.3.0)
       react-dom: 18.3.1(react@18.3.0)
       react-jazzicon: 1.0.4(react-dom@18.3.1(react@18.3.0))(react@18.3.0)
-      viem: 2.13.10(bufferutil@4.0.8)(typescript@5.4.5)
-      wagmi: 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0)(typescript@5.4.5)(viem@2.13.10(bufferutil@4.0.8)(typescript@5.4.5))
+      viem: 2.14.0(bufferutil@4.0.8)(typescript@5.4.5)
+      wagmi: 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0)(typescript@5.4.5)(viem@2.14.0(bufferutil@4.0.8)(typescript@5.4.5))
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -13902,7 +13913,7 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@wagmi/connectors@3.1.10(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.13.10(bufferutil@4.0.8)(typescript@5.4.5))':
+  '@wagmi/connectors@3.1.10(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.14.0(bufferutil@4.0.8)(typescript@5.4.5))':
     dependencies:
       '@coinbase/wallet-sdk': 3.9.3
       '@safe-global/safe-apps-provider': 0.18.2(bufferutil@4.0.8)(typescript@5.4.5)
@@ -13913,7 +13924,7 @@ snapshots:
       '@walletconnect/utils': 2.10.2
       abitype: 0.8.7(typescript@5.4.5)
       eventemitter3: 4.0.7
-      viem: 2.13.10(bufferutil@4.0.8)(typescript@5.4.5)
+      viem: 2.14.0(bufferutil@4.0.8)(typescript@5.4.5)
     optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:
@@ -13939,12 +13950,12 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@wagmi/core@1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.13.10(bufferutil@4.0.8)(typescript@5.4.5))':
+  '@wagmi/core@1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.14.0(bufferutil@4.0.8)(typescript@5.4.5))':
     dependencies:
-      '@wagmi/connectors': 3.1.10(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.13.10(bufferutil@4.0.8)(typescript@5.4.5))
+      '@wagmi/connectors': 3.1.10(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.14.0(bufferutil@4.0.8)(typescript@5.4.5))
       abitype: 0.8.7(typescript@5.4.5)
       eventemitter3: 4.0.7
-      viem: 2.13.10(bufferutil@4.0.8)(typescript@5.4.5)
+      viem: 2.14.0(bufferutil@4.0.8)(typescript@5.4.5)
       zustand: 4.5.2(@types/react@18.3.2)(react@18.3.0)
     optionalDependencies:
       typescript: 5.4.5
@@ -16216,6 +16227,8 @@ snapshots:
   human-signals@2.1.0: {}
 
   human-signals@5.0.0: {}
+
+  husky@9.0.11: {}
 
   i18next-browser-languagedetector@7.1.0:
     dependencies:
@@ -18728,7 +18741,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  viem@2.13.10(bufferutil@4.0.8)(typescript@5.4.5):
+  viem@2.14.0(bufferutil@4.0.8)(typescript@5.4.5):
     dependencies:
       '@adraffy/ens-normalize': 1.10.0
       '@noble/curves': 1.2.0
@@ -18751,16 +18764,16 @@ snapshots:
 
   void-elements@3.1.0: {}
 
-  wagmi@1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0)(typescript@5.4.5)(viem@2.13.10(bufferutil@4.0.8)(typescript@5.4.5)):
+  wagmi@1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0)(typescript@5.4.5)(viem@2.14.0(bufferutil@4.0.8)(typescript@5.4.5)):
     dependencies:
       '@tanstack/query-sync-storage-persister': 4.36.1
       '@tanstack/react-query': 4.36.1(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0)
       '@tanstack/react-query-persist-client': 4.36.1(@tanstack/react-query@4.36.1(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0))
-      '@wagmi/core': 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.13.10(bufferutil@4.0.8)(typescript@5.4.5))
+      '@wagmi/core': 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.14.0(bufferutil@4.0.8)(typescript@5.4.5))
       abitype: 0.8.7(typescript@5.4.5)
       react: 18.3.0
       use-sync-external-store: 1.2.2(react@18.3.0)
-      viem: 2.13.10(bufferutil@4.0.8)(typescript@5.4.5)
+      viem: 2.14.0(bufferutil@4.0.8)(typescript@5.4.5)
     optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:

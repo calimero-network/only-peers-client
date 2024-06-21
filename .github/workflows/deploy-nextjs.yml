@@ -16,6 +16,10 @@ permissions:
   contents: write
   pages: write
 
+defaults:
+  run:
+    working-directory: ./app
+
 jobs:
   # Build job
   build:
@@ -42,7 +46,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
-          path: ./out
+          path: ./app/out
 
   deploy:
     environment:

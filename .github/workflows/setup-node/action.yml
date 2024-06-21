@@ -1,12 +1,12 @@
 name: setup-node
-description: 'Setup Node.js ⚙️ - Cache dependencies ⚡ - Install dependencies 🔧'
+description: "Setup Node.js ⚙️ - Cache dependencies ⚡ - Install dependencies 🔧"
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Setup Node.js ⚙️
       uses: actions/setup-node@v4
       with:
-        node-version-file: '.nvmrc'
+        node-version-file: "/app/.nvmrc"
 
     - name: Install pnpm
       run: npm install -g pnpm
@@ -15,3 +15,8 @@ runs:
     - name: Install dependencies 🔧
       shell: bash
       run: pnpm install
+
+inputs:
+  working-directory:
+    description: "Working directory"
+    default: "./app"

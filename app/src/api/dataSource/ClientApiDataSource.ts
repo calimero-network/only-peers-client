@@ -22,7 +22,7 @@ export function getJsonRpcClient() {
   );
 }
 
-const applicationId = process.env['NEXT_PUBLIC_APPLICATION_ID'];
+const contextId = process.env['NEXT_PUBLIC_CONTEXT_ID'];
 
 export class ClientApiDataSource implements ClientApi {
   async fetchFeed(params: FeedRequest): ApiResponse<Post[]> {
@@ -36,7 +36,7 @@ export class ClientApiDataSource implements ClientApi {
 
     const response = await getJsonRpcClient().query<FeedRequest, Post[]>(
       {
-        applicationId: applicationId,
+        contextId: contextId,
         method: ClientMethod.POSTS,
         argsJson: params,
       },
@@ -60,7 +60,7 @@ export class ClientApiDataSource implements ClientApi {
 
     const response = await getJsonRpcClient().query<PostRequest, Post>(
       {
-        applicationId: applicationId,
+        contextId: contextId,
         method: ClientMethod.POST,
         argsJson: params,
       },
@@ -83,7 +83,7 @@ export class ClientApiDataSource implements ClientApi {
 
     const response = await getJsonRpcClient().mutate<CreatePostRequest, Post>(
       {
-        applicationId: applicationId,
+        contextId: contextId,
         method: ClientMethod.CREATE_POST,
         argsJson: params,
       },
@@ -109,7 +109,7 @@ export class ClientApiDataSource implements ClientApi {
       Comment
     >(
       {
-        applicationId: applicationId,
+        contextId: contextId,
         method: ClientMethod.CREATE_COMMENT,
         argsJson: params,
       },

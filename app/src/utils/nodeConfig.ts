@@ -3,12 +3,12 @@ import { getAppEndpointKey } from './storage';
 
 interface NodeConfig {
   network: string;
-  applicationId: string;
+  contextId: string;
   nodeServerUrl: string;
 }
 
 export const nodeConfig: NodeConfig = {
   network: getNearEnvironment() === 'testnet' ? 'testnet' : 'mainnet',
-  applicationId: process.env['NEXT_PUBLIC_APPLICATION_ID'],
+  contextId: process.env['NEXT_PUBLIC_CONTEXT_ID'],
   nodeServerUrl: getAppEndpointKey() as string,
 };

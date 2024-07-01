@@ -17,7 +17,7 @@ export default function Near() {
           network={nodeConfig.network as NetworkId}
         >
           <NearLogin
-            appId={nodeConfig.applicationId}
+            contextId={nodeConfig.contextId}
             rpcBaseUrl={nodeConfig.nodeServerUrl}
             successRedirect={() => router.push('/feed')}
             navigateBack={() => router.push('/auth')}

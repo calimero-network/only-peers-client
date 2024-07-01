@@ -8,7 +8,7 @@ export default function Metamask() {
     <div className="flex w-full h-screen justify-center bg-[#111111]">
       <div className="flex flex-col justify-center items-center">
         <MetamaskWrapper
-          applicationId={nodeConfig.applicationId}
+          contextId={nodeConfig.contextId}
           rpcBaseUrl={nodeConfig.nodeServerUrl}
           successRedirect={() => router.push('/feed')}
           navigateBack={() => router.push('/auth')}

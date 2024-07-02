@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { getStorageClientKey } from '../utils/storage';
+import { Loading } from '../components/Loading';
 
 export default function Index() {
   const router = useRouter();
@@ -14,5 +15,6 @@ export default function Index() {
     }
   }, [clientKey, router]);
 
-  return <></>;
+  return <>
+  <Loading /></>;
 }

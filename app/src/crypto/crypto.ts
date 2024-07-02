@@ -39,7 +39,7 @@ export async function createAuthHeader(
     signing_key: signing_key,
     signature: signatureBase58,
     challenge: contentBase58,
-    contextId: contextId
+    contextId,
   };
 
   return headers;

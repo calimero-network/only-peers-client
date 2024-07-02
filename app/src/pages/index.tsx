@@ -15,6 +15,9 @@ export default function Index() {
     }
   }, [clientKey, router]);
 
-  return <>
-  <Loading /></>;
+  return (
+    <>
+      <Loading />
+    </>
+  );
 }

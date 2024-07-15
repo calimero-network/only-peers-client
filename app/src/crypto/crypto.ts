@@ -11,6 +11,8 @@ export interface AxiosHeader {
   [key: string]: string;
 }
 
+const contextId = process.env['NEXT_PUBLIC_CONTEXT_ID'];
+
 export async function createAuthHeader(
   payload: string,
 ): Promise<AxiosHeader | null> {
@@ -37,6 +39,7 @@ export async function createAuthHeader(
     signing_key: signing_key,
     signature: signatureBase58,
     challenge: contentBase58,
+    contextId,
   };
 
   return headers;

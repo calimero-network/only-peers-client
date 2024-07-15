@@ -8,8 +8,8 @@ importers:
   .:
     dependencies:
       '@calimero-is-near/calimero-p2p-sdk':
-        specifier: 0.0.25
-        version: 0.0.25(@near-wallet-selector/modal-ui@8.9.7(near-api-js@3.0.4))(@types/react@18.3.2)(bufferutil@4.0.8)(react-i18next@13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(typescript@5.4.5)(utf-8-validate@6.0.4)
+        specifier: 0.0.27
+        version: 0.0.27(@near-wallet-selector/modal-ui@8.9.7(near-api-js@3.0.4))(@types/react@18.3.2)(bufferutil@4.0.8)(react-i18next@13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(typescript@5.4.5)(utf-8-validate@6.0.4)
       '@headlessui/react':
         specifier: ^1.7.18
         version: 1.7.19(react-dom@18.3.1(react@18.3.0))(react@18.3.0)
@@ -1529,10 +1529,10 @@ packages:
       }
     engines: { node: '>=6.9.0' }
 
-  '@calimero-is-near/calimero-p2p-sdk@0.0.25':
+  '@calimero-is-near/calimero-p2p-sdk@0.0.27':
     resolution:
       {
-        integrity: sha512-AvfGn1DMyfK+v6pPePPmW8xro6vQ71iqWibIZ6aw62oNJmngCqLKYcWr3Oao2a8gSlYijKK+fhdfQvDaTzUqzw==,
+        integrity: sha512-2K7pVsFl4o+Mq3bm6MG4zaEGGiYfhS5BQ3Kjrj5fBxNLw1PmWcY6/bGcgsKHMokJe6oXhf+vTIMeoUKOQKBE9A==,
       }
     peerDependencies:
       '@near-wallet-selector/modal-ui': ^8.9.7
@@ -10422,10 +10422,10 @@ packages:
       typescript:
         optional: true
 
-  viem@2.16.5:
+  viem@2.17.4:
     resolution:
       {
-        integrity: sha512-QDESALYDyLSP+pIr7adH3QPZ+3is16aOVMXXZE0X1GVbgL7PDMZQ8xIF1X/B1hgyqkBl2HhMpUaq6ksUdBV/YA==,
+        integrity: sha512-6gmBB85I7z1qt/+yPPS+i4L2jNPJqCs+SEb+26WnKVYez13svSzjYMsU9OYYlPFpQmpGSy9dV2bKW6VX68FTgg==,
       }
     peerDependencies:
       typescript: '>=5.0.4'
@@ -11875,7 +11875,7 @@ snapshots:
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
 
-  '@calimero-is-near/calimero-p2p-sdk@0.0.25(@near-wallet-selector/modal-ui@8.9.7(near-api-js@3.0.4))(@types/react@18.3.2)(bufferutil@4.0.8)(react-i18next@13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(typescript@5.4.5)(utf-8-validate@6.0.4)':
+  '@calimero-is-near/calimero-p2p-sdk@0.0.27(@near-wallet-selector/modal-ui@8.9.7(near-api-js@3.0.4))(@types/react@18.3.2)(bufferutil@4.0.8)(react-i18next@13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(typescript@5.4.5)(utf-8-validate@6.0.4)':
     dependencies:
       '@libp2p/crypto': 4.1.1
       '@libp2p/interface': 1.3.1
@@ -12613,8 +12613,8 @@ snapshots:
       react-copy-to-clipboard: 5.1.0(react@18.3.0)
       react-dom: 18.3.1(react@18.3.0)
       react-jazzicon: 1.0.4(react-dom@18.3.1(react@18.3.0))(react@18.3.0)
-      viem: 2.16.5(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4)
-      wagmi: 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.16.5(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4))
+      viem: 2.17.4(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4)
+      wagmi: 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.17.4(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4))
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -12653,8 +12653,8 @@ snapshots:
       react-copy-to-clipboard: 5.1.0(react@18.3.0)
       react-dom: 18.3.1(react@18.3.0)
       react-jazzicon: 1.0.4(react-dom@18.3.1(react@18.3.0))(react@18.3.0)
-      viem: 2.16.5(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4)
-      wagmi: 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.16.5(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4))
+      viem: 2.17.4(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4)
+      wagmi: 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.17.4(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4))
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -13951,7 +13951,7 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@wagmi/connectors@3.1.10(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.16.5(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4))':
+  '@wagmi/connectors@3.1.10(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.17.4(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4))':
     dependencies:
       '@coinbase/wallet-sdk': 3.9.3
       '@safe-global/safe-apps-provider': 0.18.2(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4)
@@ -13962,7 +13962,7 @@ snapshots:
       '@walletconnect/utils': 2.10.2
       abitype: 0.8.7(typescript@5.4.5)
       eventemitter3: 4.0.7
-      viem: 2.16.5(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4)
+      viem: 2.17.4(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4)
     optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:
@@ -13988,12 +13988,12 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@wagmi/core@1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.16.5(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4))':
+  '@wagmi/core@1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.17.4(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4))':
     dependencies:
-      '@wagmi/connectors': 3.1.10(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.16.5(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4))
+      '@wagmi/connectors': 3.1.10(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.17.4(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4))
       abitype: 0.8.7(typescript@5.4.5)
       eventemitter3: 4.0.7
-      viem: 2.16.5(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4)
+      viem: 2.17.4(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4)
       zustand: 4.5.2(@types/react@18.3.2)(react@18.3.0)
     optionalDependencies:
       typescript: 5.4.5
@@ -18779,7 +18779,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  viem@2.16.5(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4):
+  viem@2.17.4(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4):
     dependencies:
       '@adraffy/ens-normalize': 1.10.0
       '@noble/curves': 1.4.0
@@ -18802,16 +18802,16 @@ snapshots:
 
   void-elements@3.1.0: {}
 
-  wagmi@1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.16.5(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4)):
+  wagmi@1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.17.4(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4)):
     dependencies:
       '@tanstack/query-sync-storage-persister': 4.36.1
       '@tanstack/react-query': 4.36.1(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(react@18.3.0)
       '@tanstack/react-query-persist-client': 4.36.1(@tanstack/react-query@4.36.1(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(utf-8-validate@6.0.4))(react@18.3.0))
-      '@wagmi/core': 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.16.5(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4))
+      '@wagmi/core': 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(utf-8-validate@6.0.4)(viem@2.17.4(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4))
       abitype: 0.8.7(typescript@5.4.5)
       react: 18.3.0
       use-sync-external-store: 1.2.2(react@18.3.0)
-      viem: 2.16.5(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4)
+      viem: 2.17.4(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.4)
     optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:

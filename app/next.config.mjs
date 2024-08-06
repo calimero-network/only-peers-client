@@ -1,3 +1,5 @@
+import withTM from 'next-transpile-modules';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -8,4 +10,4 @@ const nextConfig = {
   basePath: '/only-peers-client',
 };
 
-export default nextConfig;
+export default withTM(['@calimero-is-near/calimero-p2p-sdk'])(nextConfig);

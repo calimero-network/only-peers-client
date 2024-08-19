@@ -31,6 +31,9 @@ export class ClientApiDataSource implements ClientApi {
     );
 
     const publicKey = getExecutorPublicKey();
+    if (publicKey === null) {
+      throw new Error('Failed to get public key');
+    }
 
     const config: RequestConfig = {
       headers: authHeaders,
@@ -58,6 +61,9 @@ export class ClientApiDataSource implements ClientApi {
     );
 
     const publicKey = getExecutorPublicKey();
+    if (publicKey === null) {
+      throw new Error('Failed to get public key');
+    }
 
     const config: RequestConfig = {
       headers: authHeaders,
@@ -84,6 +90,9 @@ export class ClientApiDataSource implements ClientApi {
     );
 
     const publicKey = getExecutorPublicKey();
+    if (publicKey === null) {
+      throw new Error('Failed to get public key');
+    }
 
     const config: RequestConfig = {
       headers: authHeaders,
@@ -110,6 +119,9 @@ export class ClientApiDataSource implements ClientApi {
     );
 
     const publicKey = getExecutorPublicKey();
+    if (publicKey === null) {
+      throw new Error('Failed to get public key');
+    }
 
     const config: RequestConfig = {
       headers: authHeaders,

@@ -29,21 +29,25 @@ export const getStorageClientKey = (): ClientKey | null => {
 };
 
 export const getExecutorPublicKey = (): Uint8Array | null => {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    let clientKeystore: ClientKey = JSON.parse(
-      localStorage.getItem(CLIENT_KEY),
-    );
-    const decodedPk = bs58.decode(clientKeystore.publicKey);
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      let clientKeystore: ClientKey = JSON.parse(
+        localStorage.getItem(CLIENT_KEY),
+      );
+      const decodedPk = bs58.decode(clientKeystore.publicKey);
 
-    const publicKey = marshalPublicKey(
-      { bytes: decodedPk.slice(0, 32) },
-      'ed25519',
-    );
-    if (publicKey) {
-      return publicKey;
+      const publicKey = marshalPublicKey(
+        { bytes: decodedPk.slice(0, 32) },
+        'ed25519',
+      );
+      if (publicKey) {
+        return publicKey;
+      }
     }
+    return null;
+  } catch (e) {
+    return null;
   }
-  return null;
 };
 
 export const clearClientKey = () => {

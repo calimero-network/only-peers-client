@@ -1,5 +1,8 @@
 'use client';
 
+import { marshalPublicKey } from '@libp2p/crypto/keys';
+import bs58 from 'bs58';
+
 export const CLIENT_KEY = 'client-key';
 export const APP_URL = 'app-url';
 export const AUTHORIZED = 'node-authorized';
@@ -20,6 +23,21 @@ export const getStorageClientKey = (): ClientKey | null => {
     );
     if (clientKeystore) {
       return clientKeystore;
+    }
+  }
+  return null;
+};
+
+export const getExecutorPublicKey = (): Uint8Array | null => {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    let clientKeystore: ClientKey = JSON.parse(
+      localStorage.getItem(CLIENT_KEY),
+    );
+    const decodedPk = bs58.decode(clientKeystore.publicKey);
+
+    const publicKey = marshalPublicKey({ bytes: decodedPk.slice(0,32) }, "ed25519");
+    if (publicKey) {
+      return publicKey;
     }
   }
   return null;

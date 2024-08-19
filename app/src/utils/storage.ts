@@ -35,7 +35,10 @@ export const getExecutorPublicKey = (): Uint8Array | null => {
     );
     const decodedPk = bs58.decode(clientKeystore.publicKey);
 
-    const publicKey = marshalPublicKey({ bytes: decodedPk.slice(0,32) }, "ed25519");
+    const publicKey = marshalPublicKey(
+      { bytes: decodedPk.slice(0, 32) },
+      'ed25519',
+    );
     if (publicKey) {
       return publicKey;
     }

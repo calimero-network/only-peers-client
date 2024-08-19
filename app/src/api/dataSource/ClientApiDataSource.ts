@@ -41,7 +41,7 @@ export class ClientApiDataSource implements ClientApi {
         contextId,
         method: ClientMethod.POSTS,
         argsJson: params,
-        executorPublicKey: Array.from(publicKey)
+        executorPublicKey: Array.from(publicKey),
       },
       config,
     );
@@ -68,7 +68,7 @@ export class ClientApiDataSource implements ClientApi {
         contextId,
         method: ClientMethod.POST,
         argsJson: params,
-        executorPublicKey: Array.from(publicKey)
+        executorPublicKey: Array.from(publicKey),
       },
       config,
     );

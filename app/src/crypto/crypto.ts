@@ -34,7 +34,11 @@ export async function createAuthHeader(
   const signatureBase58 = bs58.encode(signature);
   const contentBase58 = bs58.encode(hashArray);
 
-  const wallet_type = JSON.stringify(WalletType.NEAR({networkId: process.env['NEXT_PUBLIC_NETWORK_ID'] || 'testnet'}));
+  const wallet_type = JSON.stringify(
+    WalletType.NEAR({
+      networkId: process.env['NEXT_PUBLIC_NETWORK_ID'] || 'testnet',
+    }),
+  );
 
   const headers: AxiosHeader = {
     wallet_type,

@@ -109,13 +109,13 @@ export interface HealthStatus {
 }
 
 export interface Context {
-  id: string,
-  application_id: string,
-  last_transaction_hash: string,
+  id: string;
+  application_id: string;
+  last_transaction_hash: string;
 }
 
 export interface ContextResponse {
-  context: Context
+  context: Context;
   contextIdentities: string[];
 }
 

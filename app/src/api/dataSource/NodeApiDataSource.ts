@@ -45,7 +45,7 @@ export class NodeApiDataSource implements NodeApi {
 
     return await this.client.get<ContextResponse>(
       `${getAppEndpointKey()}/admin-api/contexts/${contextId}`,
-      headers ?? {}
+      headers ?? {},
     );
   }
 

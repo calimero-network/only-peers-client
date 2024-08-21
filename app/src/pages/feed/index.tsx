@@ -20,7 +20,7 @@ export default function FeedPage() {
       setError(response.error.message);
       setLoading(false);
     }
-    setPosts(response.data.slice().reverse());
+    setPosts(response?.data?.slice().reverse());
     setLoading(false);
   }, []);
 

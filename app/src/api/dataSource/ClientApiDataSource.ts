@@ -13,7 +13,7 @@ import {
   RequestConfig,
 } from '@calimero-is-near/calimero-p2p-sdk';
 import { AxiosHeader, createAuthHeader } from '../../crypto/crypto';
-import { getAppEndpointKey } from '../../utils/storage';
+import { getAppEndpointKey, getExecutorPublicKey } from '../../utils/storage';
 
 export function getJsonRpcClient() {
   return new JsonRpcClient(
@@ -30,6 +30,13 @@ export class ClientApiDataSource implements ClientApi {
       JSON.stringify(params),
     );
 
+    const publicKey = getExecutorPublicKey();
+    if (publicKey === null) {
+      return {
+        error: { message: 'Failed to get executor public key', code: 500 },
+      };
+    }
+
     const config: RequestConfig = {
       headers: authHeaders,
     };
@@ -39,6 +46,7 @@ export class ClientApiDataSource implements ClientApi {
         contextId,
         method: ClientMethod.POSTS,
         argsJson: params,
+        executorPublicKey: Array.from(publicKey),
       },
       config,
     );
@@ -54,6 +62,13 @@ export class ClientApiDataSource implements ClientApi {
       JSON.stringify(params),
     );
 
+    const publicKey = getExecutorPublicKey();
+    if (publicKey === null) {
+      return {
+        error: { message: 'Failed to get executor public key', code: 500 },
+      };
+    }
+
     const config: RequestConfig = {
       headers: authHeaders,
     };
@@ -63,6 +78,7 @@ export class ClientApiDataSource implements ClientApi {
         contextId,
         method: ClientMethod.POST,
         argsJson: params,
+        executorPublicKey: Array.from(publicKey),
       },
       config,
     );
@@ -77,6 +93,13 @@ export class ClientApiDataSource implements ClientApi {
       JSON.stringify(params),
     );
 
+    const publicKey = getExecutorPublicKey();
+    if (publicKey === null) {
+      return {
+        error: { message: 'Failed to get executor public key', code: 500 },
+      };
+    }
+
     const config: RequestConfig = {
       headers: authHeaders,
     };
@@ -86,6 +109,7 @@ export class ClientApiDataSource implements ClientApi {
         contextId,
         method: ClientMethod.CREATE_POST,
         argsJson: params,
+        executorPublicKey: Array.from(publicKey),
       },
       config,
     );
@@ -100,6 +124,13 @@ export class ClientApiDataSource implements ClientApi {
       JSON.stringify(params),
     );
 
+    const publicKey = getExecutorPublicKey();
+    if (publicKey === null) {
+      return {
+        error: { message: 'Failed to get executor public key', code: 500 },
+      };
+    }
+
     const config: RequestConfig = {
       headers: authHeaders,
     };
@@ -112,6 +143,7 @@ export class ClientApiDataSource implements ClientApi {
         contextId,
         method: ClientMethod.CREATE_COMMENT,
         argsJson: params,
+        executorPublicKey: Array.from(publicKey),
       },
       config,
     );

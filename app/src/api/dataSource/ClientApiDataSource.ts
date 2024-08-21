@@ -32,7 +32,9 @@ export class ClientApiDataSource implements ClientApi {
 
     const publicKey = getExecutorPublicKey();
     if (publicKey === null) {
-      throw new Error('Failed to get public key');
+      return {
+        error: { message: "Failed to get executor public key", code: 500}
+      };
     }
 
     const config: RequestConfig = {
@@ -62,7 +64,9 @@ export class ClientApiDataSource implements ClientApi {
 
     const publicKey = getExecutorPublicKey();
     if (publicKey === null) {
-      throw new Error('Failed to get public key');
+      return {
+        error: { message: "Failed to get executor public key", code: 500}
+      };
     }
 
     const config: RequestConfig = {
@@ -91,7 +95,9 @@ export class ClientApiDataSource implements ClientApi {
 
     const publicKey = getExecutorPublicKey();
     if (publicKey === null) {
-      throw new Error('Failed to get public key');
+      return {
+        error: { message: "Failed to get executor public key", code: 500}
+      };
     }
 
     const config: RequestConfig = {
@@ -120,7 +126,9 @@ export class ClientApiDataSource implements ClientApi {
 
     const publicKey = getExecutorPublicKey();
     if (publicKey === null) {
-      throw new Error('Failed to get public key');
+      return {
+        error: { message: "Failed to get executor public key", code: 500}
+      };
     }
 
     const config: RequestConfig = {

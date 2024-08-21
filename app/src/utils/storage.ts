@@ -6,6 +6,7 @@ import bs58 from 'bs58';
 export const CLIENT_KEY = 'client-key';
 export const APP_URL = 'app-url';
 export const AUTHORIZED = 'node-authorized';
+export const CONTEXT_IDENTITY = 'context-identity';
 
 export interface ClientKey {
   privateKey: string;
@@ -28,13 +29,17 @@ export const getStorageClientKey = (): ClientKey | null => {
   return null;
 };
 
+export const setExecutorPublicKey = (publicKey: string) => {
+  localStorage.setItem(CONTEXT_IDENTITY, JSON.stringify(publicKey));
+}
+
 export const getExecutorPublicKey = (): Uint8Array | null => {
   try {
     if (typeof window !== 'undefined' && window.localStorage) {
-      let clientKeystore: ClientKey = JSON.parse(
-        localStorage.getItem(CLIENT_KEY),
+      let contextIdentity: string = JSON.parse(
+        localStorage.getItem(CONTEXT_IDENTITY),
       );
-      const decodedPk = bs58.decode(clientKeystore.publicKey);
+      const decodedPk = bs58.decode(contextIdentity);
 
       const publicKey = marshalPublicKey(
         { bytes: decodedPk.slice(0, 32) },

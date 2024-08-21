@@ -12,7 +12,6 @@ export interface PostRequest {
 export interface CreatePostRequest {
   title: string;
   content: string;
-  executorPublicKey: Uint8Array;
 }
 
 export interface CreateCommentRequest {

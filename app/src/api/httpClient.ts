@@ -6,7 +6,7 @@ export interface Header {
 }
 
 export interface HttpClient {
-  get<T>(url: string, headers?: Header[]): Promise<ResponseData<T>>;
+  get<T>(url: string, headers?: Header): Promise<ResponseData<T>>;
   post<T>(
     url: string,
     body?: unknown,
@@ -37,12 +37,8 @@ export class AxiosHttpClient implements HttpClient {
     this.axios = axios;
   }
 
-  async get<T>(url: string, headers?: Header[]): Promise<ResponseData<T>> {
-    return this.request<T>(
-      this.axios.get<ResponseData<T>>(url, {
-        headers: headers?.reduce((acc, curr) => ({ ...acc, ...curr }), {}),
-      }),
-    );
+  async get<T>(url: string, headers: Header = {}): Promise<ResponseData<T>> {
+    return this.request<T>(this.axios.get<ResponseData<T>>(url, { headers }));
   }
 
   async post<T>(

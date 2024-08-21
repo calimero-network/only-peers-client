@@ -220,13 +220,19 @@ const Content: React.FC = () => {
       await apiClient
         .node()
         .login(loginRequest)
-        .then((result) => {
+        .then(async (result) => {
           console.log('result', result);
           if (result.error) {
             console.error('login error', result.error);
             //TODO handle error
           } else {
             setStorageNodeAuthorized();
+            await apiClient
+              .node()
+              .login(loginRequest)
+              .then((result) => {
+                console.log('result', result);
+              });
             router.push('/feed');
           }
         })

@@ -108,20 +108,8 @@ export interface HealthStatus {
   status: String;
 }
 
-export interface Context {
-  id: string;
-  application_id: string;
-  last_transaction_hash: string;
-}
-
-export interface ContextResponse {
-  context: Context;
-  contextIdentities: string[];
-}
-
 export interface NodeApi {
   login(loginRequest: LoginRequest): ApiResponse<LoginResponse>;
   requestChallenge(): ApiResponse<NodeChallenge>;
   health(request: HealthRequest): ApiResponse<HealthStatus>;
-  getContext(): ApiResponse<ContextResponse>;
 }

@@ -1,6 +1,5 @@
-import { createAuthHeader } from '../../crypto/crypto';
 import { getAppEndpointKey } from '../../utils/storage';
-import { Header, HttpClient } from '../httpClient';
+import { HttpClient } from '../httpClient';
 import {
   NodeChallenge,
   LoginResponse,
@@ -8,7 +7,6 @@ import {
   LoginRequest,
   HealthRequest,
   HealthStatus,
-  ContextResponse,
 } from '../nodeApi';
 import { ApiResponse } from '../response';
 
@@ -36,16 +34,6 @@ export class NodeApiDataSource implements NodeApi {
       {
         ...loginRequest,
       },
-    );
-  }
-
-  async getContext(): ApiResponse<ContextResponse> {
-    const contextId = process.env['NEXT_PUBLIC_CONTEXT_ID'];
-    const headers: Header | null = await createAuthHeader(contextId);
-
-    return await this.client.get<ContextResponse>(
-      `${getAppEndpointKey()}/admin-api/contexts/${contextId}`,
-      headers ?? {},
     );
   }
 

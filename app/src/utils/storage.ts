@@ -29,10 +29,6 @@ export const getStorageClientKey = (): ClientKey | null => {
   return null;
 };
 
-export const setExecutorPublicKey = (publicKey: string) => {
-  localStorage.setItem(CONTEXT_IDENTITY, JSON.stringify(publicKey));
-};
-
 export const getExecutorPublicKey = (): Uint8Array | null => {
   try {
     if (typeof window !== 'undefined' && window.localStorage) {

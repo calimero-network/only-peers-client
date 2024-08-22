@@ -13,16 +13,14 @@ import {
   RequestConfig,
 } from '@calimero-is-near/calimero-p2p-sdk';
 import { AxiosHeader, createAuthHeader } from '../../crypto/crypto';
-import { getAppEndpointKey, getExecutorPublicKey } from '../../utils/storage';
+import { getAppEndpointKey, getContextId, getExecutorPublicKey } from '../../utils/storage';
 
 export function getJsonRpcClient() {
   return new JsonRpcClient(
     getAppEndpointKey()?.toString(),
-    process.env['NEXT_PUBLIC_RPC_PATH'],
+    getContextId(),
   );
 }
-
-const contextId = process.env['NEXT_PUBLIC_CONTEXT_ID'];
 
 export class ClientApiDataSource implements ClientApi {
   async fetchFeed(params: FeedRequest): ApiResponse<Post[]> {
@@ -43,7 +41,7 @@ export class ClientApiDataSource implements ClientApi {
 
     const response = await getJsonRpcClient().query<FeedRequest, Post[]>(
       {
-        contextId,
+        contextId: getContextId(),
         method: ClientMethod.POSTS,
         argsJson: params,
         executorPublicKey: Array.from(publicKey),
@@ -75,7 +73,7 @@ export class ClientApiDataSource implements ClientApi {
 
     const response = await getJsonRpcClient().query<PostRequest, Post>(
       {
-        contextId,
+        contextId: getContextId(),
         method: ClientMethod.POST,
         argsJson: params,
         executorPublicKey: Array.from(publicKey),
@@ -106,7 +104,7 @@ export class ClientApiDataSource implements ClientApi {
 
     const response = await getJsonRpcClient().mutate<CreatePostRequest, Post>(
       {
-        contextId,
+        contextId: getContextId(),
         method: ClientMethod.CREATE_POST,
         argsJson: params,
         executorPublicKey: Array.from(publicKey),
@@ -140,7 +138,7 @@ export class ClientApiDataSource implements ClientApi {
       Comment
     >(
       {
-        contextId,
+        contextId: getContextId(),
         method: ClientMethod.CREATE_COMMENT,
         argsJson: params,
         executorPublicKey: Array.from(publicKey),

@@ -6,6 +6,7 @@ import { nodeConfig } from '../../utils/nodeConfig';
 import { NetworkId } from '@near-wallet-selector/core/src';
 
 import '@near-wallet-selector/modal-ui/styles.css';
+import { getContextId } from '../../utils/storage';
 
 export default function Near() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function Near() {
         >
           <NearLogin
             networkId={nodeConfig.network as NetworkId}
-            contextId={nodeConfig.contextId}
+            contextId={getContextId()}
             rpcBaseUrl={nodeConfig.nodeServerUrl}
             successRedirect={() => router.push('/feed')}
             navigateBack={() => router.push('/auth')}

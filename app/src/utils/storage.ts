@@ -7,6 +7,7 @@ export const CLIENT_KEY = 'client-key';
 export const APP_URL = 'app-url';
 export const AUTHORIZED = 'node-authorized';
 export const CONTEXT_IDENTITY = 'context-identity';
+export const CONTEXT_ID = 'context-id';
 
 export interface ClientKey {
   privateKey: string;
@@ -91,4 +92,17 @@ export const getAppEndpointKey = (): string | null => {
     }
   }
   return null;
+};
+
+export const getContextId = (): string | null => {
+  const storageContextId = localStorage.getItem(CONTEXT_ID);
+  if (storageContextId) {
+    return JSON.parse(storageContextId);
+  } else {
+    return null;
+  }
+};
+
+export const setContextId = (contextId: string) => {
+  localStorage.setItem(CONTEXT_ID, JSON.stringify(contextId));
 };

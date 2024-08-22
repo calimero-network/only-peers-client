@@ -1,4 +1,9 @@
-import { getAppEndpointKey, setAppEndpointKey } from './storage';
+import {
+  getAppEndpointKey,
+  getContextId,
+  setAppEndpointKey,
+  setContextId,
+} from './storage';
 
 export function getNodeUrl(): string {
   if (typeof window === 'undefined') {
@@ -13,6 +18,18 @@ export function getNodeUrl(): string {
   }
 
   return storageKey ?? '';
+}
+
+export function getStorageContextId(): string {
+  let storageContextId = getContextId();
+
+  if (!storageContextId) {
+    let envKey: string = process.env['NEXT_PUBLIC_CONTEXT_ID'] ?? '';
+    setContextId(envKey);
+    return envKey;
+  }
+
+  return storageContextId ?? '';
 }
 
 export function getNearEnvironment(): string {

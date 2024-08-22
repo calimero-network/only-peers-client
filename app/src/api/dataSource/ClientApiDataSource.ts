@@ -13,13 +13,14 @@ import {
   RequestConfig,
 } from '@calimero-is-near/calimero-p2p-sdk';
 import { AxiosHeader, createAuthHeader } from '../../crypto/crypto';
-import { getAppEndpointKey, getContextId, getExecutorPublicKey } from '../../utils/storage';
+import {
+  getAppEndpointKey,
+  getContextId,
+  getExecutorPublicKey,
+} from '../../utils/storage';
 
 export function getJsonRpcClient() {
-  return new JsonRpcClient(
-    getAppEndpointKey()?.toString(),
-    getContextId(),
-  );
+  return new JsonRpcClient(getAppEndpointKey()?.toString(), getContextId());
 }
 
 export class ClientApiDataSource implements ClientApi {

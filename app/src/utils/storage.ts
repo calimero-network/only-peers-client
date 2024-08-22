@@ -95,7 +95,7 @@ export const getAppEndpointKey = (): string | null => {
 };
 
 export const getContextId = (): string | null => {
-  if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+  if (typeof window !== 'undefined' && window.localStorage) {
     const storageContextId = localStorage.getItem(CONTEXT_ID);
     if (storageContextId) {
       return JSON.parse(storageContextId);

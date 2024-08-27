@@ -3,26 +3,26 @@ use calimero_sdk::serde::Serialize;
 use calimero_sdk::{app, env};
 
 #[app::state(emits = for<'a> Event<'a>)]
-#[derive(Default, BorshSerialize, BorshDeserialize)]
+#[derive(BorshDeserialize, BorshSerialize, Default)]
 #[borsh(crate = "calimero_sdk::borsh")]
-struct OnlyPeers {
+pub struct OnlyPeers {
     posts: Vec<Post>,
 }
 
-#[derive(Default, Serialize, BorshSerialize, BorshDeserialize)]
+#[derive(BorshDeserialize, BorshSerialize, Default, Serialize)]
 #[borsh(crate = "calimero_sdk::borsh")]
 #[serde(crate = "calimero_sdk::serde")]
-struct Post {
+pub struct Post {
     id: usize,
     title: String,
     content: String,
     comments: Vec<Comment>,
 }
 
-#[derive(Default, Serialize, BorshSerialize, BorshDeserialize)]
+#[derive(BorshDeserialize, BorshSerialize, Default, Serialize)]
 #[borsh(crate = "calimero_sdk::borsh")]
 #[serde(crate = "calimero_sdk::serde")]
-struct Comment {
+pub struct Comment {
     text: String,
     user: String,
 }
@@ -43,6 +43,11 @@ pub enum Event<'a> {
 
 #[app::logic]
 impl OnlyPeers {
+    #[app::init]
+    pub fn init() -> OnlyPeers {
+        OnlyPeers::default()
+    }
+
     pub fn post(&self, id: usize) -> Option<&Post> {
         env::log(&format!("Getting post with id: {:?}", id));
 

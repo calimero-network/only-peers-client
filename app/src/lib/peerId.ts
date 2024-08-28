@@ -1,7 +1,5 @@
 import { peerIdFromKeys } from '@libp2p/peer-id';
 import { ClientKey, getStorageClientKey } from '../utils/storage';
-import { unmarshalPrivateKey } from '@libp2p/crypto/keys';
-import * as bs58 from 'bs58';
 
 export async function getPeerId() {
   let clientKey: ClientKey = getStorageClientKey();

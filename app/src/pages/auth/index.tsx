@@ -1,34 +1,24 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import CalimeroLogo from '../../components/icons/Logo';
-import { LoginSelector } from '@calimero-is-near/calimero-p2p-sdk';
-import Spinner from '../../components/icons/Spinner';
-import { clearAppEndpoint } from '../../utils/storage';
+import { ClientLogin } from '@calimero-is-near/calimero-p2p-sdk';
+import { clearAppEndpoint, clearApplicationId } from '../../utils/storage';
+import { getNodeUrl, getStorageApplicationId } from '../../utils/node';
 
 export default function Auth() {
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  function onMetamaskSelected() {
-    setLoading(true);
-    router.push('/auth/metamask');
-  }
-
-  function onNearSelected() {
-    setLoading(true);
-    router.push('/auth/near');
-  }
 
   function onSetupClick() {
     clearAppEndpoint();
+    clearApplicationId();
     router.push('/setup');
   }
 
+
   return (
     <>
-      <div className="flex w-full h-screen bg-[#111111]">
+      <div className="flex w-full h-screen bg-[#111111] relative">
         <div
-          className="h-fit text-white p-4 cursor-pointer"
+          className="h-fit text-white p-4 cursor-pointer absolute"
           onClick={onSetupClick}
         >
           Return to setup
@@ -42,22 +32,11 @@ export default function Auth() {
                   Only Peers
                 </div>
               </div>
-              {loading ? (
-                <div className="flex flex-col gap-4 justify-center items-center mt-6">
-                  <Spinner />
-                  <span className="text-white text-2xl font-semibold">
-                    Loading ...
-                  </span>
-                </div>
-              ) : (
-                <>
-                  <LoginSelector
-                    navigateMetamaskLogin={onMetamaskSelected}
-                    navigateNearLogin={onNearSelected}
-                    cardBackgroundColor={undefined}
-                  />
-                </>
-              )}
+              <ClientLogin
+                getNodeUrl={getNodeUrl}
+                getApplicationId={getStorageApplicationId}
+                sucessRedirect={() => router.push('/feed')}
+              />
             </div>
             <div className="mt-6">
               <CalimeroLogo />

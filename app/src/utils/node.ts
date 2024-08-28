@@ -1,5 +1,6 @@
 import {
   getAppEndpointKey,
+  getApplicationId,
   getContextId,
   setAppEndpointKey,
   setContextId,
@@ -30,6 +31,18 @@ export function getStorageContextId(): string {
   }
 
   return storageContextId ?? '';
+}
+
+export function getStorageApplicationId(): string {
+  let storageApplicationId = getApplicationId();
+
+  if (!storageApplicationId) {
+    let envKey: string = process.env['NEXT_PUBLIC_APPLICATION_ID'] ?? '';
+    setContextId(envKey);
+    return envKey;
+  }
+
+  return storageApplicationId ?? '';
 }
 
 export function getNearEnvironment(): string {

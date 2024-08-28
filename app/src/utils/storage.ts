@@ -8,6 +8,7 @@ export const APP_URL = 'app-url';
 export const AUTHORIZED = 'node-authorized';
 export const CONTEXT_IDENTITY = 'context-identity';
 export const CONTEXT_ID = 'context-id';
+export const APPLICATION_ID = "application-id";
 
 export interface ClientKey {
   privateKey: string;
@@ -80,6 +81,10 @@ export const clearAppEndpoint = () => {
   localStorage.removeItem(APP_URL);
 };
 
+export const clearApplicationId = () => {
+  localStorage.removeItem(APPLICATION_ID);
+};
+
 export const setAppEndpointKey = (url: string) => {
   localStorage.setItem(APP_URL, JSON.stringify(url));
 };
@@ -106,4 +111,18 @@ export const getContextId = (): string | null => {
 
 export const setContextId = (contextId: string) => {
   localStorage.setItem(CONTEXT_ID, JSON.stringify(contextId));
+};
+
+export const getApplicationId = (): string | null => {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    const storageContextId = localStorage.getItem(APPLICATION_ID);
+    if (storageContextId) {
+      return JSON.parse(storageContextId);
+    }
+  }
+  return null;
+};
+
+export const setApplicationId = (contextId: string) => {
+  localStorage.setItem(APPLICATION_ID, JSON.stringify(contextId));
 };

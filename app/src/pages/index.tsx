@@ -1,19 +1,19 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { getStorageClientKey } from '../utils/storage';
 import { Loading } from '../components/Loading';
+import { getAccessToken } from '@calimero-is-near/calimero-p2p-sdk';
 
 export default function Index() {
   const router = useRouter();
-  const clientKey = getStorageClientKey();
+  const accessToken = getAccessToken();
 
   useEffect(() => {
-    if (!clientKey) {
+    if (!accessToken) {
       router.push('/setup');
     } else {
       router.push('/feed');
     }
-  }, [clientKey, router]);
+  }, [accessToken, router]);
 
   return (
     <>

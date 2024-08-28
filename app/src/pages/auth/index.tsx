@@ -13,7 +13,6 @@ export default function Auth() {
     router.push('/setup');
   }
 
-
   return (
     <>
       <div className="flex w-full h-screen bg-[#111111] relative">

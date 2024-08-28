@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router.js';
-import {
-  getAppEndpointKey,
-} from '../../utils/storage';
+import { getAppEndpointKey } from '../../utils/storage';
 import { getStorageApplicationId } from '../../utils/node';
-import { getAccessToken, getRefreshToken } from '@calimero-is-near/calimero-p2p-sdk';
+import {
+  getAccessToken,
+  getRefreshToken,
+} from '@calimero-is-near/calimero-p2p-sdk';
 
 export default function WithIdAuth({ children }: any) {
   const router = useRouter();

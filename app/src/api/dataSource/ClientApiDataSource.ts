@@ -21,8 +21,8 @@ import {
 } from '../../utils/storage';
 
 export function getJsonRpcClient() {
-  const jwt: JsonWebToken = getJWTObject();
-  return new JsonRpcClient(getAppEndpointKey()?.toString(), jwt.context_id);
+  const jwt: JsonWebToken | null = getJWTObject();
+  return new JsonRpcClient(getAppEndpointKey()?.toString(), jwt?.context_id ?? '');
 }
 
 export class ClientApiDataSource implements ClientApi {

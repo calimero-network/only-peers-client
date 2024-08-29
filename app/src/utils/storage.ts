@@ -129,7 +129,7 @@ export const setStorageApplicationId = (applicationId: string) => {
   localStorage.setItem(APPLICATION_ID, JSON.stringify(applicationId));
 };
 
-export const getJWTObject = (): JsonWebToken => {
+export const getJWTObject = (): JsonWebToken | null => {
   const token = getAccessToken();
   if (!token) return null;
   const parts = token.split('.');

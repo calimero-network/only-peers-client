@@ -115,14 +115,14 @@ export const setContextId = (contextId: string) => {
 
 export const getApplicationId = (): string | null => {
   if (typeof window !== 'undefined' && window.localStorage) {
-    const storageContextId = localStorage.getItem(APPLICATION_ID);
-    if (storageContextId) {
-      return JSON.parse(storageContextId);
+    const storageApplicationId = localStorage.getItem(APPLICATION_ID);
+    if (storageApplicationId) {
+      return JSON.parse(storageApplicationId);
     }
   }
   return null;
 };
 
-export const setApplicationId = (contextId: string) => {
-  localStorage.setItem(APPLICATION_ID, JSON.stringify(contextId));
+export const setStorageApplicationId = (applicationId: string) => {
+  localStorage.setItem(APPLICATION_ID, JSON.stringify(applicationId));
 };

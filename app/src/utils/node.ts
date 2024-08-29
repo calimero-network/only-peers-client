@@ -4,6 +4,7 @@ import {
   getContextId,
   setAppEndpointKey,
   setContextId,
+  setStorageApplicationId,
 } from './storage';
 
 export function getNodeUrl(): string {
@@ -38,7 +39,7 @@ export function getStorageApplicationId(): string {
 
   if (!storageApplicationId) {
     let envKey: string = process.env['NEXT_PUBLIC_APPLICATION_ID'] ?? '';
-    setContextId(envKey);
+    setStorageApplicationId(envKey);
     return envKey;
   }
 

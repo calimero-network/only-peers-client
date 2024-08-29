@@ -23,7 +23,7 @@ export default function Auth() {
           Return to setup
         </div>
 
-        <div className="w-full h-full flex justify-items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center">
           <div className="flex flex-col justify-center items-center">
             <div className="items-center bg-[#1C1C1C] p-8 gap-y-4 rounded-lg">
               <div className="flex justify-center items-center gap-3 px-14">

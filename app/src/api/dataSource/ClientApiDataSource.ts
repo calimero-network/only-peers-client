@@ -22,7 +22,10 @@ import {
 
 export function getJsonRpcClient() {
   const jwt: JsonWebToken | null = getJWTObject();
-  return new JsonRpcClient(getAppEndpointKey()?.toString(), jwt?.context_id ?? '');
+  return new JsonRpcClient(
+    getAppEndpointKey()?.toString(),
+    jwt?.context_id ?? '',
+  );
 }
 
 export class ClientApiDataSource implements ClientApi {

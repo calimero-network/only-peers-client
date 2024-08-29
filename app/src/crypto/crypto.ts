@@ -67,7 +67,7 @@ export function createJwtHeader(): AxiosHeader | null {
   }
 
   const headers: AxiosHeader = {
-    authorization: `Bearer ${token}`
+    authorization: `Bearer ${token}`,
   };
   return headers;
 }

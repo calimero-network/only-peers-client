@@ -2,7 +2,7 @@ import { SetupModal } from '@calimero-is-near/calimero-p2p-sdk';
 import { useRouter } from 'next/router';
 import ContentWrapper from '../../components/login/ContentWrapper';
 import { getNodeUrl, getStorageApplicationId } from '../../utils/node';
-import { setAppEndpointKey, setApplicationId } from '../../utils/storage';
+import { setAppEndpointKey, setStorageApplicationId } from '../../utils/storage';
 
 export default function SetupPage() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export default function SetupPage() {
         successRoute={() => router.push('/auth')}
         getNodeUrl={getNodeUrl}
         setNodeUrl={setAppEndpointKey}
-        setApplicationId={setApplicationId}
+        setApplicationId={setStorageApplicationId}
         getApplicationId={getStorageApplicationId}
       />
     </ContentWrapper>

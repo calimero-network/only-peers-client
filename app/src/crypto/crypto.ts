@@ -1,5 +1,6 @@
 import {
   ClientKey,
+  getJWT,
   getStorageClientKey as getStoragePrivateKey,
 } from '../utils/storage';
 import { unmarshalPrivateKey } from '@libp2p/crypto/keys';
@@ -56,4 +57,17 @@ export async function getPrivateKey(): Promise<PrivateKey | null> {
     console.error('Error extracting private key:', error);
     return null;
   }
+}
+
+export function createJwtHeader(): AxiosHeader | null {
+  const token: string = getJWT();
+
+  if (!token) {
+    return null;
+  }
+
+  const headers: AxiosHeader = {
+    authorization: `Bearer ${token}`
+  };
+  return headers;
 }

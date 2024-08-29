@@ -7,29 +7,30 @@ import {
   PostRequest,
 } from '../clientApi';
 import { ApiResponse } from '../response';
-import { Post } from '../../types/types';
+import { JsonWebToken, Post } from '../../types/types';
 import {
   JsonRpcClient,
   RequestConfig,
 } from '@calimero-is-near/calimero-p2p-sdk';
-import { AxiosHeader, createAuthHeader } from '../../crypto/crypto';
+import { AxiosHeader, createJwtHeader } from '../../crypto/crypto';
 import {
   getAppEndpointKey,
   getContextId,
-  getExecutorPublicKey,
+  getExecutorPkByteArray,
+  getJWTObject,
 } from '../../utils/storage';
 
 export function getJsonRpcClient() {
-  return new JsonRpcClient(getAppEndpointKey()?.toString(), getContextId());
+  const jwt: JsonWebToken = getJWTObject();
+  return new JsonRpcClient(getAppEndpointKey()?.toString(), jwt.context_id);
 }
 
 export class ClientApiDataSource implements ClientApi {
   async fetchFeed(params: FeedRequest): ApiResponse<Post[]> {
-    const authHeaders: AxiosHeader = await createAuthHeader(
-      JSON.stringify(params),
-    );
+    const jwtObject: JsonWebToken = getJWTObject();
+    const headers: AxiosHeader = createJwtHeader();
 
-    const publicKey = getExecutorPublicKey();
+    const publicKey = getExecutorPkByteArray(jwtObject.executor_public_key);
     if (publicKey === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
@@ -37,7 +38,7 @@ export class ClientApiDataSource implements ClientApi {
     }
 
     const config: RequestConfig = {
-      headers: authHeaders,
+      headers: headers,
     };
 
     const response = await getJsonRpcClient().query<FeedRequest, Post[]>(
@@ -57,11 +58,10 @@ export class ClientApiDataSource implements ClientApi {
   }
 
   async fetchPost(params: PostRequest): ApiResponse<Post> {
-    const authHeaders: AxiosHeader = await createAuthHeader(
-      JSON.stringify(params),
-    );
+    const jwtObject: JsonWebToken = getJWTObject();
+    const headers: AxiosHeader = createJwtHeader();
 
-    const publicKey = getExecutorPublicKey();
+    const publicKey = getExecutorPkByteArray(jwtObject.executor_public_key);
     if (publicKey === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
@@ -69,7 +69,7 @@ export class ClientApiDataSource implements ClientApi {
     }
 
     const config: RequestConfig = {
-      headers: authHeaders,
+      headers: headers,
     };
 
     const response = await getJsonRpcClient().query<PostRequest, Post>(
@@ -88,11 +88,10 @@ export class ClientApiDataSource implements ClientApi {
   }
 
   async createPost(params: CreatePostRequest): ApiResponse<Post> {
-    const authHeaders: AxiosHeader = await createAuthHeader(
-      JSON.stringify(params),
-    );
+    const jwtObject: JsonWebToken = getJWTObject();
+    const headers: AxiosHeader = createJwtHeader();
 
-    const publicKey = getExecutorPublicKey();
+    const publicKey = getExecutorPkByteArray(jwtObject.executor_public_key);
     if (publicKey === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
@@ -100,7 +99,7 @@ export class ClientApiDataSource implements ClientApi {
     }
 
     const config: RequestConfig = {
-      headers: authHeaders,
+      headers: headers,
     };
 
     const response = await getJsonRpcClient().mutate<CreatePostRequest, Post>(
@@ -119,11 +118,10 @@ export class ClientApiDataSource implements ClientApi {
   }
 
   async createComment(params: CreateCommentRequest): ApiResponse<Comment> {
-    const authHeaders: AxiosHeader = await createAuthHeader(
-      JSON.stringify(params),
-    );
+    const jwtObject: JsonWebToken = getJWTObject();
+    const headers: AxiosHeader = createJwtHeader();
 
-    const publicKey = getExecutorPublicKey();
+    const publicKey = getExecutorPkByteArray(jwtObject.executor_public_key);
     if (publicKey === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
@@ -131,7 +129,7 @@ export class ClientApiDataSource implements ClientApi {
     }
 
     const config: RequestConfig = {
-      headers: authHeaders,
+      headers: headers,
     };
 
     const response = await getJsonRpcClient().mutate<

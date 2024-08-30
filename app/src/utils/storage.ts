@@ -11,8 +11,8 @@ export const AUTHORIZED = 'node-authorized';
 export const CONTEXT_IDENTITY = 'context-identity';
 export const CONTEXT_ID = 'context-id';
 export const APPLICATION_ID = 'application-id';
-export const ACCESS_TOKEN = "access-token";
-export const REFRESH_TOKEN = "refresh-token";
+export const ACCESS_TOKEN = 'access-token';
+export const REFRESH_TOKEN = 'refresh-token';
 
 export interface ClientKey {
   privateKey: string;

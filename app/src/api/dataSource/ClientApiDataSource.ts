@@ -15,7 +15,6 @@ import {
 import { AxiosHeader, createJwtHeader } from '../../crypto/crypto';
 import {
   getAppEndpointKey,
-  getContextId,
   getExecutorPkByteArray,
   getJWTObject,
 } from '../../utils/storage';
@@ -50,7 +49,7 @@ export class ClientApiDataSource implements ClientApi {
 
     const response = await getJsonRpcClient().query<FeedRequest, Post[]>(
       {
-        contextId: getContextId(),
+        contextId: jwtObject.context_id,
         method: ClientMethod.POSTS,
         argsJson: params,
         executorPublicKey: Array.from(publicKey),
@@ -85,7 +84,7 @@ export class ClientApiDataSource implements ClientApi {
 
     const response = await getJsonRpcClient().query<PostRequest, Post>(
       {
-        contextId: getContextId(),
+        contextId: jwtObject.context_id,
         method: ClientMethod.POST,
         argsJson: params,
         executorPublicKey: Array.from(publicKey),
@@ -119,7 +118,7 @@ export class ClientApiDataSource implements ClientApi {
 
     const response = await getJsonRpcClient().mutate<CreatePostRequest, Post>(
       {
-        contextId: getContextId(),
+        contextId: jwtObject.context_id,
         method: ClientMethod.CREATE_POST,
         argsJson: params,
         executorPublicKey: Array.from(publicKey),
@@ -156,7 +155,7 @@ export class ClientApiDataSource implements ClientApi {
       Comment
     >(
       {
-        contextId: getContextId(),
+        contextId: jwtObject.context_id,
         method: ClientMethod.CREATE_COMMENT,
         argsJson: params,
         executorPublicKey: Array.from(publicKey),

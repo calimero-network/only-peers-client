@@ -7,29 +7,35 @@ import {
   PostRequest,
 } from '../clientApi';
 import { ApiResponse } from '../response';
-import { Post } from '../../types/types';
+import { JsonWebToken, Post } from '../../types/types';
 import {
   JsonRpcClient,
   RequestConfig,
 } from '@calimero-is-near/calimero-p2p-sdk';
-import { AxiosHeader, createAuthHeader } from '../../crypto/crypto';
+import { AxiosHeader, createJwtHeader } from '../../crypto/crypto';
 import {
   getAppEndpointKey,
-  getContextId,
-  getExecutorPublicKey,
+  getExecutorPkByteArray,
+  getJWTObject,
 } from '../../utils/storage';
 
 export function getJsonRpcClient() {
-  return new JsonRpcClient(getAppEndpointKey()?.toString(), getContextId());
+  return new JsonRpcClient(
+    getAppEndpointKey()?.toString(),
+    process.env['NEXT_PUBLIC_RPC_PATH'],
+  );
 }
 
 export class ClientApiDataSource implements ClientApi {
   async fetchFeed(params: FeedRequest): ApiResponse<Post[]> {
-    const authHeaders: AxiosHeader = await createAuthHeader(
-      JSON.stringify(params),
-    );
-
-    const publicKey = getExecutorPublicKey();
+    const jwtObject: JsonWebToken = getJWTObject();
+    const headers: AxiosHeader = createJwtHeader();
+    if (!jwtObject) {
+      return {
+        error: { message: 'Failed to get JWT token', code: 500 },
+      };
+    }
+    const publicKey = getExecutorPkByteArray(jwtObject.executor);
     if (publicKey === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
@@ -37,12 +43,12 @@ export class ClientApiDataSource implements ClientApi {
     }
 
     const config: RequestConfig = {
-      headers: authHeaders,
+      headers: headers,
     };
 
     const response = await getJsonRpcClient().query<FeedRequest, Post[]>(
       {
-        contextId: getContextId(),
+        contextId: jwtObject.context_id,
         method: ClientMethod.POSTS,
         argsJson: params,
         executorPublicKey: Array.from(publicKey),
@@ -57,11 +63,14 @@ export class ClientApiDataSource implements ClientApi {
   }
 
   async fetchPost(params: PostRequest): ApiResponse<Post> {
-    const authHeaders: AxiosHeader = await createAuthHeader(
-      JSON.stringify(params),
-    );
-
-    const publicKey = getExecutorPublicKey();
+    const jwtObject: JsonWebToken = getJWTObject();
+    const headers: AxiosHeader = createJwtHeader();
+    if (!jwtObject) {
+      return {
+        error: { message: 'Failed to get JWT token', code: 500 },
+      };
+    }
+    const publicKey = getExecutorPkByteArray(jwtObject.executor);
     if (publicKey === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
@@ -69,12 +78,12 @@ export class ClientApiDataSource implements ClientApi {
     }
 
     const config: RequestConfig = {
-      headers: authHeaders,
+      headers: headers,
     };
 
     const response = await getJsonRpcClient().query<PostRequest, Post>(
       {
-        contextId: getContextId(),
+        contextId: jwtObject.context_id,
         method: ClientMethod.POST,
         argsJson: params,
         executorPublicKey: Array.from(publicKey),
@@ -88,11 +97,14 @@ export class ClientApiDataSource implements ClientApi {
   }
 
   async createPost(params: CreatePostRequest): ApiResponse<Post> {
-    const authHeaders: AxiosHeader = await createAuthHeader(
-      JSON.stringify(params),
-    );
-
-    const publicKey = getExecutorPublicKey();
+    const jwtObject: JsonWebToken = getJWTObject();
+    const headers: AxiosHeader = createJwtHeader();
+    if (!jwtObject) {
+      return {
+        error: { message: 'Failed to get JWT token', code: 500 },
+      };
+    }
+    const publicKey = getExecutorPkByteArray(jwtObject.executor);
     if (publicKey === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
@@ -100,12 +112,12 @@ export class ClientApiDataSource implements ClientApi {
     }
 
     const config: RequestConfig = {
-      headers: authHeaders,
+      headers: headers,
     };
 
     const response = await getJsonRpcClient().mutate<CreatePostRequest, Post>(
       {
-        contextId: getContextId(),
+        contextId: jwtObject.context_id,
         method: ClientMethod.CREATE_POST,
         argsJson: params,
         executorPublicKey: Array.from(publicKey),
@@ -119,11 +131,14 @@ export class ClientApiDataSource implements ClientApi {
   }
 
   async createComment(params: CreateCommentRequest): ApiResponse<Comment> {
-    const authHeaders: AxiosHeader = await createAuthHeader(
-      JSON.stringify(params),
-    );
-
-    const publicKey = getExecutorPublicKey();
+    const jwtObject: JsonWebToken = getJWTObject();
+    const headers: AxiosHeader = createJwtHeader();
+    if (!jwtObject) {
+      return {
+        error: { message: 'Failed to get JWT token', code: 500 },
+      };
+    }
+    const publicKey = getExecutorPkByteArray(jwtObject.executor);
     if (publicKey === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
@@ -131,7 +146,7 @@ export class ClientApiDataSource implements ClientApi {
     }
 
     const config: RequestConfig = {
-      headers: authHeaders,
+      headers: headers,
     };
 
     const response = await getJsonRpcClient().mutate<
@@ -139,7 +154,7 @@ export class ClientApiDataSource implements ClientApi {
       Comment
     >(
       {
-        contextId: getContextId(),
+        contextId: jwtObject.context_id,
         method: ClientMethod.CREATE_COMMENT,
         argsJson: params,
         executorPublicKey: Array.from(publicKey),

@@ -32,8 +32,12 @@ export class ClientApiDataSource implements ClientApi {
   async fetchFeed(params: FeedRequest): ApiResponse<Post[]> {
     const jwtObject: JsonWebToken = getJWTObject();
     const headers: AxiosHeader = createJwtHeader();
-
-    const publicKey = getExecutorPkByteArray(jwtObject.executor_public_key);
+    if (!jwtObject) {
+      return {
+        error: { message: 'Failed to get JWT token', code: 500 },
+      };
+    }
+    const publicKey = getExecutorPkByteArray(jwtObject.executor);
     if (publicKey === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
@@ -63,8 +67,12 @@ export class ClientApiDataSource implements ClientApi {
   async fetchPost(params: PostRequest): ApiResponse<Post> {
     const jwtObject: JsonWebToken = getJWTObject();
     const headers: AxiosHeader = createJwtHeader();
-
-    const publicKey = getExecutorPkByteArray(jwtObject.executor_public_key);
+    if (!jwtObject) {
+      return {
+        error: { message: 'Failed to get JWT token', code: 500 },
+      };
+    }
+    const publicKey = getExecutorPkByteArray(jwtObject.executor);
     if (publicKey === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
@@ -93,8 +101,12 @@ export class ClientApiDataSource implements ClientApi {
   async createPost(params: CreatePostRequest): ApiResponse<Post> {
     const jwtObject: JsonWebToken = getJWTObject();
     const headers: AxiosHeader = createJwtHeader();
-
-    const publicKey = getExecutorPkByteArray(jwtObject.executor_public_key);
+    if (!jwtObject) {
+      return {
+        error: { message: 'Failed to get JWT token', code: 500 },
+      };
+    }
+    const publicKey = getExecutorPkByteArray(jwtObject.executor);
     if (publicKey === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
@@ -123,8 +135,12 @@ export class ClientApiDataSource implements ClientApi {
   async createComment(params: CreateCommentRequest): ApiResponse<Comment> {
     const jwtObject: JsonWebToken = getJWTObject();
     const headers: AxiosHeader = createJwtHeader();
-
-    const publicKey = getExecutorPkByteArray(jwtObject.executor_public_key);
+    if (!jwtObject) {
+      return {
+        error: { message: 'Failed to get JWT token', code: 500 },
+      };
+    }
+    const publicKey = getExecutorPkByteArray(jwtObject.executor);
     if (publicKey === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },

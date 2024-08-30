@@ -11,6 +11,8 @@ export const AUTHORIZED = 'node-authorized';
 export const CONTEXT_IDENTITY = 'context-identity';
 export const CONTEXT_ID = 'context-id';
 export const APPLICATION_ID = 'application-id';
+export const ACCESS_TOKEN = "access-token";
+export const REFRESH_TOKEN = "refresh-token";
 
 export interface ClientKey {
   privateKey: string;
@@ -134,7 +136,8 @@ export const getJWTObject = (): JsonWebToken | null => {
   if (!token) return null;
   const parts = token.split('.');
   if (parts.length !== 3) {
-    throw new Error('Invalid JWT token');
+    console.error('Invalid JWT token');
+    return;
   }
   const payload = JSON.parse(atob(parts[1]));
   return payload;
@@ -142,6 +145,11 @@ export const getJWTObject = (): JsonWebToken | null => {
 
 export const getJWT = (): string | null => {
   return getAccessToken();
+};
+
+export const clearJWT = () => {
+  localStorage.removeItem(ACCESS_TOKEN);
+  localStorage.removeItem(REFRESH_TOKEN);
 };
 
 export const getExecutorPkByteArray = (

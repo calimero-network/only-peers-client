@@ -10,7 +10,7 @@
   },
   "header": {
     "logoText": "OnlyPeers",
-    "peerIdText": "PeerId",
+    "executorPk": "Executor Public Key",
     "addButtonText": "Add peerId"
   },
   "loader": {

@@ -1,7 +1,9 @@
 'use client';
 
+import { getAccessToken } from '@calimero-is-near/calimero-p2p-sdk';
 import { marshalPublicKey } from '@libp2p/crypto/keys';
 import bs58 from 'bs58';
+import { JsonWebToken } from '../types/types';
 
 export const CLIENT_KEY = 'client-key';
 export const APP_URL = 'app-url';
@@ -9,6 +11,8 @@ export const AUTHORIZED = 'node-authorized';
 export const CONTEXT_IDENTITY = 'context-identity';
 export const CONTEXT_ID = 'context-id';
 export const APPLICATION_ID = 'application-id';
+export const ACCESS_TOKEN = 'access-token';
+export const REFRESH_TOKEN = 'refresh-token';
 
 export interface ClientKey {
   privateKey: string;
@@ -125,4 +129,43 @@ export const getApplicationId = (): string | null => {
 
 export const setStorageApplicationId = (applicationId: string) => {
   localStorage.setItem(APPLICATION_ID, JSON.stringify(applicationId));
+};
+
+export const getJWTObject = (): JsonWebToken | null => {
+  const token = getAccessToken();
+  if (!token) return null;
+  const parts = token.split('.');
+  if (parts.length !== 3) {
+    console.error('Invalid JWT token');
+    return;
+  }
+  const payload = JSON.parse(atob(parts[1]));
+  return payload;
+};
+
+export const getJWT = (): string | null => {
+  return getAccessToken();
+};
+
+export const clearJWT = () => {
+  localStorage.removeItem(ACCESS_TOKEN);
+  localStorage.removeItem(REFRESH_TOKEN);
+};
+
+export const getExecutorPkByteArray = (
+  executorPublicKey: string,
+): Uint8Array | null => {
+  try {
+    const decodedPk = bs58.decode(executorPublicKey);
+    const publicKey = marshalPublicKey(
+      { bytes: decodedPk.slice(0, 32) },
+      'ed25519',
+    );
+    if (publicKey) {
+      return publicKey;
+    }
+    return null;
+  } catch (e) {
+    return null;
+  }
 };

@@ -3,34 +3,36 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import translations from '../../constants/en.global.json';
 import { useRouter } from 'next/router';
-import { getPeerId } from '../../lib/peerId';
 import {
-  getStorageClientKey,
-  clearClientKey,
   clearNodeAuthorized,
   clearAppEndpoint,
+  getJWTObject,
+  clearJWT,
+  clearApplicationId,
 } from '../../utils/storage';
+import { getAccessToken } from '@calimero-is-near/calimero-p2p-sdk';
 
 export default function Header() {
   const t = translations.header;
   const router = useRouter();
-  const [privateKey, _setPrivateKey] = useState(getStorageClientKey());
-  const [peerId, setPeerId] = useState('');
+  const [accessToken, _setAccessToken] = useState(getAccessToken());
+  const [executorPublicKey, setExecutorPublicKey] = useState('');
 
   useEffect(() => {
-    const setPeer = async () => {
-      let peerIdString = await getPeerId();
-      setPeerId(peerIdString);
+    const setExecutorPk = async () => {
+      let publicKey = getJWTObject().executor;
+      setExecutorPublicKey(publicKey);
     };
-    if (privateKey) {
-      setPeer();
+    if (accessToken) {
+      setExecutorPk();
     }
-  }, [privateKey]);
+  }, [accessToken]);
 
   function logout() {
-    clearClientKey();
     clearNodeAuthorized();
     clearAppEndpoint();
+    clearJWT();
+    clearApplicationId();
     router.reload();
   }
 
@@ -51,12 +53,12 @@ export default function Header() {
           </Link>
         </div>
         <div className="flex flex-1 justify-end items-center gap-2">
-          {peerId && (
+          {executorPublicKey && (
             <div className="text-sm font-semibold leading-6 text-white cursor-pointer">
-              {t.peerIdText}:{' '}
+              {t.executorPk}:{' '}
               <span className="text-purple-500 pl-1" onClick={logout}>
-                {`${peerId.slice(0, 4).toLocaleLowerCase()}...${peerId
-                  .slice(peerId.length - 4, peerId.length)
+                {`${executorPublicKey.slice(0, 4).toLocaleLowerCase()}...${executorPublicKey
+                  .slice(executorPublicKey.length - 4, executorPublicKey.length)
                   .toLocaleLowerCase()}`}
               </span>
             </div>

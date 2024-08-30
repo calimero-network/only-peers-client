@@ -20,10 +20,9 @@ import {
 } from '../../utils/storage';
 
 export function getJsonRpcClient() {
-  const jwt: JsonWebToken | null = getJWTObject();
   return new JsonRpcClient(
     getAppEndpointKey()?.toString(),
-    jwt?.context_id ?? '',
+    process.env['NEXT_PUBLIC_RPC_PATH'],
   );
 }
 

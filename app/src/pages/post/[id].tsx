@@ -39,7 +39,7 @@ export default function PostPage() {
   };
 
   const fetchPost = useCallback(async (postId: number | null) => {
-    if (!postId) {
+    if (postId === null) {
       return;
     }
     const postRequest: PostRequest = { id: postId };

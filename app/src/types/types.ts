@@ -15,5 +15,5 @@ export interface JsonWebToken {
   token_type: string;
   exp: number;
   sub: string;
-  executor: string;
+  executor_public_key: string;
 }

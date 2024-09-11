@@ -7,17 +7,13 @@ import {
   PostRequest,
 } from '../clientApi';
 import { ApiResponse } from '../response';
-import { JsonWebToken, Post } from '../../types/types';
+import { Comment, JsonWebToken, Post } from '../../types/types';
 import {
   JsonRpcClient,
   RequestConfig,
 } from '@calimero-is-near/calimero-p2p-sdk';
 import { AxiosHeader, createJwtHeader } from '../../crypto/crypto';
-import {
-  getAppEndpointKey,
-  getExecutorPkByteArray,
-  getJWTObject,
-} from '../../utils/storage';
+import { getAppEndpointKey, getJWTObject } from '../../utils/storage';
 
 export function getJsonRpcClient() {
   return new JsonRpcClient(
@@ -35,8 +31,7 @@ export class ClientApiDataSource implements ClientApi {
         error: { message: 'Failed to get JWT token', code: 500 },
       };
     }
-    const publicKey = getExecutorPkByteArray(jwtObject.executor);
-    if (publicKey === null) {
+    if (jwtObject.executor_public_key === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
       };
@@ -51,7 +46,7 @@ export class ClientApiDataSource implements ClientApi {
         contextId: jwtObject.context_id,
         method: ClientMethod.POSTS,
         argsJson: params,
-        executorPublicKey: Array.from(publicKey),
+        executorPublicKey: jwtObject.executor_public_key,
       },
       config,
     );
@@ -70,8 +65,7 @@ export class ClientApiDataSource implements ClientApi {
         error: { message: 'Failed to get JWT token', code: 500 },
       };
     }
-    const publicKey = getExecutorPkByteArray(jwtObject.executor);
-    if (publicKey === null) {
+    if (jwtObject.executor_public_key === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
       };
@@ -86,7 +80,7 @@ export class ClientApiDataSource implements ClientApi {
         contextId: jwtObject.context_id,
         method: ClientMethod.POST,
         argsJson: params,
-        executorPublicKey: Array.from(publicKey),
+        executorPublicKey: jwtObject.executor_public_key,
       },
       config,
     );
@@ -104,8 +98,7 @@ export class ClientApiDataSource implements ClientApi {
         error: { message: 'Failed to get JWT token', code: 500 },
       };
     }
-    const publicKey = getExecutorPkByteArray(jwtObject.executor);
-    if (publicKey === null) {
+    if (jwtObject.executor_public_key === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
       };
@@ -120,7 +113,7 @@ export class ClientApiDataSource implements ClientApi {
         contextId: jwtObject.context_id,
         method: ClientMethod.CREATE_POST,
         argsJson: params,
-        executorPublicKey: Array.from(publicKey),
+        executorPublicKey: jwtObject.executor_public_key,
       },
       config,
     );
@@ -138,8 +131,7 @@ export class ClientApiDataSource implements ClientApi {
         error: { message: 'Failed to get JWT token', code: 500 },
       };
     }
-    const publicKey = getExecutorPkByteArray(jwtObject.executor);
-    if (publicKey === null) {
+    if (jwtObject.executor_public_key === null) {
       return {
         error: { message: 'Failed to get executor public key', code: 500 },
       };
@@ -157,7 +149,7 @@ export class ClientApiDataSource implements ClientApi {
         contextId: jwtObject.context_id,
         method: ClientMethod.CREATE_COMMENT,
         argsJson: params,
-        executorPublicKey: Array.from(publicKey),
+        executorPublicKey: jwtObject.executor_public_key,
       },
       config,
     );

@@ -1,4 +1,4 @@
-import { Post } from '../types/types';
+import { Comment, Post } from '../types/types';
 import { ApiResponse } from './response';
 
 export interface FeedRequest {

@@ -1,35 +1,8 @@
 import { ApiResponse } from './response';
 
-enum AlgorithmType {
-  Ed25519,
-}
-
 export enum WalletType {
   ETH = 'ETH',
   NEAR = 'NEAR',
-}
-
-enum VerifiableCredentialType {
-  Wallet,
-}
-
-// Interfaces
-interface WalletVerifiableCredential {
-  wallet_type: WalletType;
-  address: String;
-  public_key: number[];
-  peer_id: String;
-}
-interface VerifiableCredential {
-  algorithm_type: AlgorithmType;
-  credential_subject: VerifiableCredentialType | WalletVerifiableCredential;
-  proof: number[];
-}
-
-interface VerifiablePresentation {
-  challenge: String;
-  verifiable_credential: VerifiableCredential;
-  signature: number[];
 }
 
 export interface LoginRequest {

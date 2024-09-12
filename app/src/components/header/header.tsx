@@ -15,7 +15,7 @@ import { getAccessToken } from '@calimero-is-near/calimero-p2p-sdk';
 export default function Header() {
   const t = translations.header;
   const router = useRouter();
-  const [accessToken, _setAccessToken] = useState(getAccessToken());
+  const [accessToken] = useState(getAccessToken());
   const [executorPublicKey, setExecutorPublicKey] = useState('');
 
   useEffect(() => {

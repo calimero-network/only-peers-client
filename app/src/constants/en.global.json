@@ -1,6 +1,6 @@
 {
   "errorPopup": {
-    "dialogTitle": "Error: Failed to fetch data",
+    "dialogTitle": "Error",
     "reloadButtonText": "Reload the page"
   },
   "feedPage": {

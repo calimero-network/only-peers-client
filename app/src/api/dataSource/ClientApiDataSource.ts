@@ -12,7 +12,7 @@ import {
   JsonRpcClient,
   RequestConfig,
   getNewJwtToken,
-  getRefreshToken
+  getRefreshToken,
 } from '@calimero-is-near/calimero-p2p-sdk';
 import { AxiosHeader, createJwtHeader } from '../../crypto/crypto';
 import { getAppEndpointKey, getJWTObject } from '../../utils/storage';
@@ -55,10 +55,14 @@ export class ClientApiDataSource implements ClientApi {
       config,
     );
     // @ts-expect-error: Property 'inner' does not exist on type 'RpcError'
-    if (response.error?.inner?.response?.data === "Token not valid.") {
-      await getNewJwtToken({refreshToken, getNodeUrl});
+    if (response.error?.inner?.response?.data === 'Token not valid.') {
+      await getNewJwtToken({ refreshToken, getNodeUrl });
       return {
-        error: { message: 'Your session expired, but we have refreshed it. Please try again.', code: 500 }
+        error: {
+          message:
+            'Your session expired, but we have refreshed it. Please try again.',
+          code: 500,
+        },
       };
     }
 
@@ -97,10 +101,14 @@ export class ClientApiDataSource implements ClientApi {
       config,
     );
     // @ts-expect-error: Property 'inner' does not exist on type 'RpcError'
-    if (response.error?.inner?.response?.data === "Token not valid.") {
-      await getNewJwtToken({refreshToken, getNodeUrl});
+    if (response.error?.inner?.response?.data === 'Token not valid.') {
+      await getNewJwtToken({ refreshToken, getNodeUrl });
       return {
-        error: { message: 'Your session expired, but we have refreshed it. Please try again.', code: 500 }
+        error: {
+          message:
+            'Your session expired, but we have refreshed it. Please try again.',
+          code: 500,
+        },
       };
     }
 
@@ -139,10 +147,14 @@ export class ClientApiDataSource implements ClientApi {
       config,
     );
     // @ts-expect-error: Property 'inner' does not exist on type 'RpcError'
-    if (response.error?.inner?.response?.data === "Token not valid.") {
-      await getNewJwtToken({refreshToken, getNodeUrl});
+    if (response.error?.inner?.response?.data === 'Token not valid.') {
+      await getNewJwtToken({ refreshToken, getNodeUrl });
       return {
-        error: { message: 'Your session expired, but we have refreshed it. Please try again.', code: 500 }
+        error: {
+          message:
+            'Your session expired, but we have refreshed it. Please try again.',
+          code: 500,
+        },
       };
     }
 
@@ -184,10 +196,14 @@ export class ClientApiDataSource implements ClientApi {
       config,
     );
     // @ts-expect-error: Property 'inner' does not exist on type 'RpcError'
-    if (response.error?.inner?.response?.data === "Token not valid.") {
-      await getNewJwtToken({refreshToken, getNodeUrl});
+    if (response.error?.inner?.response?.data === 'Token not valid.') {
+      await getNewJwtToken({ refreshToken, getNodeUrl });
       return {
-        error: { message: 'Your session expired, but we have refreshed it. Please try again.', code: 500 }
+        error: {
+          message:
+            'Your session expired, but we have refreshed it. Please try again.',
+          code: 500,
+        },
       };
     }
 

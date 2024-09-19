@@ -38,7 +38,7 @@ export default function FeedPage() {
   }, [fetchFeed]);
 
   const createPost = async (title: string, content: string) => {
-    setError("");
+    setError('');
     setLoading(true);
     const createPostRequest: CreatePostRequest = {
       title,

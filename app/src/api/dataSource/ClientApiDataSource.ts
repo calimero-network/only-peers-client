@@ -11,8 +11,8 @@ import { Comment, JsonWebToken, Post } from '../../types/types';
 import {
   JsonRpcClient,
   RequestConfig,
-  getNewJwtToken,
-  getRefreshToken,
+  RpcError,
+  handleRpcError,
 } from '@calimero-is-near/calimero-p2p-sdk';
 import { AxiosHeader, createJwtHeader } from '../../crypto/crypto';
 import { getAppEndpointKey, getJWTObject } from '../../utils/storage';
@@ -29,7 +29,6 @@ export class ClientApiDataSource implements ClientApi {
   async fetchFeed(params: FeedRequest): ApiResponse<Post[]> {
     const jwtObject: JsonWebToken = getJWTObject();
     const headers: AxiosHeader = createJwtHeader();
-    const refreshToken = getRefreshToken();
     if (!jwtObject) {
       return {
         error: { message: 'Failed to get JWT token', code: 500 },
@@ -54,15 +53,10 @@ export class ClientApiDataSource implements ClientApi {
       },
       config,
     );
-    // @ts-expect-error: Property 'inner' does not exist on type 'RpcError'
-    if (response.error?.inner?.response?.data === 'Token not valid.') {
-      await getNewJwtToken({ refreshToken, getNodeUrl });
+    const error: RpcError | null = response?.error ?? null;
+    if (error && error.code) {
       return {
-        error: {
-          message:
-            'Your session expired, but we have refreshed it. Please try again.',
-          code: 500,
-        },
+        error: await handleRpcError(error, getNodeUrl),
       };
     }
 
@@ -75,7 +69,6 @@ export class ClientApiDataSource implements ClientApi {
   async fetchPost(params: PostRequest): ApiResponse<Post> {
     const jwtObject: JsonWebToken = getJWTObject();
     const headers: AxiosHeader = createJwtHeader();
-    const refreshToken = getRefreshToken();
     if (!jwtObject) {
       return {
         error: { message: 'Failed to get JWT token', code: 500 },
@@ -100,15 +93,10 @@ export class ClientApiDataSource implements ClientApi {
       },
       config,
     );
-    // @ts-expect-error: Property 'inner' does not exist on type 'RpcError'
-    if (response.error?.inner?.response?.data === 'Token not valid.') {
-      await getNewJwtToken({ refreshToken, getNodeUrl });
+    const error: RpcError | null = response?.error ?? null;
+    if (error && error.code) {
       return {
-        error: {
-          message:
-            'Your session expired, but we have refreshed it. Please try again.',
-          code: 500,
-        },
+        error: await handleRpcError(error, getNodeUrl),
       };
     }
 
@@ -121,7 +109,6 @@ export class ClientApiDataSource implements ClientApi {
   async createPost(params: CreatePostRequest): ApiResponse<Post> {
     const jwtObject: JsonWebToken = getJWTObject();
     const headers: AxiosHeader = createJwtHeader();
-    const refreshToken = getRefreshToken();
     if (!jwtObject) {
       return {
         error: { message: 'Failed to get JWT token', code: 500 },
@@ -146,15 +133,10 @@ export class ClientApiDataSource implements ClientApi {
       },
       config,
     );
-    // @ts-expect-error: Property 'inner' does not exist on type 'RpcError'
-    if (response.error?.inner?.response?.data === 'Token not valid.') {
-      await getNewJwtToken({ refreshToken, getNodeUrl });
+    const error: RpcError | null = response?.error ?? null;
+    if (error && error.code) {
       return {
-        error: {
-          message:
-            'Your session expired, but we have refreshed it. Please try again.',
-          code: 500,
-        },
+        error: await handleRpcError(error, getNodeUrl),
       };
     }
 
@@ -167,7 +149,6 @@ export class ClientApiDataSource implements ClientApi {
   async createComment(params: CreateCommentRequest): ApiResponse<Comment> {
     const jwtObject: JsonWebToken = getJWTObject();
     const headers: AxiosHeader = createJwtHeader();
-    const refreshToken = getRefreshToken();
     if (!jwtObject) {
       return {
         error: { message: 'Failed to get JWT token', code: 500 },
@@ -195,15 +176,10 @@ export class ClientApiDataSource implements ClientApi {
       },
       config,
     );
-    // @ts-expect-error: Property 'inner' does not exist on type 'RpcError'
-    if (response.error?.inner?.response?.data === 'Token not valid.') {
-      await getNewJwtToken({ refreshToken, getNodeUrl });
+    const error: RpcError | null = response?.error ?? null;
+    if (error && error.code) {
       return {
-        error: {
-          message:
-            'Your session expired, but we have refreshed it. Please try again.',
-          code: 500,
-        },
+        error: await handleRpcError(error, getNodeUrl),
       };
     }
 

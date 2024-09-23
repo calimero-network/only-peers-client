@@ -64,6 +64,10 @@ export class ClientApiDataSource implements ClientApi {
     );
     const rpcError: RpcError | null = response?.error ?? null;
     if (rpcError && rpcError.code) {
+      const response = await handleRpcError(rpcError, getNodeUrl);
+      if (response.code === 403) {
+       return await this.fetchFeed(params);
+      }
       return {
         error: await handleRpcError(rpcError, getNodeUrl),
       };
@@ -92,6 +96,10 @@ export class ClientApiDataSource implements ClientApi {
     );
     const rpcError: RpcError | null = response?.error ?? null;
     if (rpcError && rpcError.code) {
+      const response = await handleRpcError(rpcError, getNodeUrl);
+      if (response.code === 403) {
+        return await this.fetchPost(params);
+      }
       return {
         error: await handleRpcError(rpcError, getNodeUrl),
       };
@@ -120,6 +128,10 @@ export class ClientApiDataSource implements ClientApi {
     );
     const rpcError: RpcError | null = response?.error ?? null;
     if (rpcError && rpcError.code) {
+      const response = await handleRpcError(rpcError, getNodeUrl);
+      if (response.code === 403) {
+        return await this.createPost(params);
+      }
       return {
         error: await handleRpcError(rpcError, getNodeUrl),
       };
@@ -151,6 +163,10 @@ export class ClientApiDataSource implements ClientApi {
     );
     const rpcError: RpcError | null = response?.error ?? null;
     if (rpcError && rpcError.code) {
+      const response = await handleRpcError(rpcError, getNodeUrl);
+      if (response.code === 403) {
+        return await this.createComment(params);
+      }
       return {
         error: await handleRpcError(rpcError, getNodeUrl),
       };

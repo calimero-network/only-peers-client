@@ -11,6 +11,7 @@ import {
   clearApplicationId,
 } from '../../utils/storage';
 import { getAccessToken } from '@calimero-is-near/calimero-p2p-sdk';
+import Button from '../button/button';
 
 export default function Header() {
   const t = translations.header;
@@ -54,13 +55,26 @@ export default function Header() {
         </div>
         <div className="flex flex-1 justify-end items-center gap-2">
           {executorPublicKey && (
-            <div className="text-sm font-semibold leading-6 text-white cursor-pointer">
-              {t.executorPk}:{' '}
-              <span className="text-purple-500 pl-1" onClick={logout}>
-                {`${executorPublicKey.slice(0, 4).toLocaleLowerCase()}...${executorPublicKey
-                  .slice(executorPublicKey.length - 4, executorPublicKey.length)
-                  .toLocaleLowerCase()}`}
-              </span>
+            <div className="flex gap-4 items-center">
+              <div className="text-sm font-semibold leading-6 text-white cursor-pointer">
+                <span>{t.executorPk}: </span>
+                <span className="text-purple-500 pl-1">
+                  {`${executorPublicKey.slice(0, 4).toLocaleLowerCase()}...${executorPublicKey
+                    .slice(
+                      executorPublicKey.length - 4,
+                      executorPublicKey.length,
+                    )
+                    .toLocaleLowerCase()}`}
+                </span>
+              </div>
+              <div>
+                <Button
+                  title={t.logoutButtonText}
+                  backgroundColor="border-gray-400"
+                  backgroundColorHover="hover:border-white"
+                  onClick={logout}
+                />
+              </div>
             </div>
           )}
         </div>

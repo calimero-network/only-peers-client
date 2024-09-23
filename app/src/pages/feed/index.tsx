@@ -15,13 +15,18 @@ export default function FeedPage() {
   const [loading, setLoading] = useState(true);
 
   const fetchFeed = useCallback(async (request: FeedRequest) => {
-    const response = await new ClientApiDataSource().fetchFeed(request);
-    if (response.error) {
-      setError(response.error.message);
+    try {
+      const response = await new ClientApiDataSource().fetchFeed(request);
+      if (response.error) {
+        setError(response.error.message);
+        setLoading(false);
+      }
+      setPosts(response?.data?.slice().reverse());
+      setLoading(false);
+    } catch (error) {
+      setError(error.message);
       setLoading(false);
     }
-    setPosts(response?.data?.slice().reverse());
-    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -33,6 +38,8 @@ export default function FeedPage() {
   }, [fetchFeed]);
 
   const createPost = async (title: string, content: string) => {
+    setError('');
+    setLoading(true);
     const createPostRequest: CreatePostRequest = {
       title,
       content,
@@ -42,11 +49,13 @@ export default function FeedPage() {
     );
     if (result.error) {
       setError(result.error.message);
+      setLoading(false);
+      setOpenCreatePost(false);
       return;
     }
 
     setOpenCreatePost(false);
-
+    setLoading(false);
     //TODO solve pagination
     const feedRequest: FeedRequest = {};
     fetchFeed({ feedRequest });

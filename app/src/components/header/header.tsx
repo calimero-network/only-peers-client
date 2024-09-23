@@ -21,7 +21,7 @@ export default function Header() {
 
   useEffect(() => {
     const setExecutorPk = async () => {
-      let publicKey = getJWTObject().executor_public_key;
+      let publicKey = getJWTObject()?.executor_public_key;
       setExecutorPublicKey(publicKey);
     };
     if (accessToken) {

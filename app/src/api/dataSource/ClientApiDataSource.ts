@@ -66,7 +66,7 @@ export class ClientApiDataSource implements ClientApi {
     if (rpcError && rpcError.code) {
       const response = await handleRpcError(rpcError, getNodeUrl);
       if (response.code === 403) {
-       return await this.fetchFeed(params);
+        return await this.fetchFeed(params);
       }
       return {
         error: await handleRpcError(rpcError, getNodeUrl),

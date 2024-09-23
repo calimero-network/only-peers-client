@@ -11,7 +11,8 @@
   "header": {
     "logoText": "OnlyPeers",
     "executorPk": "Executor Public Key",
-    "addButtonText": "Add peerId"
+    "addButtonText": "Add peerId",
+    "logoutButtonText": "Logout"
   },
   "loader": {
     "srOnlyText": "Loading..."

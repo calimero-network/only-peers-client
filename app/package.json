@@ -18,7 +18,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@calimero-is-near/calimero-p2p-sdk": "0.0.38",
+    "@calimero-is-near/calimero-p2p-sdk": "0.0.39",
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
     "@libp2p/interface": "^1.1.4",

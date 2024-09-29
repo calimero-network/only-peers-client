@@ -10,7 +10,6 @@ export const APPLICATION_ID = 'application-id';
 export const ACCESS_TOKEN = 'access-token';
 export const REFRESH_TOKEN = 'refresh-token';
 
-
 export const getExecutorPublicKey = (): String | null => {
   try {
     if (typeof window !== 'undefined' && window.localStorage) {

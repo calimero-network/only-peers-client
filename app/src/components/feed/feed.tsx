@@ -37,9 +37,11 @@ export default function Feed({
           </div>
         ) : (
           <div className="flex flex-col gap-y-1">
-            {posts.filter((post) => post.title !== "Post1").map((post, id) => (
-              <PostFeed post={post} key={id} />
-            ))}
+            {posts
+              .filter((post) => post.title !== 'Post1')
+              .map((post, id) => (
+                <PostFeed post={post} key={id} />
+              ))}
           </div>
         )}
         <div className="w-1/5" />

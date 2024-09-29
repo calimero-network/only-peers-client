@@ -3,35 +3,13 @@
 import { getAccessToken } from '@calimero-is-near/calimero-p2p-sdk';
 import { JsonWebToken } from '../types/types';
 
-export const CLIENT_KEY = 'client-key';
 export const APP_URL = 'app-url';
-export const AUTHORIZED = 'node-authorized';
 export const CONTEXT_IDENTITY = 'context-identity';
 export const CONTEXT_ID = 'context-id';
 export const APPLICATION_ID = 'application-id';
 export const ACCESS_TOKEN = 'access-token';
 export const REFRESH_TOKEN = 'refresh-token';
 
-export interface ClientKey {
-  privateKey: string;
-  publicKey: string;
-}
-
-export const setStorageClientKey = (clientKey: ClientKey) => {
-  localStorage.setItem(CLIENT_KEY, JSON.stringify(clientKey));
-};
-
-export const getStorageClientKey = (): ClientKey | null => {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    let clientKeystore: ClientKey = JSON.parse(
-      localStorage.getItem(CLIENT_KEY),
-    );
-    if (clientKeystore) {
-      return clientKeystore;
-    }
-  }
-  return null;
-};
 
 export const getExecutorPublicKey = (): String | null => {
   try {
@@ -45,30 +23,6 @@ export const getExecutorPublicKey = (): String | null => {
   } catch (e) {
     return null;
   }
-};
-
-export const clearClientKey = () => {
-  localStorage.removeItem(CLIENT_KEY);
-};
-
-export const setStorageNodeAuthorized = () => {
-  localStorage.setItem(AUTHORIZED, JSON.stringify(true));
-};
-
-export const getStorageNodeAuthorized = (): boolean | null => {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    let authorized: boolean = JSON.parse(
-      window.localStorage.getItem(AUTHORIZED),
-    );
-    if (authorized) {
-      return authorized;
-    }
-  }
-  return null;
-};
-
-export const clearNodeAuthorized = () => {
-  localStorage.removeItem(AUTHORIZED);
 };
 
 export const clearAppEndpoint = () => {

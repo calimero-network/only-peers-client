@@ -31,17 +31,15 @@ export default function Feed({
             backgroundColorHover="hover:border-white"
           />
         </div>
-        {posts.length === 1 ? (
+        {posts.length === 0 ? (
           <div className="text-white text-lg border-t-2 border-[#1c2123] text-center mt-4 pt-4">
             {t.noPostsText}
           </div>
         ) : (
           <div className="flex flex-col gap-y-1">
-            {posts
-              .filter((post) => post.title !== 'Post1')
-              .map((post, id) => (
-                <PostFeed post={post} key={id} />
-              ))}
+            {posts.map((post, id) => (
+              <PostFeed post={post} key={id} />
+            ))}
           </div>
         )}
         <div className="w-1/5" />

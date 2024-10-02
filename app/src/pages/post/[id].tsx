@@ -5,9 +5,9 @@ import { useCallback, useEffect, useState } from 'react';
 import Loader from '../../components/loader/loader';
 import ErrorPopup from '../../components/error/errorPopup';
 import { Post } from '../../types/types';
-import { getPeerId } from '../../lib/peerId';
 import { ClientApiDataSource } from '../../api/dataSource/ClientApiDataSource';
 import { CreateCommentRequest, PostRequest } from '../../api/clientApi';
+import { getJWTObject } from '../../utils/storage';
 
 export default function PostPage() {
   const router = useRouter();
@@ -19,11 +19,11 @@ export default function PostPage() {
   const [loading, setLoading] = useState(true);
 
   const createComment = async (text: string) => {
-    const user = await getPeerId();
+    const jwt = getJWTObject();
     const commentRequest: CreateCommentRequest = {
       post_id: postId,
       text: text,
-      user: user,
+      user: jwt.executor_public_key,
     };
     const result = await new ClientApiDataSource().createComment(
       commentRequest,

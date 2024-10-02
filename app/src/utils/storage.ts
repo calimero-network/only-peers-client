@@ -4,25 +4,10 @@ import { getAccessToken } from '@calimero-is-near/calimero-p2p-sdk';
 import { JsonWebToken } from '../types/types';
 
 export const APP_URL = 'app-url';
-export const CONTEXT_IDENTITY = 'context-identity';
 export const CONTEXT_ID = 'context-id';
 export const APPLICATION_ID = 'application-id';
 export const ACCESS_TOKEN = 'access-token';
 export const REFRESH_TOKEN = 'refresh-token';
-
-export const getExecutorPublicKey = (): String | null => {
-  try {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      let contextIdentity: string = JSON.parse(
-        localStorage.getItem(CONTEXT_IDENTITY),
-      );
-      return contextIdentity;
-    }
-    return null;
-  } catch (e) {
-    return null;
-  }
-};
 
 export const clearAppEndpoint = () => {
   localStorage.removeItem(APP_URL);

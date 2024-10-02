@@ -4,7 +4,6 @@ import Link from 'next/link';
 import translations from '../../constants/en.global.json';
 import { useRouter } from 'next/router';
 import {
-  clearNodeAuthorized,
   clearAppEndpoint,
   getJWTObject,
   clearJWT,
@@ -30,7 +29,6 @@ export default function Header() {
   }, [accessToken]);
 
   function logout() {
-    clearNodeAuthorized();
     clearAppEndpoint();
     clearJWT();
     clearApplicationId();

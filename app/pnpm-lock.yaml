@@ -8,8 +8,8 @@ importers:
   .:
     dependencies:
       '@calimero-is-near/calimero-p2p-sdk':
-        specifier: 0.0.41
-        version: 0.0.41(@near-wallet-selector/modal-ui@8.9.7(near-api-js@3.0.4))
+        specifier: 0.1.2
+        version: 0.1.2(@near-wallet-selector/modal-ui@8.9.7(near-api-js@3.0.4))
       '@headlessui/react':
         specifier: ^1.7.18
         version: 1.7.19(react-dom@18.3.1(react@18.3.0))(react@18.3.0)
@@ -1532,10 +1532,10 @@ packages:
       }
     engines: { node: '>=6.9.0' }
 
-  '@calimero-is-near/calimero-p2p-sdk@0.0.41':
+  '@calimero-is-near/calimero-p2p-sdk@0.1.2':
     resolution:
       {
-        integrity: sha512-GWRTqNhzPSGnoXgAciKOL5ptNIpO6JREzyEOD6cybucbUkrwViopaSBf/0JbHKIXHgA/3lDdrZB1i0bO9ykaow==,
+        integrity: sha512-6U0XWOoozMrbEvrR7wcBWSe7JsNzTOCV7SCxTtVDs9iE6MPymdqdEiKpFVuLY356uE3u7YGKQlEe2Tiq/ylRLw==,
       }
     peerDependencies:
       '@near-wallet-selector/modal-ui': ^8.9.7
@@ -8281,6 +8281,17 @@ packages:
       }
     engines: { node: '>=10' }
 
+  ox@0.1.2:
+    resolution:
+      {
+        integrity: sha512-ak/8K0Rtphg9vnRJlbOdaX9R7cmxD2MiSthjWGaQdMk3D7hrAlDoM+6Lxn7hN52Za3vrXfZ7enfke/5WjolDww==,
+      }
+    peerDependencies:
+      typescript: '>=5.4.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   p-defer@4.0.1:
     resolution:
       {
@@ -10396,10 +10407,10 @@ packages:
       typescript:
         optional: true
 
-  viem@2.21.29:
+  viem@2.21.45:
     resolution:
       {
-        integrity: sha512-n9LoCJjmI1XsE33nl+M4p3Wy5hczv7YC682RpX4Qk9cw8s9HJU+hUi5eDcNDPBcAwIHGCPKsf8yFBEYnE2XYVg==,
+        integrity: sha512-I+On/IiaObQdhDKWU5Rurh6nf3G7reVkAODG5ECIfjsrGQ3EPJnxirUPT4FNV6bWER5iphoG62/TidwuTSOA1A==,
       }
     peerDependencies:
       typescript: '>=5.0.4'
@@ -11857,7 +11868,7 @@ snapshots:
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
 
-  '@calimero-is-near/calimero-p2p-sdk@0.0.41(@near-wallet-selector/modal-ui@8.9.7(near-api-js@3.0.4))':
+  '@calimero-is-near/calimero-p2p-sdk@0.1.2(@near-wallet-selector/modal-ui@8.9.7(near-api-js@3.0.4))':
     dependencies:
       '@near-wallet-selector/modal-ui': 8.9.7(near-api-js@3.0.4)
       axios: 1.7.4
@@ -12538,8 +12549,8 @@ snapshots:
       react-copy-to-clipboard: 5.1.0(react@18.3.0)
       react-dom: 18.3.1(react@18.3.0)
       react-jazzicon: 1.0.4(react-dom@18.3.1(react@18.3.0))(react@18.3.0)
-      viem: 2.21.29(bufferutil@4.0.8)(typescript@5.4.5)
-      wagmi: 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0)(typescript@5.4.5)(viem@2.21.29(bufferutil@4.0.8)(typescript@5.4.5))
+      viem: 2.21.45(bufferutil@4.0.8)(typescript@5.4.5)
+      wagmi: 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0)(typescript@5.4.5)(viem@2.21.45(bufferutil@4.0.8)(typescript@5.4.5))
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -13787,7 +13798,7 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@wagmi/connectors@3.1.10(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.21.29(bufferutil@4.0.8)(typescript@5.4.5))':
+  '@wagmi/connectors@3.1.10(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.21.45(bufferutil@4.0.8)(typescript@5.4.5))':
     dependencies:
       '@coinbase/wallet-sdk': 3.9.3
       '@safe-global/safe-apps-provider': 0.18.2(bufferutil@4.0.8)(typescript@5.4.5)
@@ -13798,7 +13809,7 @@ snapshots:
       '@walletconnect/utils': 2.10.2
       abitype: 0.8.7(typescript@5.4.5)
       eventemitter3: 4.0.7
-      viem: 2.21.29(bufferutil@4.0.8)(typescript@5.4.5)
+      viem: 2.21.45(bufferutil@4.0.8)(typescript@5.4.5)
     optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:
@@ -13824,12 +13835,12 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@wagmi/core@1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.21.29(bufferutil@4.0.8)(typescript@5.4.5))':
+  '@wagmi/core@1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.21.45(bufferutil@4.0.8)(typescript@5.4.5))':
     dependencies:
-      '@wagmi/connectors': 3.1.10(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.21.29(bufferutil@4.0.8)(typescript@5.4.5))
+      '@wagmi/connectors': 3.1.10(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.21.45(bufferutil@4.0.8)(typescript@5.4.5))
       abitype: 0.8.7(typescript@5.4.5)
       eventemitter3: 4.0.7
-      viem: 2.21.29(bufferutil@4.0.8)(typescript@5.4.5)
+      viem: 2.21.45(bufferutil@4.0.8)(typescript@5.4.5)
       zustand: 4.5.2(@types/react@18.3.2)(react@18.3.0)
     optionalDependencies:
       typescript: 5.4.5
@@ -17344,6 +17355,20 @@ snapshots:
       strip-ansi: 6.0.1
       wcwidth: 1.0.1
 
+  ox@0.1.2(typescript@5.4.5):
+    dependencies:
+      '@adraffy/ens-normalize': 1.11.0
+      '@noble/curves': 1.6.0
+      '@noble/hashes': 1.5.0
+      '@scure/bip32': 1.5.0
+      '@scure/bip39': 1.4.0
+      abitype: 1.0.6(typescript@5.4.5)
+      eventemitter3: 5.0.1
+    optionalDependencies:
+      typescript: 5.4.5
+    transitivePeerDependencies:
+      - zod
+
   p-defer@4.0.1: {}
 
   p-limit@2.3.0:
@@ -18624,15 +18649,15 @@ snapshots:
       - utf-8-validate
       - zod
 
-  viem@2.21.29(bufferutil@4.0.8)(typescript@5.4.5):
+  viem@2.21.45(bufferutil@4.0.8)(typescript@5.4.5):
     dependencies:
-      '@adraffy/ens-normalize': 1.11.0
       '@noble/curves': 1.6.0
       '@noble/hashes': 1.5.0
       '@scure/bip32': 1.5.0
       '@scure/bip39': 1.4.0
       abitype: 1.0.6(typescript@5.4.5)
       isows: 1.0.6(ws@8.18.0(bufferutil@4.0.8))
+      ox: 0.1.2(typescript@5.4.5)
       webauthn-p256: 0.0.10
       ws: 8.18.0(bufferutil@4.0.8)
     optionalDependencies:
@@ -18648,16 +18673,16 @@ snapshots:
 
   void-elements@3.1.0: {}
 
-  wagmi@1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0)(typescript@5.4.5)(viem@2.21.29(bufferutil@4.0.8)(typescript@5.4.5)):
+  wagmi@1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0)(typescript@5.4.5)(viem@2.21.45(bufferutil@4.0.8)(typescript@5.4.5)):
     dependencies:
       '@tanstack/query-sync-storage-persister': 4.36.1
       '@tanstack/react-query': 4.36.1(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0)
       '@tanstack/react-query-persist-client': 4.36.1(@tanstack/react-query@4.36.1(react-dom@18.3.1(react@18.3.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0))(react@18.3.0))
-      '@wagmi/core': 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.21.29(bufferutil@4.0.8)(typescript@5.4.5))
+      '@wagmi/core': 1.4.12(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.0)(typescript@5.4.5)(viem@2.21.45(bufferutil@4.0.8)(typescript@5.4.5))
       abitype: 0.8.7(typescript@5.4.5)
       react: 18.3.0
       use-sync-external-store: 1.2.2(react@18.3.0)
-      viem: 2.21.29(bufferutil@4.0.8)(typescript@5.4.5)
+      viem: 2.21.45(bufferutil@4.0.8)(typescript@5.4.5)
     optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:

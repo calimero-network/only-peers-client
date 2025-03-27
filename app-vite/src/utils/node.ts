@@ -9,12 +9,12 @@ import {
 
 export function getNodeUrl(): string {
   if (typeof window === 'undefined') {
-    return;
+    return "";
   }
-  let storageKey = getAppEndpointKey();
+  const storageKey = getAppEndpointKey();
 
   if (!storageKey) {
-    let envKey: string = process.env['NEXT_PUBLIC_RPC_BASE_URL'] ?? '';
+    const envKey: string = import.meta.env.VITE_RPC_BASE_URL ?? '';
     setAppEndpointKey(envKey);
     return envKey;
   }
@@ -23,10 +23,10 @@ export function getNodeUrl(): string {
 }
 
 export function getStorageContextId(): string {
-  let storageContextId = getContextId();
+  const storageContextId = getContextId();
 
   if (!storageContextId) {
-    let envKey: string = process.env['NEXT_PUBLIC_CONTEXT_ID'] ?? '';
+    const envKey: string = import.meta.env.VITE_CONTEXT_ID ?? '';
     setContextId(envKey);
     return envKey;
   }
@@ -35,10 +35,10 @@ export function getStorageContextId(): string {
 }
 
 export function getStorageApplicationId(): string {
-  let storageApplicationId = getApplicationId();
+  const storageApplicationId = getApplicationId();
 
   if (!storageApplicationId) {
-    let envKey: string = process.env['NEXT_PUBLIC_APPLICATION_ID'] ?? '';
+    const envKey: string = import.meta.env.VITE_APPLICATION_ID ?? '';
     setStorageApplicationId(envKey);
     return envKey;
   }
@@ -47,5 +47,5 @@ export function getStorageApplicationId(): string {
 }
 
 export function getNearEnvironment(): string {
-  return process.env['NEXT_PUBLIC_NEAR_ENV'] ?? 'testnet';
+  return import.meta.env.VITE_NEAR_ENV ?? 'testnet';
 }

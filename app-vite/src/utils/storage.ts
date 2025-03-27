@@ -23,9 +23,14 @@ export const setAppEndpointKey = (url: string) => {
 
 export const getAppEndpointKey = (): string | null => {
   if (typeof window !== 'undefined' && window.localStorage) {
-    const url: string = JSON.parse(localStorage.getItem(APP_URL) ?? '');
-    if (url) {
-      return url;
+    const storedUrl = localStorage.getItem(APP_URL);
+    if (storedUrl) {
+      try {
+        return JSON.parse(storedUrl);
+      } catch (error) {
+        console.error('Error parsing stored URL:', error);
+        return null;
+      }
     }
   }
   return null;

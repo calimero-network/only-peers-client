@@ -1,9 +1,9 @@
-import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
-import { Post } from '../../types/types';
-import CommentComponent from './comment';
-import CreateCommentPopup from './createCommentPopup';
-import translations from '../../constants/en.global.json';
-import Button from '../button/button';
+import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
+import { Post } from "../../types/types";
+import CommentComponent from "./comment";
+import CreateCommentPopup from "./createCommentPopup";
+import translations from "../../constants/en.global.json";
+import Button from "../button/button";
 
 interface ExtendedPostProps {
   post: Post | null;

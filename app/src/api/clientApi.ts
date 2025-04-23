@@ -1,9 +1,5 @@
-import { Comment, Post } from '../types/types';
-import { ApiResponse } from './response';
-
-export interface FeedRequest {
-  // ignore
-}
+import { ApiResponse } from "@calimero-network/calimero-client";
+import { Comment, Post } from "../types/types";
 
 export interface PostRequest {
   id: number;
@@ -21,14 +17,14 @@ export interface CreateCommentRequest {
 }
 
 export enum ClientMethod {
-  CREATE_COMMENT = 'create_comment',
-  POST = 'post',
-  CREATE_POST = 'create_post',
-  POSTS = 'posts',
+  CREATE_COMMENT = "create_comment",
+  POST = "post",
+  CREATE_POST = "create_post",
+  POSTS = "posts",
 }
 
 export interface ClientApi {
-  fetchFeed(params: FeedRequest): ApiResponse<Post[]>;
+  fetchFeed(): ApiResponse<Post[]>;
   fetchPost(params: PostRequest): ApiResponse<Post>;
   createPost(params: CreatePostRequest): ApiResponse<Post>;
   createComment(params: CreateCommentRequest): ApiResponse<Comment>;

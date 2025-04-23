@@ -1,18 +1,17 @@
-import Header from '../../components/header/header';
-import ExtendedPost from '../../components/post/extendedPost';
-import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
-import Loader from '../../components/loader/loader';
-import ErrorPopup from '../../components/error/errorPopup';
-import { Post } from '../../types/types';
-import { ClientApiDataSource } from '../../api/dataSource/ClientApiDataSource';
-import { CreateCommentRequest, PostRequest } from '../../api/clientApi';
-import { getJWTObject } from '../../utils/storage';
+import Header from "../../components/header/header";
+import ExtendedPost from "../../components/post/extendedPost";
+import { useCallback, useEffect, useState } from "react";
+import Loader from "../../components/loader/loader";
+import ErrorPopup from "../../components/error/errorPopup";
+import { Post } from "../../types/types";
+import { ClientApiDataSource } from "../../api/dataSource/ClientApiDataSource";
+import { CreateCommentRequest, PostRequest } from "../../api/clientApi";
+import { useParams } from "react-router-dom";
+import { getJWTObject } from "@calimero-network/calimero-client";
 
 export default function PostPage() {
-  const router = useRouter();
-  const { id } = router.query;
-  const [error, setError] = useState('');
+  const { id } = useParams();
+  const [error, setError] = useState("");
   const [post, setPost] = useState<Post | null>(null);
   const [openCreateComment, setOpenCreateComment] = useState(false);
   const postId = id ? parseInt(id as string, 10) : null;
@@ -20,8 +19,11 @@ export default function PostPage() {
 
   const createComment = async (text: string) => {
     const jwt = getJWTObject();
+    if (!jwt) {
+      return;
+    }
     const commentRequest: CreateCommentRequest = {
-      post_id: postId,
+      post_id: postId ?? 0,
       text: text,
       user: jwt.executor_public_key,
     };
@@ -34,7 +36,6 @@ export default function PostPage() {
     }
 
     setOpenCreateComment(false);
-    // TODO implement pagination
     fetchPost(postId);
   };
 

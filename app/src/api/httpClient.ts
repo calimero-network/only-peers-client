@@ -1,5 +1,5 @@
-import { Axios, AxiosError, AxiosResponse } from 'axios';
-import { ErrorResponse, ResponseData } from './response';
+import { ErrorResponse, ResponseData } from "@calimero-network/calimero-client";
+import { Axios, AxiosResponse, AxiosError } from "axios";
 
 export interface Header {
   [key: string]: string;
@@ -104,9 +104,9 @@ export class AxiosHttpClient implements HttpClient {
       const response = await promise;
 
       //head does not return body so we are adding data manually
-      if (response.config.method.toUpperCase() === 'HEAD') {
+      if (response.config?.method?.toUpperCase() === "HEAD") {
         return {
-          data: undefined,
+          data: undefined as unknown as T,
         };
       } else {
         return response.data;
@@ -114,7 +114,7 @@ export class AxiosHttpClient implements HttpClient {
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
         //head does not return body so we are adding error manually
-        if (e.config.method.toUpperCase() === 'HEAD') {
+        if (e.config?.method?.toUpperCase() === "HEAD") {
           return {
             error: {
               code: e.request.status,
@@ -124,7 +124,6 @@ export class AxiosHttpClient implements HttpClient {
         }
 
         const error: ErrorResponse = e.response?.data.error;
-        //TODO make code mandatory
         if (!error || !error.message) {
           return {
             error: GENERIC_ERROR,
@@ -146,5 +145,5 @@ export class AxiosHttpClient implements HttpClient {
 
 const GENERIC_ERROR: ErrorResponse = {
   code: 500,
-  message: 'Something went wrong',
+  message: "Something went wrong",
 };

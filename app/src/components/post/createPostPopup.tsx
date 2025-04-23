@@ -1,8 +1,8 @@
-import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import Loader from '../loader/loader';
-import translations from '../../constants/en.global.json';
-import Button from '../button/button';
+import { Fragment, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import Loader from "../loader/loader";
+import translations from "../../constants/en.global.json";
+import Button from "../button/button";
 
 interface CreatePostPopupProps {
   createPost: (title: string, content: string) => void;
@@ -16,8 +16,8 @@ export default function CreatePostPopup({
   setOpen,
 }: CreatePostPopupProps) {
   const t = translations.postPopup;
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onCreatePost = () => {
@@ -106,15 +106,15 @@ export default function CreatePostPopup({
                         title={t.createButtonText}
                         backgroundColor="bg-[#ECB159]"
                         backgroundColorHover={`${
-                          title.trim() === '' ||
-                          content.trim() === '' ||
+                          title.trim() === "" ||
+                          content.trim() === "" ||
                           content.length > 250
-                            ? 'opacity-50 cursor-not-allowed'
-                            : ''
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
                         }`}
                         disabled={
-                          title.trim() === '' ||
-                          content.trim() === '' ||
+                          title.trim() === "" ||
+                          content.trim() === "" ||
                           content.length > 250
                         }
                         onClick={() => onCreatePost()}

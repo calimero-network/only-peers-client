@@ -1,14 +1,19 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router.js';
-import { getAppEndpointKey } from '../../utils/storage';
-import { getStorageApplicationId } from '../../utils/node';
+import { useEffect } from "react";
+import { getAppEndpointKey } from "../../utils/storage";
+import { getStorageApplicationId } from "../../utils/node";
 import {
   getAccessToken,
   getRefreshToken,
-} from '@calimero-is-near/calimero-p2p-sdk';
+} from "@calimero-network/calimero-client";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export default function WithIdAuth({ children }: any) {
-  const router = useRouter();
+interface AuthProps {
+  children: React.ReactNode;
+}
+
+export default function WithIdAuth({ children }: AuthProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const url = getAppEndpointKey();
@@ -17,17 +22,17 @@ export default function WithIdAuth({ children }: any) {
     const refreshToken = getRefreshToken();
 
     if (!url || !applicationId) {
-      if (!router.pathname.startsWith('/setup')) {
-        router.push('/setup');
+      if (!location.pathname.startsWith("/login")) {
+        navigate("/login");
       }
     } else if (!accessToken || !refreshToken) {
-      if (!router.pathname.startsWith('/auth')) {
-        router.push('/auth');
+      if (!location.pathname.startsWith("/auth")) {
+        navigate("/auth");
       }
-    } else if (router.pathname.startsWith('/auth')) {
-      router.push('/feed');
+    } else if (location.pathname.startsWith("/auth")) {
+      navigate("/feed");
     }
-  }, [router]);
+  }, [navigate]);
 
   return <>{children}</>;
 }

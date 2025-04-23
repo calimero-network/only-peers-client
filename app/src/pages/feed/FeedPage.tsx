@@ -1,44 +1,55 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Post } from '../../types/types';
+import { useCallback, useEffect, useState } from "react";
+import { Post } from "../../types/types";
 
-import ErrorPopup from '../../components/error/errorPopup';
-import Feed from '../../components/feed/feed';
-import Header from '../../components/header/header';
-import Loader from '../../components/loader/loader';
-import { CreatePostRequest, FeedRequest } from '../../api/clientApi';
-import { ClientApiDataSource } from '../../api/dataSource/ClientApiDataSource';
+import ErrorPopup from "../../components/error/errorPopup";
+import Feed from "../../components/feed/feed";
+import Header from "../../components/header/header";
+import Loader from "../../components/loader/loader";
+import { CreatePostRequest } from "../../api/clientApi";
+import { ClientApiDataSource } from "../../api/dataSource/ClientApiDataSource";
+import { useNavigate } from "react-router-dom";
+import { getAccessToken } from "@calimero-network/calimero-client";
 
 export default function FeedPage() {
+  const navigate = useNavigate();
+  const accessToken = getAccessToken();
   const [openCreatePost, setOpenCreatePost] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const fetchFeed = useCallback(async (request: FeedRequest) => {
+  useEffect(() => {
+    if (!accessToken) {
+      navigate("/login");
+    } else {
+      navigate("/feed");
+    }
+  }, [accessToken, navigate]);
+
+  const fetchFeed = useCallback(async () => {
     try {
-      const response = await new ClientApiDataSource().fetchFeed(request);
+      const response = await new ClientApiDataSource().fetchFeed();
       if (response.error) {
         setError(response.error.message);
         setLoading(false);
       }
-      setPosts(response?.data?.slice().reverse());
+      setPosts(response?.data?.slice().reverse() ?? []);
       setLoading(false);
-    } catch (error) {
-      setError(error.message);
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : "Unknown error");
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
     const signGetPostRequest = async () => {
-      const feedRequest: FeedRequest = {};
-      fetchFeed({ feedRequest });
+      fetchFeed();
     };
     signGetPostRequest();
   }, [fetchFeed]);
 
   const createPost = async (title: string, content: string) => {
-    setError('');
+    setError("");
     setLoading(true);
     const createPostRequest: CreatePostRequest = {
       title,
@@ -56,9 +67,7 @@ export default function FeedPage() {
 
     setOpenCreatePost(false);
     setLoading(false);
-    //TODO solve pagination
-    const feedRequest: FeedRequest = {};
-    fetchFeed({ feedRequest });
+    fetchFeed();
   };
 
   return (

@@ -1,26 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import Link from 'next/link';
-import translations from '../../constants/en.global.json';
-import { useRouter } from 'next/router';
+import translations from "../../constants/en.global.json";
+
+import Button from "../button/button";
 import {
-  clearAppEndpoint,
-  getJWTObject,
-  clearJWT,
-  clearApplicationId,
-} from '../../utils/storage';
-import { getAccessToken } from '@calimero-is-near/calimero-p2p-sdk';
-import Button from '../button/button';
+  clientLogout,
+  getAccessToken,
+  getExecutorPublicKey,
+} from "@calimero-network/calimero-client";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const t = translations.header;
-  const router = useRouter();
+  const navigate = useNavigate();
   const [accessToken] = useState(getAccessToken());
-  const [executorPublicKey, setExecutorPublicKey] = useState('');
+  const [executorPublicKey, setExecutorPublicKey] = useState<string | null>(
+    null,
+  );
 
   useEffect(() => {
     const setExecutorPk = async () => {
-      let publicKey = getJWTObject()?.executor_public_key;
+      const publicKey = getExecutorPublicKey();
       setExecutorPublicKey(publicKey);
     };
     if (accessToken) {
@@ -29,10 +29,8 @@ export default function Header() {
   }, [accessToken]);
 
   function logout() {
-    clearAppEndpoint();
-    clearJWT();
-    clearApplicationId();
-    router.reload();
+    clientLogout();
+    navigate("/");
   }
 
   return (
@@ -42,14 +40,14 @@ export default function Header() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <Link
-            href="/"
+          <a
+            href="/only-peers-client/feed"
             className="-m-1.5 p-1.5 flex justify-center items-center"
           >
             <div className="text-white text-xl font-bold font-serif">
               {t.logoText}
             </div>
-          </Link>
+          </a>
         </div>
         <div className="flex flex-1 justify-end items-center gap-2">
           {executorPublicKey && (

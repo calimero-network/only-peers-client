@@ -1,5 +1,5 @@
-import { UserIcon } from '@heroicons/react/24/solid';
-import { Comment } from '../../types/types';
+import { UserIcon } from "@heroicons/react/24/solid";
+import { Comment } from "../../types/types";
 
 interface CommentProps {
   commentItem: Comment;

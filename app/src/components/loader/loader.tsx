@@ -1,4 +1,4 @@
-import translations from '../../constants/en.global.json';
+import translations from "../../constants/en.global.json";
 
 export default function Loader() {
   const t = translations.loader;

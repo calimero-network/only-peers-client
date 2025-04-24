@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { getAppEndpointKey } from "../../utils/storage";
-import { getStorageApplicationId } from "../../utils/node";
 import {
   getAccessToken,
+  getAppEndpointKey,
+  getApplicationId,
   getRefreshToken,
 } from "@calimero-network/calimero-client";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ export default function WithIdAuth({ children }: AuthProps) {
 
   useEffect(() => {
     const url = getAppEndpointKey();
-    const applicationId = getStorageApplicationId();
+    const applicationId = getApplicationId();
     const accessToken = getAccessToken();
     const refreshToken = getRefreshToken();
 

@@ -22,7 +22,7 @@ export function getJsonRpcClient() {
   const appEndpointKey = getAppEndpointKey();
   if (!appEndpointKey) {
     throw new Error(
-      "Application endpoint key is missing. Please check your configuration."
+      "Application endpoint key is missing. Please check your configuration.",
     );
   }
   return new JsonRpcClient(appEndpointKey, "/jsonrpc");
@@ -39,7 +39,7 @@ export class ClientApiDataSource implements ClientApi {
   private async handleError(
     error: RpcError,
     params: any,
-    callbackFunction: any
+    callbackFunction: any,
   ) {
     if (error && error.code) {
       const response = await handleRpcError(error, getAppEndpointKey);
@@ -73,7 +73,7 @@ export class ClientApiDataSource implements ClientApi {
           argsJson: {},
           executorPublicKey: config.executorPublicKey,
         },
-        RequestHeaders
+        RequestHeaders,
       );
 
       if (response?.error) {
@@ -122,7 +122,7 @@ export class ClientApiDataSource implements ClientApi {
           argsJson: params,
           executorPublicKey: config.executorPublicKey,
         },
-        RequestHeaders
+        RequestHeaders,
       );
 
       if (response?.error) {
@@ -184,7 +184,7 @@ export class ClientApiDataSource implements ClientApi {
           argsJson: params,
           executorPublicKey: config.executorPublicKey,
         },
-        RequestHeaders
+        RequestHeaders,
       );
       if (response?.error) {
         return await this.handleError(response.error, {}, this.fetchFeed);
@@ -245,7 +245,7 @@ export class ClientApiDataSource implements ClientApi {
           argsJson: params,
           executorPublicKey: config.executorPublicKey,
         },
-        RequestHeaders
+        RequestHeaders,
       );
       if (response?.error) {
         return await this.handleError(response.error, {}, this.fetchFeed);
@@ -302,7 +302,7 @@ export class ClientApiDataSource implements ClientApi {
           argsJson: params,
           executorPublicKey: config.executorPublicKey,
         },
-        RequestHeaders
+        RequestHeaders,
       );
       if (response?.error) {
         return await this.handleError(response.error, {}, this.fetchFeed);
@@ -363,7 +363,7 @@ export class ClientApiDataSource implements ClientApi {
           argsJson: {},
           executorPublicKey: config.executorPublicKey,
         },
-        RequestHeaders
+        RequestHeaders,
       );
 
       if (response?.error) {

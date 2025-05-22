@@ -39,15 +39,13 @@ export default function Feed({
             </div>
             {leaderBoard.map((post, id) => (
               <div key={id} className="flex text-white gap-1 items-center">
-                <div className="w-12 font-bold">
-                  {post.id+1}.
-                </div>
+                <div className="w-12 font-bold">{post.id + 1}.</div>
                 <div className="w-12">{post.likes.length}</div>
                 <div className="flex-grow">
                   {post.username.substring(0, 4)}...
                   {post.username.substring(post.username.length - 4)}
                 </div>
-                <button 
+                <button
                   onClick={() => navigate(`/post/${post.id}`)}
                   className="w-16 px-2 py-1 text-sm border border-gray-400 rounded hover:border-white cursor-pointer"
                 >

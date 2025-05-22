@@ -12,6 +12,7 @@ import {
   ClientMethod,
   CreateCommentRequest,
   CreatePostRequest,
+  LeaderBoardRequest,
   LikePostRequest,
   PostRequest,
 } from "../clientApi";
@@ -21,7 +22,7 @@ export function getJsonRpcClient() {
   const appEndpointKey = getAppEndpointKey();
   if (!appEndpointKey) {
     throw new Error(
-      "Application endpoint key is missing. Please check your configuration.",
+      "Application endpoint key is missing. Please check your configuration."
     );
   }
   return new JsonRpcClient(appEndpointKey, "/jsonrpc");
@@ -38,7 +39,7 @@ export class ClientApiDataSource implements ClientApi {
   private async handleError(
     error: RpcError,
     params: any,
-    callbackFunction: any,
+    callbackFunction: any
   ) {
     if (error && error.code) {
       const response = await handleRpcError(error, getAppEndpointKey);
@@ -72,7 +73,7 @@ export class ClientApiDataSource implements ClientApi {
           argsJson: {},
           executorPublicKey: config.executorPublicKey,
         },
-        RequestHeaders,
+        RequestHeaders
       );
 
       if (response?.error) {
@@ -121,7 +122,7 @@ export class ClientApiDataSource implements ClientApi {
           argsJson: params,
           executorPublicKey: config.executorPublicKey,
         },
-        RequestHeaders,
+        RequestHeaders
       );
 
       if (response?.error) {
@@ -183,7 +184,7 @@ export class ClientApiDataSource implements ClientApi {
           argsJson: params,
           executorPublicKey: config.executorPublicKey,
         },
-        RequestHeaders,
+        RequestHeaders
       );
       if (response?.error) {
         return await this.handleError(response.error, {}, this.fetchFeed);
@@ -244,7 +245,7 @@ export class ClientApiDataSource implements ClientApi {
           argsJson: params,
           executorPublicKey: config.executorPublicKey,
         },
-        RequestHeaders,
+        RequestHeaders
       );
       if (response?.error) {
         return await this.handleError(response.error, {}, this.fetchFeed);
@@ -301,7 +302,7 @@ export class ClientApiDataSource implements ClientApi {
           argsJson: params,
           executorPublicKey: config.executorPublicKey,
         },
-        RequestHeaders,
+        RequestHeaders
       );
       if (response?.error) {
         return await this.handleError(response.error, {}, this.fetchFeed);
@@ -324,6 +325,68 @@ export class ClientApiDataSource implements ClientApi {
     } catch (error) {
       console.error("likePost failed:", error);
       let errorMessage = "An unexpected error occurred during likePost";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === "string") {
+        errorMessage = error;
+      }
+      return {
+        error: {
+          code: 500,
+          message: errorMessage,
+        },
+      };
+    }
+  }
+
+  async getLeaderBoard(): ApiResponse<Post[]> {
+    try {
+      const config = getAuthConfig();
+
+      if (!config || !config.contextId || !config.executorPublicKey) {
+        return {
+          data: null,
+          error: {
+            code: 500,
+            message: "Authentication configuration not found",
+          },
+        };
+      }
+
+      const response = await getJsonRpcClient().execute<
+        LeaderBoardRequest,
+        Post[]
+      >(
+        {
+          contextId: config.contextId,
+          method: ClientMethod.GET_LEADERBOARD,
+          argsJson: {},
+          executorPublicKey: config.executorPublicKey,
+        },
+        RequestHeaders
+      );
+
+      if (response?.error) {
+        return await this.handleError(response.error, {}, this.fetchFeed);
+      }
+
+      if (!response?.result?.output) {
+        return {
+          data: null,
+          error: {
+            code: 404,
+            message: "Post not found",
+          },
+        };
+      }
+
+      return {
+        data: response?.result?.output,
+        error: null,
+      };
+    } catch (error) {
+      console.error("fetchPost failed:", error);
+      let errorMessage = "An unexpected error occurred during fetchPost";
       if (error instanceof Error) {
         errorMessage = error.message;
       } else if (typeof error === "string") {

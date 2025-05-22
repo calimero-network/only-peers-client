@@ -29,12 +29,30 @@ export default function FeedPage() {
     }
   }, []);
 
+  const [leaderBoard, setLeaderBoard] = useState<Post[]>([]);
+
+  const fetchLeaderBoard = useCallback(async () => {
+    try {
+      const response = await new ClientApiDataSource().getLeaderBoard();
+      if (response.error) {
+        setError(response.error.message);
+        setLoading(false);
+      }
+      setLeaderBoard(response?.data ?? []);
+      setLoading(false);
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : "Unknown error");
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     const signGetPostRequest = async () => {
       fetchFeed();
+      fetchLeaderBoard();
     };
     signGetPostRequest();
-  }, [fetchFeed]);
+  }, [fetchFeed, fetchLeaderBoard]);
 
   const createPost = async (title: string, content: string) => {
     setError("");
@@ -72,6 +90,7 @@ export default function FeedPage() {
           openCreatePost={openCreatePost}
           setOpenCreatePost={setOpenCreatePost}
           fetchFeed={fetchFeed}
+          leaderBoard={leaderBoard}
         />
       )}
     </>

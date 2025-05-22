@@ -1,6 +1,8 @@
 import { ApiResponse } from "@calimero-network/calimero-client";
 import { Comment, Post } from "../types/types";
 
+export type LeaderBoardRequest = object;
+
 export interface PostRequest {
   id: number;
 }
@@ -25,6 +27,7 @@ export enum ClientMethod {
   CREATE_POST = "create_post",
   POSTS = "posts",
   LIKE_POST = "like_post",
+  GET_LEADERBOARD = "get_leaderboard",
 }
 
 export interface LikePostRequest {
@@ -39,4 +42,5 @@ export interface ClientApi {
   createPost(params: CreatePostRequest): ApiResponse<Post>;
   createComment(params: CreateCommentRequest): ApiResponse<Comment>;
   likePost(params: LikePostRequest): ApiResponse<Post>;
+  getLeaderBoard(): ApiResponse<Post[]>;
 }

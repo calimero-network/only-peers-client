@@ -10,6 +10,15 @@ export interface PostProps {
   fetchFeed: () => void;
 }
 
+const isImageUrl = (url: string): boolean => {
+  try {
+    new URL(url);
+    return /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
+  } catch {
+    return false;
+  }
+};
+
 export default function PostFeed({ post, fetchFeed }: PostProps) {
   const identityPublicKey = localStorage.getItem("identity-public-key");
   const publicKey = localStorage.getItem("public-key");
@@ -35,7 +44,15 @@ export default function PostFeed({ post, fetchFeed }: PostProps) {
             by {post.username.slice(0, 4)}...{post.username.slice(-4)}
           </p>
         </div>
-        <div className="text-white text-sm font-light">{post.content}</div>
+        {isImageUrl(post.content) ? (
+          <img 
+            src={post.content} 
+            alt="Post content" 
+            className="max-w-full h-auto rounded-lg my-2"
+          />
+        ) : (
+          <div className="text-white text-sm font-light">{post.content}</div>
+        )}
         <div className="flex gap-2 mt-2">
           {" "}
           <div

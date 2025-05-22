@@ -18,6 +18,15 @@ interface ExtendedPostProps {
   fetchPost: (postId: number | null) => Promise<void>;
 }
 
+const isImageUrl = (url: string): boolean => {
+  try {
+    new URL(url);
+    return /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
+  } catch {
+    return false;
+  }
+};
+
 export default function ExtendedPost({
   post,
   createComment,
@@ -67,9 +76,17 @@ export default function ExtendedPost({
                 by {post.username.slice(0, 4)}...{post.username.slice(-4)}
               </p>
             </div>
-            <div className="text-gray-300 text-sm font-light mt-4">
-              {post.content}
-            </div>
+            {isImageUrl(post.content) ? (
+              <img
+                src={post.content}
+                alt="Post content"
+                className="max-w-full h-auto rounded-lg my-2"
+              />
+            ) : (
+              <div className="text-white text-sm font-light">
+                {post.content}
+              </div>
+            )}
             <div className="flex gap-2 mt-2">
               {" "}
               <div

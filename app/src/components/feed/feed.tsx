@@ -9,6 +9,7 @@ interface FeedProps {
   createPost: (title: string, content: string) => void;
   openCreatePost: boolean;
   setOpenCreatePost: (open: boolean) => void;
+  fetchFeed: () => void;
 }
 
 export default function Feed({
@@ -16,12 +17,13 @@ export default function Feed({
   createPost,
   openCreatePost,
   setOpenCreatePost,
+  fetchFeed,
 }: FeedProps) {
   const t = translations.feedPage;
   return (
     <div className="flex justify-center pt-4">
-      <div className="w-1/5" />
-      <div className="w-3/5">
+      <div className="md:w-1/5" />
+      <div className="px-4 md:px-0 w-full md:w-3/5">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-2xl font-bold text-white">{t.feedTitle}</h2>
           <Button
@@ -38,7 +40,7 @@ export default function Feed({
         ) : (
           <div className="flex flex-col gap-y-1">
             {posts.map((post, id) => (
-              <PostFeed post={post} key={id} />
+              <PostFeed post={post} key={id} fetchFeed={fetchFeed} />
             ))}
           </div>
         )}
@@ -51,7 +53,7 @@ export default function Feed({
           />
         )}
       </div>
-      <div className="w-1/5" />
+      <div className="md:w-1/5" />
     </div>
   );
 }

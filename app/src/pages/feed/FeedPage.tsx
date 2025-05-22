@@ -7,24 +7,12 @@ import Header from "../../components/header/header";
 import Loader from "../../components/loader/loader";
 import { CreatePostRequest } from "../../api/clientApi";
 import { ClientApiDataSource } from "../../api/dataSource/ClientApiDataSource";
-import { useNavigate } from "react-router-dom";
-import { getAccessToken } from "@calimero-network/calimero-client";
 
 export default function FeedPage() {
-  const navigate = useNavigate();
-  const accessToken = getAccessToken();
   const [openCreatePost, setOpenCreatePost] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!accessToken) {
-      navigate("/login");
-    } else {
-      navigate("/feed");
-    }
-  }, [accessToken, navigate]);
 
   const fetchFeed = useCallback(async () => {
     try {
@@ -54,6 +42,8 @@ export default function FeedPage() {
     const createPostRequest: CreatePostRequest = {
       title,
       content,
+      calimero_user_id: localStorage.getItem("identity-public-key") ?? "",
+      username: localStorage.getItem("public-key") ?? "",
     };
     const result = await new ClientApiDataSource().createPost(
       createPostRequest,
@@ -81,6 +71,7 @@ export default function FeedPage() {
           createPost={createPost}
           openCreatePost={openCreatePost}
           setOpenCreatePost={setOpenCreatePost}
+          fetchFeed={fetchFeed}
         />
       )}
     </>

@@ -1,9 +1,9 @@
 import {
   ApiResponse,
   getAppEndpointKey,
+  getAuthConfig,
   handleRpcError,
   JsonRpcClient,
-  prepareAuthenticatedRequestConfig,
   RpcError,
 } from "@calimero-network/calimero-client";
 
@@ -12,6 +12,7 @@ import {
   ClientMethod,
   CreateCommentRequest,
   CreatePostRequest,
+  LikePostRequest,
   PostRequest,
 } from "../clientApi";
 import { Comment, Post } from "../../types/types";
@@ -25,6 +26,13 @@ export function getJsonRpcClient() {
   }
   return new JsonRpcClient(appEndpointKey, "/jsonrpc");
 }
+
+const RequestHeaders = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 10000,
+};
 
 export class ClientApiDataSource implements ClientApi {
   private async handleError(
@@ -45,27 +53,26 @@ export class ClientApiDataSource implements ClientApi {
 
   async fetchFeed(): ApiResponse<Post[]> {
     try {
-      const { config, error, contextId, publicKey } =
-        prepareAuthenticatedRequestConfig();
+      const config = getAuthConfig();
 
-      if (error) {
+      if (!config || !config.contextId || !config.executorPublicKey) {
         return {
           data: null,
           error: {
-            code: error.code,
-            message: error.message,
+            code: 500,
+            message: "Authentication configuration not found",
           },
         };
       }
 
       const response = await getJsonRpcClient().execute<any, Post[]>(
         {
-          contextId,
+          contextId: config.contextId,
           method: ClientMethod.POSTS,
           argsJson: {},
-          executorPublicKey: publicKey,
+          executorPublicKey: config.executorPublicKey,
         },
-        config,
+        RequestHeaders,
       );
 
       if (response?.error) {
@@ -95,27 +102,26 @@ export class ClientApiDataSource implements ClientApi {
 
   async fetchPost(params: PostRequest): ApiResponse<Post> {
     try {
-      const { config, error, contextId, publicKey } =
-        prepareAuthenticatedRequestConfig();
+      const config = getAuthConfig();
 
-      if (error) {
+      if (!config || !config.contextId || !config.executorPublicKey) {
         return {
           data: null,
           error: {
-            code: error.code,
-            message: error.message,
+            code: 500,
+            message: "Authentication configuration not found",
           },
         };
       }
 
       const response = await getJsonRpcClient().execute<PostRequest, Post>(
         {
-          contextId,
+          contextId: config.contextId,
           method: ClientMethod.POST,
           argsJson: params,
-          executorPublicKey: publicKey,
+          executorPublicKey: config.executorPublicKey,
         },
-        config,
+        RequestHeaders,
       );
 
       if (response?.error) {
@@ -155,15 +161,14 @@ export class ClientApiDataSource implements ClientApi {
 
   async createPost(params: CreatePostRequest): ApiResponse<Post> {
     try {
-      const { config, error, contextId, publicKey } =
-        prepareAuthenticatedRequestConfig();
+      const config = getAuthConfig();
 
-      if (error) {
+      if (!config || !config.contextId || !config.executorPublicKey) {
         return {
           data: null,
           error: {
-            code: error.code,
-            message: error.message,
+            code: 500,
+            message: "Authentication configuration not found",
           },
         };
       }
@@ -173,12 +178,12 @@ export class ClientApiDataSource implements ClientApi {
         Post
       >(
         {
-          contextId,
+          contextId: config.contextId,
           method: ClientMethod.CREATE_POST,
           argsJson: params,
-          executorPublicKey: publicKey,
+          executorPublicKey: config.executorPublicKey,
         },
-        config,
+        RequestHeaders,
       );
       if (response?.error) {
         return await this.handleError(response.error, {}, this.fetchFeed);
@@ -217,15 +222,14 @@ export class ClientApiDataSource implements ClientApi {
 
   async createComment(params: CreateCommentRequest): ApiResponse<Comment> {
     try {
-      const { config, error, contextId, publicKey } =
-        prepareAuthenticatedRequestConfig();
+      const config = getAuthConfig();
 
-      if (error) {
+      if (!config || !config.contextId || !config.executorPublicKey) {
         return {
           data: null,
           error: {
-            code: error.code,
-            message: error.message,
+            code: 500,
+            message: "Authentication configuration not found",
           },
         };
       }
@@ -235,12 +239,12 @@ export class ClientApiDataSource implements ClientApi {
         Comment
       >(
         {
-          contextId,
+          contextId: config.contextId,
           method: ClientMethod.CREATE_COMMENT,
           argsJson: params,
-          executorPublicKey: publicKey,
+          executorPublicKey: config.executorPublicKey,
         },
-        config,
+        RequestHeaders,
       );
       if (response?.error) {
         return await this.handleError(response.error, {}, this.fetchFeed);
@@ -263,6 +267,63 @@ export class ClientApiDataSource implements ClientApi {
     } catch (error) {
       console.error("createComment failed:", error);
       let errorMessage = "An unexpected error occurred during createComment";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === "string") {
+        errorMessage = error;
+      }
+      return {
+        error: {
+          code: 500,
+          message: errorMessage,
+        },
+      };
+    }
+  }
+  async likePost(params: LikePostRequest): ApiResponse<Post> {
+    try {
+      const config = getAuthConfig();
+
+      if (!config || !config.contextId || !config.executorPublicKey) {
+        return {
+          data: null,
+          error: {
+            code: 500,
+            message: "Authentication configuration not found",
+          },
+        };
+      }
+
+      const response = await getJsonRpcClient().execute<LikePostRequest, Post>(
+        {
+          contextId: config.contextId,
+          method: ClientMethod.LIKE_POST,
+          argsJson: params,
+          executorPublicKey: config.executorPublicKey,
+        },
+        RequestHeaders,
+      );
+      if (response?.error) {
+        return await this.handleError(response.error, {}, this.fetchFeed);
+      }
+
+      if (!response?.result?.output) {
+        return {
+          data: null,
+          error: {
+            code: 500,
+            message: "Error liking post",
+          },
+        };
+      }
+
+      return {
+        data: response?.result?.output,
+        error: null,
+      };
+    } catch (error) {
+      console.error("likePost failed:", error);
+      let errorMessage = "An unexpected error occurred during likePost";
       if (error instanceof Error) {
         errorMessage = error.message;
       } else if (typeof error === "string") {

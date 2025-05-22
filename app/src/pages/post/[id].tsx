@@ -7,7 +7,6 @@ import { Post } from "../../types/types";
 import { ClientApiDataSource } from "../../api/dataSource/ClientApiDataSource";
 import { CreateCommentRequest, PostRequest } from "../../api/clientApi";
 import { useParams } from "react-router-dom";
-import { getJWTObject } from "@calimero-network/calimero-client";
 
 export default function PostPage() {
   const { id } = useParams();
@@ -18,14 +17,19 @@ export default function PostPage() {
   const [loading, setLoading] = useState(true);
 
   const createComment = async (text: string) => {
-    const jwt = getJWTObject();
-    if (!jwt) {
+    const identityPublicKey = localStorage.getItem("identity-public-key");
+    const publicKey = localStorage.getItem("public-key");
+
+    if (!identityPublicKey || !publicKey) {
+      setError("User not authenticated");
       return;
     }
+
     const commentRequest: CreateCommentRequest = {
       post_id: postId ?? 0,
       text: text,
-      user: jwt.executor_public_key,
+      calimero_user_id: identityPublicKey,
+      username: publicKey,
     };
     const result = await new ClientApiDataSource().createComment(
       commentRequest,
@@ -71,6 +75,7 @@ export default function PostPage() {
           openCreateComment={openCreateComment}
           setOpenCreateComment={setOpenCreateComment}
           createComment={createComment}
+          fetchPost={fetchPost}
         />
       )}
     </>

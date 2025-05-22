@@ -38,10 +38,13 @@ pub enum Event<'a> {
         id: usize,
         title: &'a str,
         content: &'a str,
+        calimero_user_id: &'a str,
+        username: &'a str,
     },
     CommentCreated {
         post_id: usize,
-        user: &'a str,
+        calimero_user_id: &'a str,
+        username: &'a str,
         text: &'a str,
     },
     PostLiked {
@@ -52,6 +55,7 @@ pub enum Event<'a> {
     PostUnliked {
         post_id: usize,
         calimero_user_id: &'a str,
+        username: &'a str,
     },
 }
 
@@ -74,7 +78,13 @@ impl OnlyPeers {
         Ok(self.posts.iter()?.collect())
     }
 
-    pub fn create_post(&mut self, title: String, content: String) -> app::Result<Post> {
+    pub fn create_post(
+        &mut self,
+        title: String,
+        content: String,
+        calimero_user_id: String,
+        username: String,
+    ) -> app::Result<Post> {
         env::log(&format!(
             "Creating post with title: {:?} and content: {:?}",
             title, content
@@ -86,8 +96,8 @@ impl OnlyPeers {
             title: title.clone(),
             content: content.clone(),
             comments: Vector::new(),
-            calimero_user_id: "".to_string(),
-            username: "".to_string(),
+            calimero_user_id: calimero_user_id.clone(),
+            username: username.clone(),
             likes: Vector::new(),
         };
 
@@ -95,6 +105,8 @@ impl OnlyPeers {
             id,
             title: &title,
             content: &content,
+            calimero_user_id: &calimero_user_id,
+            username: &username,
         });
 
         self.posts.push(post)?;
@@ -107,18 +119,19 @@ impl OnlyPeers {
     pub fn create_comment(
         &mut self,
         post_id: usize,
-        user: String,
+        calimero_user_id: String,
+        username: String,
         text: String,
     ) -> app::Result<Option<Comment>> {
         env::log(&format!(
             "Creating comment under post with id: {:?} as user: {:?} with text: {:?}",
-            post_id, user, text
+            post_id, calimero_user_id, text
         ));
 
         if let Some(mut post) = self.posts.get(post_id)? {
             let comment = Comment {
-                calimero_user_id: "".to_string(),
-                username: "".to_string(),
+                calimero_user_id: calimero_user_id.clone(),
+                username: username.clone(),
                 text: text.clone(),
             };
             post.comments.push(comment.clone())?;
@@ -126,8 +139,9 @@ impl OnlyPeers {
 
             app::emit!(Event::CommentCreated {
                 post_id,
-                user: &user,
+                calimero_user_id: &calimero_user_id,
                 text: &text,
+                username: &username,
             });
 
             Ok(Some(comment))
@@ -163,6 +177,7 @@ impl OnlyPeers {
                 app::emit!(Event::PostUnliked {
                     post_id,
                     calimero_user_id: &calimero_user_id,
+                    username: &username,
                 });
             } else {
                 // Like: Add the user's like
@@ -181,5 +196,17 @@ impl OnlyPeers {
         } else {
             Ok(None)
         }
+    }
+
+    pub fn get_leaderboard(&self) -> app::Result<Vec<Post>> {
+        let mut all_posts: Vec<Post> = self.posts.iter()?.collect();
+
+        all_posts.sort_by(|a, b| {
+            let a_likes = a.likes.len().unwrap_or(0);
+            let b_likes = b.likes.len().unwrap_or(0);
+            b_likes.cmp(&a_likes)
+        });
+
+        Ok(all_posts.into_iter().take(5).collect())
     }
 }

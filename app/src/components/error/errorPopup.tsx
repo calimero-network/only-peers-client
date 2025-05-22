@@ -3,8 +3,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import translations from "../../constants/en.global.json";
 import Button from "../button/button";
-import { clientLogout } from "@calimero-network/calimero-client";
-import { useNavigate } from "react-router-dom";
 
 interface ErrorPopupProps {
   error: string;
@@ -13,12 +11,6 @@ interface ErrorPopupProps {
 export default function ErrorPopup(props: ErrorPopupProps) {
   const t = translations.errorPopup;
   const [open, setOpen] = useState(true);
-  const navigate = useNavigate();
-
-  const logout = () => {
-    clientLogout();
-    navigate("/");
-  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -71,15 +63,10 @@ export default function ErrorPopup(props: ErrorPopupProps) {
                     title={t.reloadButtonText}
                     backgroundColor="bg-[#B67352]"
                     backgroundColorHover=""
-                    onClick={() => window.location.reload()}
-                  />
-                </div>
-                <div className="mt-5 flex justify-center">
-                  <Button
-                    title={t.logoutButtonText}
-                    backgroundColor="bg-[#B67352]"
-                    backgroundColorHover=""
-                    onClick={logout}
+                    onClick={() => {
+                      localStorage.clear();
+                      window.location.reload();
+                    }}
                   />
                 </div>
               </Dialog.Panel>

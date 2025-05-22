@@ -6,7 +6,7 @@ import PostPage from "./pages/post/[id]";
 
 function App() {
   return (
-    <BrowserRouter basename="/only-peers-client/">
+    <BrowserRouter basename="/">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/feed" element={<FeedPage />} />

@@ -43,7 +43,7 @@ export default function Header() {
       >
         <div className="flex lg:flex-1">
           <a
-            href="/only-peers-client/feed"
+            href="/feed"
             className="-m-1.5 p-1.5 flex justify-center items-center"
           >
             <div className="text-white text-xl font-bold font-serif">

@@ -5,6 +5,7 @@ import {
   handleRpcError,
   JsonRpcClient,
   RpcError,
+  WsSubscriptionsClient,
 } from "@calimero-network/calimero-client";
 
 import {
@@ -26,6 +27,16 @@ export function getJsonRpcClient() {
     );
   }
   return new JsonRpcClient(appEndpointKey, "/jsonrpc");
+}
+
+export function getWsSubscriptionsClient() {
+  const appEndpointKey = getAppEndpointKey();
+  if (!appEndpointKey) {
+    throw new Error(
+      'Application endpoint key is missing. Please check your configuration.',
+    );
+  }
+  return new WsSubscriptionsClient(appEndpointKey, '/ws');
 }
 
 const RequestHeaders = {

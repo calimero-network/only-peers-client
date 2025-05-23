@@ -9,7 +9,7 @@ export default function Header() {
     null,
   );
   const [walletPublicKey, setWalletPublicKey] = useState<string | null>(null);
-  const [copyNotification, setCopyNotification] = useState<string | null>(null);
+  const [copyNotification, setCopyNotification] = useState<boolean>(false);
 
   useEffect(() => {
     const setPublicKeys = async () => {
@@ -27,11 +27,11 @@ export default function Header() {
     setPublicKeys();
   }, []);
 
-  function copyToClipboard(text: string, type: "identity" | "wallet") {
+  function copyToClipboard(text: string) {
     navigator.clipboard.writeText(text);
-    setCopyNotification(type);
+    setCopyNotification(true);
     setTimeout(() => {
-      setCopyNotification(null);
+      setCopyNotification(false);
     }, 2000);
   }
 
@@ -51,46 +51,58 @@ export default function Header() {
             </div>
           </a>
         </div>
+        <div
+            className={`fixed z-50 top-4 right-4 transform transition-all duration-300 ease-in-out
+            ${copyNotification 
+              ? 'translate-x-0 opacity-100' 
+              : 'translate-x-full opacity-0'
+            }
+            bg-green-900 text-white text-sm px-6 rounded-lg shadow-lg
+            flex items-center space-x-2`}
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span className="font-medium">Copied!</span>
+          </div>
         <div className="flex flex-1 justify-end items-center gap-2 mt-4 md:mt-0">
           {identityPublicKey && walletPublicKey && (
             <div className="flex gap-4 items-center">
               <div className="relative">
                 <button
-                  className="text-sm font-semibold leading-6 cursor-pointer border-[1px] border-white rounded-2xl px-2 py-1 text-white  hover:text-white transition"
-                  onClick={() => copyToClipboard(identityPublicKey, "identity")}
+                  className="text-sm font-light leading-6 cursor-pointer border-[1px] border-white rounded-2xl px-2 py-1 text-white  hover:text-white transition"
+                  onClick={() => copyToClipboard(identityPublicKey)}
                   title="Copy node identity public key"
                 >
                   Identity public key:{" "}
-                  <span className="pl-1 text-pink-400 hover:bg-pink-500">
+                  <span className="pl-1 text-pink-400">
                     {`${identityPublicKey.slice(0, 4).toLocaleLowerCase()}...${identityPublicKey
                       .slice(identityPublicKey.length - 4)
                       .toLocaleLowerCase()}`}
                   </span>
                 </button>
-                {copyNotification === "identity" && (
-                  <div className="absolute z-10 top-14 md:top-8 right-2 md:left-1/2 -translate-x-1/2 text-xs text-green-400">
-                    Copied!
-                  </div>
-                )}
               </div>
               <div className="relative">
                 <button
-                  className="text-sm font-semibold leading-6 cursor-pointer border-[1px] border-white rounded-2xl px-2 py-1 text-white  hover:text-white transition"
-                  onClick={() => copyToClipboard(walletPublicKey, "wallet")}
+                  className="text-sm font-light leading-6 cursor-pointer border-[1px] border-white rounded-2xl px-2 py-1 text-white hover:text-white transition"
+                  onClick={() => copyToClipboard(walletPublicKey)}
                   title="Copy wallet public key"
                 >
                   Wallet public key:{" "}
-                  <span className="pl-1 text-pink-400 hover:bg-pink-500">
+                  <span className="pl-1 text-pink-400">
                     {`${walletPublicKey.slice(0, 4).toLocaleLowerCase()}...${walletPublicKey
                       .slice(walletPublicKey.length - 4)
                       .toLocaleLowerCase()}`}
                   </span>
                 </button>
-                {copyNotification === "wallet" && (
-                  <div className="absolute z-10 top-14 md:top-8 right-2 md:left-1/2 -translate-x-1/2 text-xs text-green-400">
-                    Copied!
-                  </div>
-                )}
               </div>
             </div>
           )}

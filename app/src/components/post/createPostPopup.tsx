@@ -4,6 +4,7 @@ import Loader from "../loader/loader";
 import translations from "../../constants/en.global.json";
 import Button from "../button/button";
 import axios from "axios";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 interface CreatePostPopupProps {
   createPost: (title: string, content: string) => void;
@@ -41,8 +42,7 @@ export default function CreatePostPopup({
         fileName: file.name,
         fileType: file.type,
       });
-
-      const uploadResponse = await fetch(res.data.uploadUrl, {
+      const response = await fetch(res.data.uploadUrl, {
         method: "PUT",
         headers: {
           "Content-Type": "image/png",
@@ -51,10 +51,13 @@ export default function CreatePostPopup({
         body: file,
       });
 
-      console.log(uploadResponse);
-
-      setImageUrl(res.data.fileUrl);
-      setUploading(false);
+      if (response.ok) {
+        setImageUrl(res.data.fileUrl);
+        setUploading(false);
+      } else {
+        window.alert("Error uploading image");
+        console.error(response);
+      }
     } catch (error) {
       window.alert("Error uploading image");
       console.error(error);
@@ -73,9 +76,9 @@ export default function CreatePostPopup({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-70 transition-opacity" />
+          <div className="fixed inset-0  transition-opacity" />
         </Transition.Child>
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="fixed inset-0 z-10 w-screen bg-black/80 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -126,7 +129,7 @@ export default function CreatePostPopup({
                             className="w-full px-3 py-2 mb-4 rounded-md outline-none bg-black text-white"
                           />
                           <span className="text-white text-sm">
-                            {uploading ? "Uploading..." : ""}
+                            {uploading ? <Loader /> : ""}
                           </span>
                           {imageUrl && (
                             <div className="flex items-center justify-center py-4">
@@ -141,12 +144,13 @@ export default function CreatePostPopup({
                       </div>
                     </div>
                     <div className="flex justify-between items-center mt-2">
-                      <Button
-                        title={t.backButtonText}
-                        backgroundColor="bg-[#B67352]"
-                        backgroundColorHover=""
+                      <button
+                        className="text-white text-sm flex items-center gap-2"
                         onClick={() => setOpen(false)}
-                      />
+                      >
+                        <ArrowLeftIcon className="w-4 h-4" />
+                        {t.backButtonText}
+                      </button>
                       <Button
                         title={t.createButtonText}
                         backgroundColor="bg-[#ECB159]"

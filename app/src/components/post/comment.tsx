@@ -3,15 +3,22 @@ import { Comment } from "../../types/types";
 
 interface CommentProps {
   commentItem: Comment;
+  onClickUser: (username: string) => void;
 }
 
-export default function CommentComponent({ commentItem }: CommentProps) {
+export default function CommentComponent({
+  commentItem,
+  onClickUser,
+}: CommentProps) {
   return (
     <div className="mt-2 mb-2 flex flex-col">
       <div className="flex items-center gap-2">
         <UserIcon className="w-6 h-6 rounded-full text-white border-[1px] border-white px-1" />
         <div className="text-white">
-          {commentItem.username.slice(0, 4)}...{commentItem.username.slice(-4)}
+          <span onClick={() => onClickUser(commentItem.username)}>
+            {commentItem.username.slice(0, 4)}...
+            {commentItem.username.slice(-4)}
+          </span>
         </div>
       </div>
       <div className="text-white font-light text-sm pl-4 pt-2">

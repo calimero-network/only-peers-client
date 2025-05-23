@@ -30,26 +30,28 @@ export default function Feed({
       <div className="px-4 md:px-0 w-full md:w-3/5">
         <div className="flex flex-col gap-4 border-b-[1px] border-[#1c2123] mb-4 pb-4">
           <h2 className="text-2xl font-bold text-white">Leaderboard</h2>
-          <div className="flex flex-col gap-4">
-            <div className="flex text-white gap-1 text-sm font-semibold">
-              <div className="w-12">ID</div>
-              <div className="w-12">Likes</div>
+          <div className="flex flex-col gap-2">
+            <div className="flex text-gray-400 text-sm gap-2 font-semibold px-4 py-2 border-b border-[#1c2123]">
+              <div className="w-10">ID</div>
+              <div className="w-10">Likes</div>
               <div className="flex-grow">Creator</div>
-              <div className="w-16"></div>
             </div>
             {leaderBoard.map((post, id) => (
-              <div key={id} className="flex text-white gap-1 items-center">
-                <div className="w-12 font-bold">{post.id + 1}.</div>
-                <div className="w-12">{post.likes.length}</div>
-                <div className="flex-grow">
+              <div 
+                key={id} 
+                className="flex items-center px-4 py-1 gap-2 rounded-lg hover:bg-[#1c2123] transition-colors duration-200"
+              >
+                <div className="w-10 font-bold text-amber-500">#{id + 1}</div>
+                <div className="w-10 font-medium text-white">{post.likes.length}</div>
+                <div className="flex-grow font-medium text-white">
                   {post.username.substring(0, 4)}...
                   {post.username.substring(post.username.length - 4)}
                 </div>
                 <button
                   onClick={() => navigate(`/post/${post.id}`)}
-                  className="w-16 px-2 py-1 text-sm border border-gray-400 rounded hover:border-white cursor-pointer"
+                  className="rounded-full px-4 text-sm text-white bg-transparent border border-gray-600 hover:border-white hover:bg-[#ffffff10] transition-all duration-200"
                 >
-                  Visit
+                  View post
                 </button>
               </div>
             ))}

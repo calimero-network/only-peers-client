@@ -38,9 +38,9 @@ export default function PostFeed({ post, fetchFeed }: PostProps) {
   return (
     <div className="border-t-2 border-[#1c2123]">
       <div className="rounded-lg flex flex-col cursor-pointer px-4 pt-2 pb-2 mt-1">
-        <div className="flex justify-between items-center gap-2">
+        <div className="flex flex-col">
           <h4 className="text-white text-lg">{post.title}</h4>
-          <p className="text-gray-600 text-sm font-light">
+          <p className="text-gray-600 text-sm font-light text-end">
             by {post.username.slice(0, 4)}...{post.username.slice(-4)}
           </p>
         </div>
@@ -49,6 +49,9 @@ export default function PostFeed({ post, fetchFeed }: PostProps) {
             src={post.content}
             alt="Post content"
             className="max-w-full h-auto rounded-lg my-2"
+            onContextMenu={(e) => e.preventDefault()}
+            draggable="false"
+            style={{ userSelect: "none", WebkitUserSelect: "none" }}
           />
         ) : (
           <div className="text-white text-sm font-light">{post.content}</div>

@@ -4,10 +4,17 @@ import { useCallback, useEffect, useState } from "react";
 import Loader from "../../components/loader/loader";
 import ErrorPopup from "../../components/error/errorPopup";
 import { Post } from "../../types/types";
-import { ClientApiDataSource, getWsSubscriptionsClient } from "../../api/dataSource/ClientApiDataSource";
+import {
+  ClientApiDataSource,
+  getWsSubscriptionsClient,
+} from "../../api/dataSource/ClientApiDataSource";
 import { CreateCommentRequest, PostRequest } from "../../api/clientApi";
 import { useParams } from "react-router-dom";
-import { getContextId, NodeEvent, SubscriptionsClient } from "@calimero-network/calimero-client";
+import {
+  getContextId,
+  NodeEvent,
+  SubscriptionsClient,
+} from "@calimero-network/calimero-client";
 
 export default function PostPage() {
   const { id } = useParams();
@@ -65,17 +72,17 @@ export default function PostPage() {
     signGetPostRequest();
   }, [fetchPost, postId]);
 
-
   const observeNodeEvents = async () => {
     try {
-      const subscriptionsClient: SubscriptionsClient = getWsSubscriptionsClient();
+      const subscriptionsClient: SubscriptionsClient =
+        getWsSubscriptionsClient();
       await subscriptionsClient.connect();
-      subscriptionsClient.subscribe([getContextId() ?? '']);
+      subscriptionsClient.subscribe([getContextId() ?? ""]);
 
       subscriptionsClient?.addCallback(async (data: NodeEvent) => {
         try {
           // @ts-expect-error - TODO
-          if (data.data.newRoot && data.type === 'StateMutation') {
+          if (data.data.newRoot && data.type === "StateMutation") {
             try {
               await fetchPost(postId);
             } catch (error: any) {
@@ -83,17 +90,16 @@ export default function PostPage() {
             }
           }
         } catch (callbackError) {
-          console.error('Error in subscription callback:', callbackError);
+          console.error("Error in subscription callback:", callbackError);
         }
       });
     } catch (error) {
-      console.error('Error in node websocket:', error);
+      console.error("Error in node websocket:", error);
       window.alert({
-        message: 'Websocket connection error, check if node is running.',
+        message: "Websocket connection error, check if node is running.",
       });
     }
   };
-  
 
   useEffect(() => {
     observeNodeEvents();
@@ -102,7 +108,11 @@ export default function PostPage() {
   return (
     <>
       <Header />
-      {loading && <div className="flex justify-center items-center h-screen"><Loader /></div>}
+      {loading && (
+        <div className="flex justify-center items-center h-screen">
+          <Loader />
+        </div>
+      )}
       {error && <ErrorPopup error={error} />}
       {!loading && post && (
         <ExtendedPost

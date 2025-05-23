@@ -6,8 +6,15 @@ import Feed from "../../components/feed/feed";
 import Header from "../../components/header/header";
 import Loader from "../../components/loader/loader";
 import { CreatePostRequest } from "../../api/clientApi";
-import { ClientApiDataSource, getWsSubscriptionsClient } from "../../api/dataSource/ClientApiDataSource";
-import { getContextId, NodeEvent, SubscriptionsClient } from "@calimero-network/calimero-client";
+import {
+  ClientApiDataSource,
+  getWsSubscriptionsClient,
+} from "../../api/dataSource/ClientApiDataSource";
+import {
+  getContextId,
+  NodeEvent,
+  SubscriptionsClient,
+} from "@calimero-network/calimero-client";
 
 export default function FeedPage() {
   const [openCreatePost, setOpenCreatePost] = useState(false);
@@ -81,14 +88,15 @@ export default function FeedPage() {
 
   const observeNodeEvents = async () => {
     try {
-      const subscriptionsClient: SubscriptionsClient = getWsSubscriptionsClient();
+      const subscriptionsClient: SubscriptionsClient =
+        getWsSubscriptionsClient();
       await subscriptionsClient.connect();
-      subscriptionsClient.subscribe([getContextId() ?? '']);
+      subscriptionsClient.subscribe([getContextId() ?? ""]);
 
       subscriptionsClient?.addCallback(async (data: NodeEvent) => {
         try {
           // @ts-expect-error - TODO
-          if (data.data.newRoot && data.type === 'StateMutation') {
+          if (data.data.newRoot && data.type === "StateMutation") {
             try {
               await fetchFeed();
               await fetchLeaderBoard();
@@ -97,17 +105,16 @@ export default function FeedPage() {
             }
           }
         } catch (callbackError) {
-          console.error('Error in subscription callback:', callbackError);
+          console.error("Error in subscription callback:", callbackError);
         }
       });
     } catch (error) {
-      console.error('Error in node websocket:', error);
+      console.error("Error in node websocket:", error);
       window.alert({
-        message: 'Websocket connection error, check if node is running.',
+        message: "Websocket connection error, check if node is running.",
       });
     }
   };
-  
 
   useEffect(() => {
     observeNodeEvents();
@@ -116,7 +123,11 @@ export default function FeedPage() {
   return (
     <>
       <Header />
-      {loading && <div className="flex justify-center items-center h-screen"><Loader /></div>}
+      {loading && (
+        <div className="flex justify-center items-center h-screen">
+          <Loader />
+        </div>
+      )}
       {error && <ErrorPopup error={error} />}
       {!loading && posts && (
         <Feed

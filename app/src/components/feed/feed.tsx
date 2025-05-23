@@ -37,12 +37,14 @@ export default function Feed({
               <div className="flex-grow">Creator</div>
             </div>
             {leaderBoard.map((post, id) => (
-              <div 
-                key={id} 
+              <div
+                key={id}
                 className="flex items-center px-4 py-1 gap-2 rounded-lg hover:bg-[#1c2123] transition-colors duration-200"
               >
                 <div className="w-10 font-bold text-amber-500">#{id + 1}</div>
-                <div className="w-10 font-medium text-white">{post.likes.length}</div>
+                <div className="w-10 font-medium text-white">
+                  {post.likes.length}
+                </div>
                 <div className="flex-grow font-medium text-white">
                   {post.username.substring(0, 4)}...
                   {post.username.substring(post.username.length - 4)}

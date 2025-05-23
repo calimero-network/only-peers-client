@@ -81,9 +81,10 @@ export default function ExtendedPost({
           <div className="w-full md:w-1/5" />
           <div
             className={`fixed top-4 right-4 transform transition-all duration-300 ease-in-out
-            ${copyNotification 
-              ? 'translate-x-0 opacity-100' 
-              : 'translate-x-full opacity-0'
+            ${
+              copyNotification
+                ? "translate-x-0 opacity-100"
+                : "translate-x-full opacity-0"
             }
             bg-green-900 text-white text-sm px-6 rounded-lg shadow-lg
             flex items-center space-x-2`}
@@ -121,7 +122,7 @@ export default function ExtendedPost({
                 className="max-w-full h-auto rounded-lg my-2"
                 onContextMenu={(e) => e.preventDefault()}
                 draggable="false"
-                style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
+                style={{ userSelect: "none", WebkitUserSelect: "none" }}
               />
             ) : (
               <div className="text-white text-sm font-light">
@@ -164,7 +165,10 @@ export default function ExtendedPost({
             <div className="mt-4">
               {post.comments.map((commentItem, id) => (
                 <div key={id}>
-                  <CommentComponent commentItem={commentItem} onClickUser={copyToClipboard}/>
+                  <CommentComponent
+                    commentItem={commentItem}
+                    onClickUser={copyToClipboard}
+                  />
                 </div>
               ))}
             </div>

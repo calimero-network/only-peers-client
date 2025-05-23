@@ -33,10 +33,10 @@ export function getWsSubscriptionsClient() {
   const appEndpointKey = getAppEndpointKey();
   if (!appEndpointKey) {
     throw new Error(
-      'Application endpoint key is missing. Please check your configuration.',
+      "Application endpoint key is missing. Please check your configuration.",
     );
   }
-  return new WsSubscriptionsClient(appEndpointKey, '/ws');
+  return new WsSubscriptionsClient(appEndpointKey, "/ws");
 }
 
 const RequestHeaders = {

@@ -52,27 +52,28 @@ export default function Header() {
           </a>
         </div>
         <div
-            className={`fixed z-50 top-4 right-4 transform transition-all duration-300 ease-in-out
-            ${copyNotification 
-              ? 'translate-x-0 opacity-100' 
-              : 'translate-x-full opacity-0'
+          className={`fixed z-50 top-4 right-4 transform transition-all duration-300 ease-in-out
+            ${
+              copyNotification
+                ? "translate-x-0 opacity-100"
+                : "translate-x-full opacity-0"
             }
             bg-green-900 text-white text-sm px-6 rounded-lg shadow-lg
             flex items-center space-x-2`}
+        >
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span className="font-medium">Copied!</span>
-          </div>
+            <path d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span className="font-medium">Copied!</span>
+        </div>
         <div className="flex flex-1 justify-end items-center gap-2 mt-4 md:mt-0">
           {identityPublicKey && walletPublicKey && (
             <div className="flex gap-4 items-center">

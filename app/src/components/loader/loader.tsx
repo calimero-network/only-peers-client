@@ -6,7 +6,7 @@ export default function Loader() {
     <div role="status" className="flex w-full justify-center items-center">
       <svg
         aria-hidden="true"
-        className="w-10 h-10 text-[#B67352] animate-spin dark:text-gray-600 fill-[#ECB159]"
+        className="w-10 h-10 text-[#fb64b6] animate-spin dark:text-gray-600 fill-[#fb64b6]"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

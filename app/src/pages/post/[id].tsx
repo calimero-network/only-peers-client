@@ -86,7 +86,7 @@ export default function PostPage() {
             try {
               await fetchPost(postId);
             } catch (error: any) {
-              window.alert(error.message);
+              console.error(error.message);
             }
           }
         } catch (callbackError) {
@@ -95,9 +95,6 @@ export default function PostPage() {
       });
     } catch (error) {
       console.error("Error in node websocket:", error);
-      window.alert({
-        message: "Websocket connection error, check if node is running.",
-      });
     }
   };
 

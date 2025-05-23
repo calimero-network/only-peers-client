@@ -101,7 +101,7 @@ export default function FeedPage() {
               await fetchFeed();
               await fetchLeaderBoard();
             } catch (error: any) {
-              window.alert(error.message);
+              console.error("WS: error", error);
             }
           }
         } catch (callbackError) {
@@ -110,9 +110,6 @@ export default function FeedPage() {
       });
     } catch (error) {
       console.error("Error in node websocket:", error);
-      window.alert({
-        message: "Websocket connection error, check if node is running.",
-      });
     }
   };
 

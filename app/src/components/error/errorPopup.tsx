@@ -64,7 +64,6 @@ export default function ErrorPopup(props: ErrorPopupProps) {
                     backgroundColor="bg-[#B67352]"
                     backgroundColorHover=""
                     onClick={() => {
-                      localStorage.clear();
                       window.location.reload();
                     }}
                   />

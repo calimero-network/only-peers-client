@@ -45,9 +45,9 @@ export default function PostFeed({ post, fetchFeed }: PostProps) {
           </p>
         </div>
         {isImageUrl(post.content) ? (
-          <img 
-            src={post.content} 
-            alt="Post content" 
+          <img
+            src={post.content}
+            alt="Post content"
             className="max-w-full h-auto rounded-lg my-2"
           />
         ) : (

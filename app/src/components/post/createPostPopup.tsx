@@ -38,10 +38,13 @@ export default function CreatePostPopup({
     setUploading(true);
 
     try {
-      const res = await axios.post("http://localhost:4001/get-upload-url", {
-        fileName: file.name,
-        fileType: file.type,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/get-upload-url`,
+        {
+          fileName: file.name,
+          fileType: file.type,
+        }
+      );
       const response = await fetch(res.data.uploadUrl, {
         method: "PUT",
         headers: {

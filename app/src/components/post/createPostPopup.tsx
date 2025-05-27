@@ -43,7 +43,7 @@ export default function CreatePostPopup({
         {
           fileName: file.name,
           fileType: file.type,
-        }
+        },
       );
       const response = await fetch(res.data.uploadUrl, {
         method: "PUT",

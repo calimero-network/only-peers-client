@@ -66,7 +66,7 @@ export default function FeedPage() {
     setError("");
     setLoading(true);
     const username = localStorage.getItem("username");
-    const publickey = localStorage.getItem("public-key")
+    const publickey = localStorage.getItem("public-key");
     const createPostRequest: CreatePostRequest = {
       title,
       content,

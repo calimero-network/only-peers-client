@@ -65,11 +65,13 @@ export default function FeedPage() {
   const createPost = async (title: string, content: string) => {
     setError("");
     setLoading(true);
+    const username = localStorage.getItem("username");
+    const publickey = localStorage.getItem("public-key")
     const createPostRequest: CreatePostRequest = {
       title,
       content,
       calimero_user_id: localStorage.getItem("identity-public-key") ?? "",
-      username: localStorage.getItem("public-key") ?? "",
+      username: `${username ? `${username} -` : ""}${publickey}`,
     };
     const result = await new ClientApiDataSource().createPost(
       createPostRequest,

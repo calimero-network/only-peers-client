@@ -1,5 +1,6 @@
 import { UserIcon } from "@heroicons/react/24/solid";
 import { Comment } from "../../types/types";
+import { getUsername } from "../../utils/username";
 
 interface CommentProps {
   commentItem: Comment;
@@ -16,8 +17,7 @@ export default function CommentComponent({
         <UserIcon className="w-6 h-6 rounded-full text-white border-[1px] border-white px-1" />
         <div className="text-white">
           <span onClick={() => onClickUser(commentItem.username)}>
-            {commentItem.username.slice(0, 4)}...
-            {commentItem.username.slice(-4)}
+            {getUsername(commentItem.username)}
           </span>
         </div>
       </div>

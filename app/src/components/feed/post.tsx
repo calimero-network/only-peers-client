@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline";
 import { ClientApiDataSource } from "../../api/dataSource/ClientApiDataSource";
+import { getUsername } from "../../utils/username";
 
 export interface PostProps {
   post: Post;
@@ -41,7 +42,7 @@ export default function PostFeed({ post, fetchFeed }: PostProps) {
         <div className="flex flex-col">
           <h4 className="text-white text-lg">{post.title}</h4>
           <p className="text-gray-600 text-sm font-light text-end">
-            by {post.username.slice(0, 4)}...{post.username.slice(-4)}
+            by {getUsername(post.username)}
           </p>
         </div>
         {isImageUrl(post.content) ? (

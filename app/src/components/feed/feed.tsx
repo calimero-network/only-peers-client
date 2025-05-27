@@ -4,6 +4,7 @@ import translations from "../../constants/en.global.json";
 import Button from "../button/button";
 import { Post } from "../../types/types";
 import { useNavigate } from "react-router-dom";
+import { getUsername } from "../../utils/username";
 
 interface FeedProps {
   posts: Post[];
@@ -46,8 +47,7 @@ export default function Feed({
                   {post.likes.length}
                 </div>
                 <div className="flex-grow font-medium text-white">
-                  {post.username.substring(0, 4)}...
-                  {post.username.substring(post.username.length - 4)}
+                  {getUsername(post.username)}
                 </div>
                 <button
                   onClick={() => navigate(`/post/${post.id}`)}

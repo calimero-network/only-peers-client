@@ -6,21 +6,25 @@ export default function Header() {
   const t = translations.header;
 
   const [identityPublicKey, setIdentityPublicKey] = useState<string | null>(
-    null,
+    null
   );
   const [walletPublicKey, setWalletPublicKey] = useState<string | null>(null);
   const [copyNotification, setCopyNotification] = useState<boolean>(false);
-
+  const [username, setUsername] = useState<string | null>(null);
   useEffect(() => {
     const setPublicKeys = async () => {
       const identityPk = localStorage.getItem("identity-public-key");
       const walletPk = localStorage.getItem("public-key");
+      const username = localStorage.getItem("username");
+      if (username) {
+        setUsername(username);
+      }
       if (identityPk && walletPk) {
         setIdentityPublicKey(identityPk);
         setWalletPublicKey(walletPk);
       } else {
         window.alert(
-          "There is error with application, please return to applications dashboard and try again.",
+          "There is error with application, please return to applications dashboard and try again."
         );
       }
     };
@@ -105,6 +109,18 @@ export default function Header() {
                   </span>
                 </button>
               </div>
+            </div>
+          )}
+           {username && (
+            <div className="font-light leading-6 px-2 py-1 text-white hidden md:block">
+              Username: <span className="pl-1 text-pink-400">{username}</span>
+            </div>
+          )}
+        </div>
+        <div className="mt-2 md:hidden">
+          {username && (
+            <div className="font-light leading-6 px-2 py-1 text-white">
+              Username: <span className="pl-1 text-pink-400">{username}</span>
             </div>
           )}
         </div>

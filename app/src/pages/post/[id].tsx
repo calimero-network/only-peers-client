@@ -27,6 +27,7 @@ export default function PostPage() {
   const createComment = async (text: string) => {
     const identityPublicKey = localStorage.getItem("identity-public-key");
     const publicKey = localStorage.getItem("public-key");
+    const username = localStorage.getItem("username");
 
     if (!identityPublicKey || !publicKey) {
       setError("User not authenticated");
@@ -37,7 +38,7 @@ export default function PostPage() {
       post_id: postId ?? 0,
       text: text,
       calimero_user_id: identityPublicKey,
-      username: publicKey,
+      username: `${username ? `${username} -` : ""}${publicKey}`,
     };
     const result = await new ClientApiDataSource().createComment(
       commentRequest,

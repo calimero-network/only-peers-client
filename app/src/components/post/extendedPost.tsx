@@ -10,6 +10,7 @@ import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { ClientApiDataSource } from "../../api/dataSource/ClientApiDataSource";
 import { useState } from "react";
+import { getUsername } from "../../utils/username";
 
 interface ExtendedPostProps {
   post: Post | null;
@@ -111,7 +112,7 @@ export default function ExtendedPost({
                   className="text-gray-300"
                   onClick={() => copyToClipboard(post.username)}
                 >
-                  {post.username.slice(0, 4)}...{post.username.slice(-4)}
+                  {getUsername(post.username)}
                 </span>
               </p>
             </div>

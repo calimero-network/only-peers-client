@@ -38,6 +38,11 @@ function Home() {
     const identityPublicKey = params.get("identityPublicKey");
     const nodeUrl = params.get("nodeUrl");
     const callbackUrl = params.get("callbackUrl");
+    const username = params.get("username");
+    
+    if (username) {
+      localStorage.setItem("username", username);
+    }
 
     if (publicKey && identityPublicKey && nodeUrl) {
       localStorage.setItem("public-key", publicKey);

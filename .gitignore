@@ -3,3 +3,11 @@
 
 node_modules
 logic/target/
+logic/res/
+
+.next
+
+app/.next
+
+app/.env
+

@@ -86,12 +86,13 @@ export default function CreateCommentPopup({
                       </div>
                     </div>
                     <div className="flex justify-between items-center mt-2">
-                      <Button
-                        title={t.cancelButtonText}
-                        backgroundColor="bg-[#B67352]"
-                        backgroundColorHover=""
+                      <button
+                        className="text-white px-4 py-2 rounded-md"
                         onClick={() => setOpen(false)}
-                      />
+                      >
+                        {" "}
+                        {t.cancelButtonText}
+                      </button>
                       <Button
                         title={t.createButtonText}
                         backgroundColor="bg-[#ECB159]"

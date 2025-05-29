@@ -3,6 +3,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import Loader from "../loader/loader";
 import translations from "../../constants/en.global.json";
 import Button from "../button/button";
+import axios from "axios";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 interface CreatePostPopupProps {
   createPost: (title: string, content: string) => void;
@@ -17,13 +19,54 @@ export default function CreatePostPopup({
 }: CreatePostPopupProps) {
   const t = translations.postPopup;
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
 
   const onCreatePost = () => {
     setLoading(true);
-    createPost(title, content);
+    createPost(title, imageUrl);
   };
+
+  const handleFileChange = (e) => {
+    uploadFile(e.target.files[0]);
+  };
+
+  const uploadFile = async (file: File) => {
+    if (!file) return;
+
+    setUploading(true);
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/get-upload-url`,
+        {
+          fileName: file.name,
+          fileType: file.type,
+        },
+      );
+      const response = await fetch(res.data.uploadUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "image/png",
+          "x-amz-acl": "public-read",
+        },
+        body: file,
+      });
+
+      if (response.ok) {
+        setImageUrl(res.data.fileUrl);
+        setUploading(false);
+      } else {
+        window.alert("Error uploading image");
+        console.error(response);
+      }
+    } catch (error) {
+      window.alert("Error uploading image");
+      console.error(error);
+    }
+  };
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -36,9 +79,9 @@ export default function CreatePostPopup({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-70 transition-opacity" />
+          <div className="fixed inset-0  transition-opacity" />
         </Transition.Child>
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="fixed inset-0 z-10 w-screen bg-black/80 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -81,42 +124,45 @@ export default function CreatePostPopup({
                           {t.inputContentLabel}
                         </label>
                         <div className="relative">
-                          <textarea
-                            className="w-72 px-3 py-2 rounded-md resize-none outline-none bg-black text-white"
-                            rows={6}
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            placeholder={t.inputContentPlacerholder}
-                          ></textarea>
-                          <div className="text-gray-500 text-sm absolute bottom-2 right-2">
-                            {content.length}
-                            {t.maxCharLength}
-                          </div>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            disabled={uploading}
+                            className="w-full px-3 py-2 mb-4 rounded-md outline-none bg-black text-white"
+                          />
+                          <span className="text-white text-sm">
+                            {uploading ? <Loader /> : ""}
+                          </span>
+                          {imageUrl && (
+                            <div className="flex items-center justify-center py-4">
+                              <img
+                                src={imageUrl}
+                                alt="Uploaded"
+                                style={{ maxWidth: "200px", height: "auto" }}
+                              />
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
                     <div className="flex justify-between items-center mt-2">
-                      <Button
-                        title={t.backButtonText}
-                        backgroundColor="bg-[#B67352]"
-                        backgroundColorHover=""
+                      <button
+                        className="text-white text-sm flex items-center gap-2"
                         onClick={() => setOpen(false)}
-                      />
+                      >
+                        <ArrowLeftIcon className="w-4 h-4" />
+                        {t.backButtonText}
+                      </button>
                       <Button
                         title={t.createButtonText}
                         backgroundColor="bg-[#ECB159]"
                         backgroundColorHover={`${
-                          title.trim() === "" ||
-                          content.trim() === "" ||
-                          content.length > 250
+                          title.trim() === "" || imageUrl === ""
                             ? "opacity-50 cursor-not-allowed"
                             : ""
                         }`}
-                        disabled={
-                          title.trim() === "" ||
-                          content.trim() === "" ||
-                          content.length > 250
-                        }
+                        disabled={title.trim() === "" || imageUrl === ""}
                         onClick={() => onCreatePost()}
                       />
                     </div>

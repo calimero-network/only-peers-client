@@ -1,13 +1,17 @@
 export interface Comment {
   text: string;
-  user: string;
+  calimero_user_id: string;
+  username: string;
 }
 
 export interface Post {
-  id: string;
+  id: number;
   title: string;
   content: string;
   comments: Comment[];
+  likes: string[];
+  calimero_user_id: string;
+  username: string;
 }
 
 export interface JsonWebToken {

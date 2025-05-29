@@ -5,10 +5,11 @@ import { HeartIcon } from "@heroicons/react/24/solid";
 import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline";
 import { ClientApiDataSource } from "../../api/dataSource/ClientApiDataSource";
 import { getUsername } from "../../utils/username";
+import { useState } from "react";
 
 export interface PostProps {
-  post: Post;
-  fetchFeed: () => void;
+  feedPost: Post;
+  fetchLeaderBoard: () => void;
 }
 
 const isImageUrl = (url: string): boolean => {
@@ -20,19 +21,41 @@ const isImageUrl = (url: string): boolean => {
   }
 };
 
-export default function PostFeed({ post, fetchFeed }: PostProps) {
+export default function PostFeed({ feedPost, fetchLeaderBoard }: PostProps) {
+  const navigate = useNavigate();
+  const [post, setPost] = useState<Post>(feedPost);
   const identityPublicKey = localStorage.getItem("identity-public-key");
   const publicKey = localStorage.getItem("public-key");
-  const navigate = useNavigate();
+  const [isLiking, setIsLiking] = useState(false);
 
   const handleLike = async () => {
-    if (publicKey && identityPublicKey) {
-      await new ClientApiDataSource().likePost({
+    if (isLiking) return;
+    if (!publicKey || !identityPublicKey) return;
+
+    setIsLiking(true);
+    const isLiked = post.likes.includes(identityPublicKey);
+    const optimisticLikes = isLiked
+      ? post.likes.filter(like => like !== identityPublicKey)
+      : [...post.likes, identityPublicKey];
+
+    setPost(prev => ({ ...prev, likes: optimisticLikes }));
+
+    try {
+      const updatedPost = await new ClientApiDataSource().likePost({
         post_id: post.id,
         calimero_user_id: identityPublicKey,
         username: publicKey,
       });
-      fetchFeed();
+
+      if (updatedPost.data) {
+        setPost(updatedPost.data);
+      }
+    } catch (error) {
+      console.error("Error liking post:", error);
+      setPost(prev => ({ ...prev, likes: post.likes }));
+    } finally {
+      setIsLiking(false);
+      fetchLeaderBoard();
     }
   };
 
@@ -46,14 +69,30 @@ export default function PostFeed({ post, fetchFeed }: PostProps) {
           </p>
         </div>
         {isImageUrl(post.content) ? (
-          <img
-            src={post.content}
-            alt="Post content"
-            className="max-w-full h-auto rounded-lg my-2"
-            onContextMenu={(e) => e.preventDefault()}
-            draggable="false"
-            style={{ userSelect: "none", WebkitUserSelect: "none" }}
-          />
+          <div className="relative">
+            <img
+              src={post.content}
+              alt="Post content"
+              className="hidden"
+              onLoad={(e) => {
+                const img = e.target as HTMLImageElement;
+                const container = img.parentElement;
+                if (container) {
+                  if (img.naturalHeight > img.naturalWidth) {
+                    container.className = "relative w-full aspect-square max-h-[260px] md:max-h-[580px] bg-black/30 backdrop-blur-sm rounded-lg my-2 flex items-center justify-center";
+                    img.className = "max-h-full max-w-full object-contain";
+                  } else {
+                    container.className = "relative";
+                    img.className = "w-full rounded-lg my-2 max-h-[260px] md:max-h-[580px] object-contain";
+                  }
+                }
+                img.style.display = "block";
+              }}
+              onContextMenu={(e) => e.preventDefault()}
+              draggable="false"
+              style={{ userSelect: "none", WebkitUserSelect: "none" }}
+            />
+          </div>
         ) : (
           <div className="text-white text-sm font-light">{post.content}</div>
         )}

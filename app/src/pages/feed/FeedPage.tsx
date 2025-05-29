@@ -38,19 +38,21 @@ export default function FeedPage() {
   }, []);
 
   const [leaderBoard, setLeaderBoard] = useState<Post[]>([]);
+  const [leaderBoardLoading, setLeaderBoardLoading] = useState(true);
 
   const fetchLeaderBoard = useCallback(async () => {
+    setLeaderBoardLoading(true);
     try {
       const response = await new ClientApiDataSource().getLeaderBoard();
       if (response.error) {
         setError(response.error.message);
-        setLoading(false);
+        setLeaderBoardLoading(false);
       }
       setLeaderBoard(response?.data ?? []);
-      setLoading(false);
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "Unknown error");
-      setLoading(false);
+    } finally {
+      setLeaderBoardLoading(false);
     }
   }, []);
 
@@ -134,8 +136,9 @@ export default function FeedPage() {
           createPost={createPost}
           openCreatePost={openCreatePost}
           setOpenCreatePost={setOpenCreatePost}
-          fetchFeed={fetchFeed}
           leaderBoard={leaderBoard}
+          fetchLeaderBoard={fetchLeaderBoard}
+          leaderBoardLoading={leaderBoardLoading}
         />
       )}
     </>

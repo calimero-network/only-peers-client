@@ -41,7 +41,7 @@ export default function PostPage() {
       username: `${username ? `${username} -` : ""}${publicKey}`,
     };
     const result = await new ClientApiDataSource().createComment(
-      commentRequest,
+      commentRequest
     );
     if (result.error) {
       setError(result.error.message);
@@ -114,7 +114,7 @@ export default function PostPage() {
       {error && <ErrorPopup error={error} />}
       {!loading && post && (
         <ExtendedPost
-          post={post}
+          feedPost={post}
           openCreateComment={openCreateComment}
           setOpenCreateComment={setOpenCreateComment}
           createComment={createComment}

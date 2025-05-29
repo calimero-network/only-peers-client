@@ -5,14 +5,16 @@ import Button from "../button/button";
 import { Post } from "../../types/types";
 import { useNavigate } from "react-router-dom";
 import { getUsername } from "../../utils/username";
+import Loader from "../loader/loader";
 
 interface FeedProps {
   posts: Post[];
   createPost: (title: string, content: string) => void;
   openCreatePost: boolean;
   setOpenCreatePost: (open: boolean) => void;
-  fetchFeed: () => void;
   leaderBoard: Post[];
+  fetchLeaderBoard: () => void;
+  leaderBoardLoading: boolean;
 }
 
 export default function Feed({
@@ -20,15 +22,16 @@ export default function Feed({
   createPost,
   openCreatePost,
   setOpenCreatePost,
-  fetchFeed,
   leaderBoard,
+  fetchLeaderBoard,
+  leaderBoardLoading
 }: FeedProps) {
   const t = translations.feedPage;
   const navigate = useNavigate();
   return (
     <div className="flex justify-center pt-4">
       <div className="md:w-1/5" />
-      <div className="px-4 md:px-0 w-full md:w-3/5">
+      <div className="px-4 md:px-0 w-full md:w-[720px]">
         <div className="flex flex-col gap-4 border-b-[1px] border-[#1c2123] mb-4 pb-4">
           <h2 className="text-2xl font-bold text-white">Leaderboard</h2>
           <div className="flex flex-col gap-2">
@@ -37,6 +40,7 @@ export default function Feed({
               <div className="w-10">Likes</div>
               <div className="flex-grow">Creator</div>
             </div>
+            {leaderBoardLoading && <Loader />}
             {leaderBoard.map((post, id) => (
               <div
                 key={id}
@@ -75,7 +79,7 @@ export default function Feed({
         ) : (
           <div className="flex flex-col gap-y-1">
             {posts.map((post, id) => (
-              <PostFeed post={post} key={id} fetchFeed={fetchFeed} />
+              <PostFeed feedPost={post} fetchLeaderBoard={fetchLeaderBoard} key={id} />
             ))}
           </div>
         )}

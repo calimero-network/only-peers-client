@@ -9,11 +9,11 @@ import { HeartIcon } from "@heroicons/react/24/solid";
 import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { ClientApiDataSource } from "../../api/dataSource/ClientApiDataSource";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getUsername } from "../../utils/username";
 
 interface ExtendedPostProps {
-  post: Post | null;
+  feedPost: Post;
   createComment: (content: string) => void;
   openCreateComment: boolean;
   setOpenCreateComment: (openCreateComment: boolean) => void;
@@ -30,30 +30,54 @@ const isImageUrl = (url: string): boolean => {
 };
 
 export default function ExtendedPost({
-  post,
+  feedPost,
   createComment,
   openCreateComment,
   setOpenCreateComment,
-  fetchPost,
 }: ExtendedPostProps) {
   const t = translations.extendedPost;
   const identityPublicKey = localStorage.getItem("identity-public-key");
   const publicKey = localStorage.getItem("public-key");
   const [copyNotification, setCopyNotification] = useState<boolean>(false);
+  const [isLiking, setIsLiking] = useState<boolean>(false);
+  const [post, setPost] = useState<Post>(feedPost);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setPost(feedPost);
+  }, [feedPost]);
 
   const handleBack = () => {
     navigate("/feed");
   };
 
   const handleLike = async () => {
-    if (publicKey && identityPublicKey && post?.id) {
-      await new ClientApiDataSource().likePost({
+    if (isLiking) return;
+    if (!publicKey || !identityPublicKey) return;
+
+    setIsLiking(true);
+    const isLiked = post.likes.includes(identityPublicKey);
+    const optimisticLikes = isLiked
+      ? post.likes.filter((like) => like !== identityPublicKey)
+      : [...post.likes, identityPublicKey];
+
+    setPost((prev) => ({ ...prev, likes: optimisticLikes }));
+
+    try {
+      const updatedPost = await new ClientApiDataSource().likePost({
         post_id: post.id,
         calimero_user_id: identityPublicKey,
         username: publicKey,
       });
-      await fetchPost(post.id);
+
+      if (updatedPost.data) {
+        setPost(updatedPost.data);
+      }
+    } catch (error) {
+      console.error("Error liking post:", error);
+      setPost((prev) => ({ ...prev, likes: post.likes }));
+    } finally {
+      setIsLiking(false);
     }
   };
 
@@ -66,7 +90,7 @@ export default function ExtendedPost({
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <div className="flex flex-col items-center justify-center w-full pb-20">
       <div className="flex justify-start items-center gap-2 w-full px-4 md:px-20 mt-2 cursor-pointer">
         <div
           className="flex gap-2 items-center justify-start"
@@ -117,14 +141,32 @@ export default function ExtendedPost({
               </p>
             </div>
             {isImageUrl(post.content) ? (
-              <img
-                src={post.content}
-                alt="Post content"
-                className="max-w-full h-auto rounded-lg my-2"
-                onContextMenu={(e) => e.preventDefault()}
-                draggable="false"
-                style={{ userSelect: "none", WebkitUserSelect: "none" }}
-              />
+              <div className="relative">
+                <img
+                  src={post.content}
+                  alt="Post content"
+                  className="hidden"
+                  onLoad={(e) => {
+                    const img = e.target as HTMLImageElement;
+                    const container = img.parentElement;
+                    if (container) {
+                      if (img.naturalHeight > img.naturalWidth) {
+                        container.className =
+                          "relative w-full aspect-square max-h-[260px] md:max-h-[580px] bg-black/30 backdrop-blur-sm rounded-lg my-2 flex items-center justify-center";
+                        img.className = "max-h-full max-w-full object-contain";
+                      } else {
+                        container.className = "relative";
+                        img.className =
+                          "w-full rounded-lg my-2 max-h-[260px] md:max-h-[580px] object-contain";
+                      }
+                    }
+                    img.style.display = "block";
+                  }}
+                  onContextMenu={(e) => e.preventDefault()}
+                  draggable="false"
+                  style={{ userSelect: "none", WebkitUserSelect: "none" }}
+                />
+              </div>
             ) : (
               <div className="text-white text-sm font-light">
                 {post.content}
